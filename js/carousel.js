@@ -6,8 +6,13 @@ function setupCarousel(carousel) {
   const item = track.querySelector('.carousel__item');
   if (!track || !item) return;
 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   function scrollByItem(direction) {
-    track.scrollBy({ left: direction * item.offsetWidth, behavior: 'smooth' });
+    track.scrollBy({
+      left: direction * item.offsetWidth,
+      behavior: reduceMotion ? 'auto' : 'smooth',
+    });
   }
 
   prevBtn?.addEventListener('click', () => scrollByItem(-1));

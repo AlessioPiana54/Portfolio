@@ -276,6 +276,9 @@
 @media (max-width:560px){
   .footer__grid{grid-template-columns:1fr;gap:1.8rem;}
   .footer__top{align-items:flex-start;}
+  .nav{padding:1rem 1.2rem;}
+  .nav__mark{font-size:1.05rem;}
+  .nav__links{gap:0.7rem;font-size:0.66rem;}
 }
 @media (prefers-reduced-motion: reduce){
   .footer__stars,.footer__moon-icon{animation:none;}
