@@ -1,62 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About &mdash; Your Name</title>
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/pages/about.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About &mdash; Your Name</title>
+    <meta
+      name="description"
+      content="Bio, contact info, and hobbies — get to know the person behind the portfolio."
+    />
+    <meta property="og:title" content="About — Your Name" />
+    <meta property="og:image" content="/assets/img/og-image.png" />
+    <link rel="icon" href="/assets/icons/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/pages/about.css" />
+  </head>
+  <body>
+    <div id="site-header"></div>
 
-<div id="site-header"></div>
+    <main>
+      <section class="page-header">
+        <p class="page-header__label">Portfolio</p>
+        <h1 class="page-header__title">About</h1>
+        <p class="page-header__sub">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua.
+        </p>
+      </section>
 
-<main>
-  <section class="page-header">
-    <p class="page-header__label">Portfolio</p>
-    <h1 class="page-header__title">About</h1>
-    <p class="page-header__sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-  </section>
+      <section class="about-bio">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </p>
+        <p>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+          nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+          deserunt mollit anim id est laborum.
+        </p>
+      </section>
 
-  <section class="about-bio">
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-  </section>
+      <section class="about-contact">
+        <h2 class="about-contact__title">Contact</h2>
+        <div class="about-contact__grid">
+          <a class="about-contact__email" href="mailto:name@example.com">name@example.com</a>
+          <ul class="about-contact__social">
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Behance</a></li>
+            <li><a href="#">LinkedIn</a></li>
+          </ul>
+        </div>
+      </section>
 
-  <section class="about-contact">
-    <h2 class="about-contact__title">Contact</h2>
-    <div class="about-contact__grid">
-      <a class="about-contact__email" href="mailto:name@example.com">name@example.com</a>
-      <ul class="about-contact__social">
-        <li><a href="#">Instagram</a></li>
-        <li><a href="#">Behance</a></li>
-        <li><a href="#">LinkedIn</a></li>
-      </ul>
-    </div>
-  </section>
+      <section class="carousel" aria-label="Hobbies and extra projects gallery">
+        <h2 class="carousel__title">Hobbies &amp; extra projects</h2>
+        <div class="carousel__viewport">
+          <button
+            class="carousel__btn carousel__btn--prev"
+            type="button"
+            aria-label="Previous image"
+          >
+            &larr;
+          </button>
+          <div
+            class="carousel__track"
+            id="hobbiesCarousel"
+            tabindex="0"
+            role="group"
+            aria-label="Hobby photos, use the arrow keys to navigate"
+          >
+            <div class="carousel__item">
+              <div class="carousel__img" role="img" aria-label="Hobby photo 1"></div>
+            </div>
+            <div class="carousel__item">
+              <div class="carousel__img" role="img" aria-label="Hobby photo 2"></div>
+            </div>
+            <div class="carousel__item">
+              <div class="carousel__img" role="img" aria-label="Hobby photo 3"></div>
+            </div>
+            <div class="carousel__item">
+              <div class="carousel__img" role="img" aria-label="Hobby photo 4"></div>
+            </div>
+            <div class="carousel__item">
+              <div class="carousel__img" role="img" aria-label="Hobby photo 5"></div>
+            </div>
+            <div class="carousel__item">
+              <div class="carousel__img" role="img" aria-label="Hobby photo 6"></div>
+            </div>
+          </div>
+          <button class="carousel__btn carousel__btn--next" type="button" aria-label="Next image">
+            &rarr;
+          </button>
+        </div>
+      </section>
+    </main>
 
-  <section class="carousel" aria-label="Hobbies and extra projects gallery">
-    <h2 class="carousel__title">Hobbies &amp; extra projects</h2>
-    <div class="carousel__viewport">
-      <button class="carousel__btn carousel__btn--prev" type="button" aria-label="Previous image">&larr;</button>
-      <div class="carousel__track" id="hobbiesCarousel" tabindex="0" role="group" aria-label="Hobby photos, use the arrow keys to navigate">
-        <div class="carousel__item"><div class="carousel__img" role="img" aria-label="Hobby photo 1"></div></div>
-        <div class="carousel__item"><div class="carousel__img" role="img" aria-label="Hobby photo 2"></div></div>
-        <div class="carousel__item"><div class="carousel__img" role="img" aria-label="Hobby photo 3"></div></div>
-        <div class="carousel__item"><div class="carousel__img" role="img" aria-label="Hobby photo 4"></div></div>
-        <div class="carousel__item"><div class="carousel__img" role="img" aria-label="Hobby photo 5"></div></div>
-        <div class="carousel__item"><div class="carousel__img" role="img" aria-label="Hobby photo 6"></div></div>
-      </div>
-      <button class="carousel__btn carousel__btn--next" type="button" aria-label="Next image">&rarr;</button>
-    </div>
-  </section>
-</main>
+    <div id="site-footer"></div>
 
-<div id="site-footer"></div>
-
-<script src="/js/include-partials.js"></script>
-<script src="/js/footer-animations.js"></script>
-<script src="/js/carousel.js"></script>
-</body>
+    <script src="/js/include-partials.js"></script>
+    <script src="/js/footer-animations.js"></script>
+    <script src="/js/carousel.js"></script>
+  </body>
 </html>

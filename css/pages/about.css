@@ -1,127 +1,161 @@
 /* Stili specifici della pagina About */
 
 /* ---------- BIO ---------- */
-.about-bio{
-  display:flex;
-  flex-direction:column;
-  gap:1.3rem;
-  max-width:68ch;
-  padding:0 clamp(1.5rem,6vw,5rem) clamp(3rem,6vw,4rem);
-  font-size:1.05rem;
-  color:var(--paper);
-  opacity:0.9;
-  font-weight:300;
+.about-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  max-width: 68ch;
+  padding: 0 clamp(1.5rem, 6vw, 5rem) clamp(3rem, 6vw, 4rem);
+  font-size: 1.05rem;
+  color: var(--paper);
+  opacity: 0.9;
+  font-weight: 300;
 }
 
 /* ---------- CONTATTI ---------- */
-.about-contact{
-  padding:clamp(2.5rem,5vw,3.5rem) clamp(1.5rem,6vw,5rem);
-  border-top:1px solid rgba(251,246,236,0.1);
+.about-contact {
+  padding: clamp(2.5rem, 5vw, 3.5rem) clamp(1.5rem, 6vw, 5rem);
+  border-top: 1px solid rgb(251 246 236 / 10%);
 }
-.about-contact__title{
-  font-size:clamp(1.5rem,3vw,2rem);
-  margin-bottom:1.3rem;
+
+.about-contact__title {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1.3rem;
 }
-.about-contact__grid{
-  display:flex;
-  flex-wrap:wrap;
-  align-items:center;
-  gap:1.5rem 3rem;
+
+.about-contact__grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 3rem;
 }
-.about-contact__email{
-  font-family:var(--font-mono);
-  font-size:1rem;
-  text-decoration:none;
-  color:var(--moon-glow);
-  border-bottom:1px solid rgba(255,243,214,0.4);
-  padding-bottom:2px;
-  transition:color .2s ease, border-color .2s ease;
+
+.about-contact__email {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  text-decoration: none;
+  color: var(--moon-glow);
+  border-bottom: 1px solid rgb(255 243 214 / 40%);
+  padding-bottom: 2px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
 }
+
 .about-contact__email:hover,
-.about-contact__email:focus-visible{
-  color:var(--sakura-pink);
-  border-color:var(--sakura-pink);
+.about-contact__email:focus-visible {
+  color: var(--sakura-pink);
+  border-color: var(--sakura-pink);
 }
-.about-contact__social{
-  display:flex;
-  gap:1.5rem;
+
+.about-contact__social {
+  display: flex;
+  gap: 1.5rem;
 }
-.about-contact__social a{
-  font-family:var(--font-mono);
-  font-size:0.78rem;
-  letter-spacing:0.06em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--paper);
-  opacity:0.8;
-  transition:opacity .2s ease;
+
+.about-contact__social a {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--paper);
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
 }
+
 .about-contact__social a:hover,
-.about-contact__social a:focus-visible{opacity:1;}
+.about-contact__social a:focus-visible {
+  opacity: 1;
+}
 
 /* ---------- CAROSELLO HOBBY ---------- */
-.carousel{
-  padding:clamp(3rem,6vw,4rem) 0 clamp(5rem,9vw,7rem);
-  border-top:1px solid rgba(251,246,236,0.1);
+.carousel {
+  padding: clamp(3rem, 6vw, 4rem) 0 clamp(5rem, 9vw, 7rem);
+  border-top: 1px solid rgb(251 246 236 / 10%);
 }
-.carousel__title{
-  padding:0 clamp(1.5rem,6vw,5rem);
-  font-size:clamp(1.5rem,3vw,2rem);
-  margin-bottom:1.5rem;
-}
-.carousel__viewport{
-  position:relative;
-}
-.carousel__track{
-  display:flex;
-  gap:1.3rem;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  scroll-padding-left:clamp(1.5rem,6vw,5rem);
-  padding:0 clamp(1.5rem,6vw,5rem) 1rem;
-  scrollbar-width:none;
-}
-.carousel__track::-webkit-scrollbar{display:none;}
-.carousel__track:focus-visible{
-  outline:2px solid var(--moon-glow);
-  outline-offset:-2px;
-}
-.carousel__item{
-  flex:0 0 auto;
-  width:min(70vw,320px);
-  scroll-snap-align:start;
-}
-.carousel__img{
-  aspect-ratio:4/3;
-  border-radius:var(--radius-md);
-  background:linear-gradient(160deg, var(--night-mid), var(--night-deep));
-  border:1px solid rgba(251,246,236,0.12);
-}
-.carousel__btn{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:2;
-  width:44px;height:44px;
-  border-radius:50%;
-  border:1px solid rgba(251,246,236,0.2);
-  background:rgba(27,27,58,0.85);
-  color:var(--paper);
-  font-size:1.2rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:background .2s ease, color .2s ease, transform .2s ease;
-}
-.carousel__btn:hover,
-.carousel__btn:focus-visible{
-  background:var(--sakura-pink);
-  color:var(--night-deep);
-}
-.carousel__btn--prev{left:clamp(0.3rem,2vw,1.5rem);}
-.carousel__btn--next{right:clamp(0.3rem,2vw,1.5rem);}
 
-@media (max-width:560px){
-  .carousel__btn{display:none;}
+.carousel__title {
+  padding: 0 clamp(1.5rem, 6vw, 5rem);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: 1.5rem;
+}
+
+.carousel__viewport {
+  position: relative;
+}
+
+.carousel__track {
+  display: flex;
+  gap: 1.3rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: clamp(1.5rem, 6vw, 5rem);
+  padding: 0 clamp(1.5rem, 6vw, 5rem) 1rem;
+  scrollbar-width: none;
+}
+
+.carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel__track:focus-visible {
+  outline: 2px solid var(--moon-glow);
+  outline-offset: -2px;
+}
+
+.carousel__item {
+  flex: 0 0 auto;
+  width: min(70vw, 320px);
+  scroll-snap-align: start;
+}
+
+.carousel__img {
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, var(--night-mid), var(--night-deep));
+  border: 1px solid rgb(251 246 236 / 12%);
+}
+
+.carousel__btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgb(251 246 236 / 20%);
+  background: rgb(27 27 58 / 85%);
+  color: var(--paper);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.carousel__btn:hover,
+.carousel__btn:focus-visible {
+  background: var(--sakura-pink);
+  color: var(--night-deep);
+}
+
+.carousel__btn--prev {
+  left: clamp(0.3rem, 2vw, 1.5rem);
+}
+
+.carousel__btn--next {
+  right: clamp(0.3rem, 2vw, 1.5rem);
+}
+
+@media (width <= 560px) {
+  .carousel__btn {
+    display: none;
+  }
 }

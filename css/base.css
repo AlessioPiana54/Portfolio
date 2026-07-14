@@ -1,136 +1,169 @@
 /* ===========================================================
    Design tokens — estratti da mockup-home-anime.html
    =========================================================== */
-:root{
+:root {
   /* Colori */
-  --night-deep:#1B1B3A;
-  --night-mid:#2E2A5C;
-  --dusk-lilac:#6B5B95;
-  --moon-glow:#FFF3D6;
-  --moon-core:#FFE9B8;
-  --sakura-pink:#F2A6B0;
-  --meadow-teal:#6EB4A8;
-  --paper:#FBF6EC;
+  --night-deep: #1b1b3a;
+  --night-mid: #2e2a5c;
+  --dusk-lilac: #6b5b95;
+  --moon-glow: #fff3d6;
+  --moon-core: #ffe9b8;
+  --sakura-pink: #f2a6b0;
+  --meadow-teal: #6eb4a8;
+  --paper: #fbf6ec;
 
   /* Font */
-  --font-display:'Klee One', cursive;
-  --font-body:'Zen Maru Gothic', sans-serif;
-  --font-mono:'Space Mono', monospace;
+  --font-display: 'Klee One', cursive;
+  --font-body: 'Zen Maru Gothic', sans-serif;
+  --font-mono: 'Space Mono', monospace;
 
   /* Spaziosi */
-  --space-xs:0.5rem;
-  --space-sm:1rem;
-  --space-md:1.5rem;
-  --space-lg:2.5rem;
-  --space-xl:4rem;
-  --space-2xl:7rem;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 7rem;
 
   /* Raggi e altro */
-  --radius-md:18px;
-  --radius-full:999px;
+  --radius-md: 18px;
+  --radius-full: 999px;
 }
 
 /* ===========================================================
    Font self-hosted (assets/fonts/)
    =========================================================== */
-@font-face{
-  font-family:'Klee One';
-  font-style:normal;
-  font-weight:600;
-  font-display:swap;
-  src:url('/assets/fonts/klee-one-600.woff2') format('woff2');
+@font-face {
+  font-family: 'Klee One';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/assets/fonts/klee-one-600.woff2') format('woff2');
 }
-@font-face{
-  font-family:'Zen Maru Gothic';
-  font-style:normal;
-  font-weight:300;
-  font-display:swap;
-  src:url('/assets/fonts/zen-maru-gothic-300.woff2') format('woff2');
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/assets/fonts/zen-maru-gothic-300.woff2') format('woff2');
 }
-@font-face{
-  font-family:'Zen Maru Gothic';
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url('/assets/fonts/zen-maru-gothic-400.woff2') format('woff2');
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/zen-maru-gothic-400.woff2') format('woff2');
 }
-@font-face{
-  font-family:'Zen Maru Gothic';
-  font-style:normal;
-  font-weight:500;
-  font-display:swap;
-  src:url('/assets/fonts/zen-maru-gothic-500.woff2') format('woff2');
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/assets/fonts/zen-maru-gothic-500.woff2') format('woff2');
 }
-@font-face{
-  font-family:'Zen Maru Gothic';
-  font-style:normal;
-  font-weight:700;
-  font-display:swap;
-  src:url('/assets/fonts/zen-maru-gothic-700.woff2') format('woff2');
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/zen-maru-gothic-700.woff2') format('woff2');
 }
-@font-face{
-  font-family:'Space Mono';
-  font-style:normal;
-  font-weight:400;
-  font-display:swap;
-  src:url('/assets/fonts/space-mono-400.woff2') format('woff2');
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/space-mono-400.woff2') format('woff2');
 }
-@font-face{
-  font-family:'Space Mono';
-  font-style:normal;
-  font-weight:700;
-  font-display:swap;
-  src:url('/assets/fonts/space-mono-700.woff2') format('woff2');
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/space-mono-700.woff2') format('woff2');
 }
 
 /* ===========================================================
    Reset
    =========================================================== */
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-img,svg{display:block;max-width:100%;}
-a{color:inherit;}
-ul{list-style:none;}
-
-body{
-  background:var(--night-deep);
-  color:var(--paper);
-  font-family:var(--font-body);
-  font-weight:300;
-  overflow-x:hidden;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-::selection{background:var(--sakura-pink);color:var(--night-deep);}
+html {
+  scroll-behavior: smooth;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  background: var(--night-deep);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--sakura-pink);
+  color: var(--night-deep);
+}
 
 a:focus-visible,
-button:focus-visible{
-  outline:2px solid var(--moon-glow);
-  outline-offset:3px;
+button:focus-visible {
+  outline: 2px solid var(--moon-glow);
+  outline-offset: 3px;
 }
 
 /* ===========================================================
    Tipografia di base
    =========================================================== */
-h1,h2,h3,h4{
-  font-family:var(--font-display);
-  font-weight:600;
-  color:#fff;
-  line-height:1.2;
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
 }
 
-p{line-height:1.7;}
-
-.mono{
-  font-family:var(--font-mono);
-  letter-spacing:0.06em;
-  text-transform:uppercase;
+p {
+  line-height: 1.7;
 }
 
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto;}
-  *,*::before,*::after{
-    animation-duration:0.01ms !important;
-    animation-iteration-count:1 !important;
-    transition-duration:0.01ms !important;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
+
+  /* stylelint-disable declaration-no-important -- must beat any component-level animation/transition regardless of specificity */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  /* stylelint-enable declaration-no-important */
 }

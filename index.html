@@ -1,96 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Name &mdash; Portfolio</title>
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/pages/home.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Name &mdash; Portfolio</title>
+    <meta
+      name="description"
+      content="Design and illustration portfolio — branding, illustration, and editorial work."
+    />
+    <meta property="og:title" content="Your Name — Portfolio" />
+    <meta property="og:image" content="/assets/img/og-image.png" />
+    <link rel="icon" href="/assets/icons/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/pages/home.css" />
+  </head>
+  <body>
+    <div id="site-header"></div>
 
-<div id="site-header"></div>
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero__sky" aria-hidden="true"></div>
+        <div class="hero__stars" aria-hidden="true"></div>
 
-<main>
-  <section class="hero" id="hero">
-    <div class="hero__sky" aria-hidden="true"></div>
-    <div class="hero__stars" aria-hidden="true"></div>
+        <div class="hero__moon" id="moon" aria-hidden="true"></div>
 
-    <div class="hero__moon" id="moon" aria-hidden="true"></div>
+        <div class="hero__cloud hero__cloud--1" id="cloud1" aria-hidden="true">
+          <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z"
+              fill="#F4EFE6"
+              opacity="0.92"
+            />
+          </svg>
+        </div>
+        <div class="hero__cloud hero__cloud--2" id="cloud2" aria-hidden="true">
+          <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z"
+              fill="#EADFF0"
+              opacity="0.8"
+            />
+          </svg>
+        </div>
+        <div class="hero__cloud hero__cloud--3" id="cloud3" aria-hidden="true">
+          <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z"
+              fill="#FFF3D6"
+              opacity="0.6"
+            />
+          </svg>
+        </div>
 
-    <div class="hero__cloud hero__cloud--1" id="cloud1" aria-hidden="true">
-      <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z" fill="#F4EFE6" opacity="0.92"/>
-      </svg>
-    </div>
-    <div class="hero__cloud hero__cloud--2" id="cloud2" aria-hidden="true">
-      <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z" fill="#EADFF0" opacity="0.8"/>
-      </svg>
-    </div>
-    <div class="hero__cloud hero__cloud--3" id="cloud3" aria-hidden="true">
-      <svg viewBox="0 0 400 140" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z" fill="#FFF3D6" opacity="0.6"/>
-      </svg>
-    </div>
+        <div class="hero__hill hero__hill--1" id="hill1" aria-hidden="true">
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path
+              fill="#3E7C74"
+              d="M0,200 C 200,120 400,260 620,180 C 860,100 1080,220 1440,140 L1440,320 L0,320 Z"
+            />
+          </svg>
+        </div>
+        <div class="hero__hill hero__hill--2" id="hill2" aria-hidden="true">
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path
+              fill="#4A3B7C"
+              d="M0,240 C 220,180 380,280 640,210 C 900,150 1120,260 1440,190 L1440,320 L0,320 Z"
+            />
+          </svg>
+        </div>
+        <div class="hero__hill hero__hill--3" id="hill3" aria-hidden="true">
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path
+              fill="#1B1B3A"
+              d="M0,270 C 260,220 420,300 700,250 C 960,205 1180,290 1440,240 L1440,320 L0,320 Z"
+            />
+          </svg>
+        </div>
 
-    <div class="hero__hill hero__hill--1" id="hill1" aria-hidden="true">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#3E7C74" d="M0,200 C 200,120 400,260 620,180 C 860,100 1080,220 1440,140 L1440,320 L0,320 Z"/></svg>
-    </div>
-    <div class="hero__hill hero__hill--2" id="hill2" aria-hidden="true">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#4A3B7C" d="M0,240 C 220,180 380,280 640,210 C 900,150 1120,260 1440,190 L1440,320 L0,320 Z"/></svg>
-    </div>
-    <div class="hero__hill hero__hill--3" id="hill3" aria-hidden="true">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="#1B1B3A" d="M0,270 C 260,220 420,300 700,250 C 960,205 1180,290 1440,240 L1440,320 L0,320 Z"/></svg>
-    </div>
+        <div class="hero__content">
+          <p class="hero__eyebrow">Portfolio &mdash; Design &amp; Illustration</p>
+          <h1 class="hero__title">Lorem ipsum dolor<br />sit amet <span>consectetur</span>.</h1>
+          <p class="hero__sub">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
 
-    <div class="hero__content">
-      <p class="hero__eyebrow">Portfolio &mdash; Design &amp; Illustration</p>
-      <h1 class="hero__title">Lorem ipsum dolor<br>sit amet <span>consectetur</span>.</h1>
-      <p class="hero__sub">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-    </div>
+        <div class="hero__scroll">Scroll</div>
+      </section>
 
-    <div class="hero__scroll">Scroll</div>
-  </section>
+      <section class="intro">
+        <p class="intro__label">About &mdash; preview</p>
+        <p class="intro__text">
+          Lorem ipsum dolor sit amet consectetur adipiscing elit.
+          <b>Illustrator and visual designer</b>, I work across publishing, branding, and personal
+          projects &mdash; always looking for a scene to tell, not just an image to produce.
+        </p>
+      </section>
 
-  <section class="intro">
-    <p class="intro__label">About &mdash; preview</p>
-    <p class="intro__text">Lorem ipsum dolor sit amet consectetur adipiscing elit. <b>Illustrator and visual designer</b>, I work across publishing, branding, and personal projects &mdash; always looking for a scene to tell, not just an image to produce.</p>
-  </section>
+      <section class="projects">
+        <div class="projects__head">
+          <h2>Selected projects</h2>
+          <a href="/projects/">View all &rarr;</a>
+        </div>
+        <div class="projects__grid">
+          <div class="card">
+            <div class="card__moon" aria-hidden="true"></div>
+            <div class="card__glow" aria-hidden="true"></div>
+            <p class="card__title">Project Name</p>
+            <p class="card__meta">Branding &mdash; Lorem, 2026</p>
+          </div>
+          <div class="card">
+            <div class="card__moon" aria-hidden="true"></div>
+            <div class="card__glow" aria-hidden="true"></div>
+            <p class="card__title">Project Name</p>
+            <p class="card__meta">Illustration &mdash; Lorem, 2026</p>
+          </div>
+          <div class="card">
+            <div class="card__moon" aria-hidden="true"></div>
+            <div class="card__glow" aria-hidden="true"></div>
+            <p class="card__title">Project Name</p>
+            <p class="card__meta">Editorial &mdash; Lorem, 2025</p>
+          </div>
+        </div>
+      </section>
+    </main>
 
-  <section class="projects">
-    <div class="projects__head">
-      <h2>Selected projects</h2>
-      <a href="/projects/">View all &rarr;</a>
-    </div>
-    <div class="projects__grid">
-      <div class="card">
-        <div class="card__moon" aria-hidden="true"></div>
-        <div class="card__glow" aria-hidden="true"></div>
-        <p class="card__title">Project Name</p>
-        <p class="card__meta">Branding &mdash; Lorem, 2026</p>
-      </div>
-      <div class="card">
-        <div class="card__moon" aria-hidden="true"></div>
-        <div class="card__glow" aria-hidden="true"></div>
-        <p class="card__title">Project Name</p>
-        <p class="card__meta">Illustration &mdash; Lorem, 2026</p>
-      </div>
-      <div class="card">
-        <div class="card__moon" aria-hidden="true"></div>
-        <div class="card__glow" aria-hidden="true"></div>
-        <p class="card__title">Project Name</p>
-        <p class="card__meta">Editorial &mdash; Lorem, 2025</p>
-      </div>
-    </div>
-  </section>
-</main>
+    <div id="site-footer"></div>
 
-<div id="site-footer"></div>
-
-<script src="/js/include-partials.js"></script>
-<script src="/js/parallax.js"></script>
-<script src="/js/footer-animations.js"></script>
-</body>
+    <script src="/js/include-partials.js"></script>
+    <script src="/js/parallax.js"></script>
+    <script src="/js/footer-animations.js"></script>
+  </body>
 </html>

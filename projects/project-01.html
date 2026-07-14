@@ -1,50 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Name &mdash; Your Name</title>
-<link rel="stylesheet" href="/css/base.css">
-<link rel="stylesheet" href="/css/components.css">
-<link rel="stylesheet" href="/css/pages/projects.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project Name &mdash; Your Name</title>
+    <meta name="description" content="Branding project — process, details, and gallery." />
+    <meta property="og:title" content="Project Name — Your Name" />
+    <meta property="og:image" content="/assets/img/og-image.png" />
+    <link rel="icon" href="/assets/icons/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/pages/projects.css" />
+  </head>
+  <body>
+    <div id="site-header"></div>
 
-<div id="site-header"></div>
+    <main>
+      <article class="project">
+        <header class="project__header">
+          <p class="project__meta">Branding &mdash; Lorem, 2026</p>
+          <h1 class="project__title">Project Name</h1>
+        </header>
 
-<main>
-  <article class="project">
-    <header class="project__header">
-      <p class="project__meta">Branding &mdash; Lorem, 2026</p>
-      <h1 class="project__title">Project Name</h1>
-    </header>
+        <div class="project__hero" role="img" aria-label="Project Name hero image placeholder">
+          <div class="project__hero-moon" aria-hidden="true"></div>
+        </div>
 
-    <div class="project__hero" role="img" aria-label="Project Name hero image placeholder">
-      <div class="project__hero-moon" aria-hidden="true"></div>
-    </div>
+        <div class="project__body">
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+          <p>
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+            officia deserunt mollit anim id est laborum.
+          </p>
+          <p>
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
+            architecto beatae vitae dicta sunt explicabo.
+          </p>
+        </div>
 
-    <div class="project__body">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-    </div>
+        <div class="project__gallery">
+          <div
+            class="project__gallery-item"
+            role="img"
+            aria-label="Project Name gallery photo 1"
+          ></div>
+          <div
+            class="project__gallery-item"
+            role="img"
+            aria-label="Project Name gallery photo 2"
+          ></div>
+          <div
+            class="project__gallery-item"
+            role="img"
+            aria-label="Project Name gallery photo 3"
+          ></div>
+          <div
+            class="project__gallery-item"
+            role="img"
+            aria-label="Project Name gallery photo 4"
+          ></div>
+        </div>
 
-    <div class="project__gallery">
-      <div class="project__gallery-item" role="img" aria-label="Project Name gallery photo 1"></div>
-      <div class="project__gallery-item" role="img" aria-label="Project Name gallery photo 2"></div>
-      <div class="project__gallery-item" role="img" aria-label="Project Name gallery photo 3"></div>
-      <div class="project__gallery-item" role="img" aria-label="Project Name gallery photo 4"></div>
-    </div>
+        <nav class="project__next" aria-label="Next project">
+          <a href="/projects/project-01.html">Next project &rarr;</a>
+        </nav>
+      </article>
+    </main>
 
-    <nav class="project__next" aria-label="Next project">
-      <a href="/projects/project-01.html">Next project &rarr;</a>
-    </nav>
-  </article>
-</main>
+    <div id="site-footer"></div>
 
-<div id="site-footer"></div>
-
-<script src="/js/include-partials.js"></script>
-<script src="/js/footer-animations.js"></script>
-</body>
+    <script src="/js/include-partials.js"></script>
+    <script src="/js/footer-animations.js"></script>
+  </body>
 </html>
