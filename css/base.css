@@ -1,0 +1,77 @@
+/* ===========================================================
+   Design tokens — estratti da mockup-home-anime.html
+   =========================================================== */
+:root{
+  /* Colori */
+  --night-deep:#1B1B3A;
+  --night-mid:#2E2A5C;
+  --dusk-lilac:#6B5B95;
+  --moon-glow:#FFF3D6;
+  --moon-core:#FFE9B8;
+  --sakura-pink:#F2A6B0;
+  --meadow-teal:#3E7C74;
+  --paper:#FBF6EC;
+
+  /* Font */
+  --font-display:'Klee One', cursive;
+  --font-body:'Zen Maru Gothic', sans-serif;
+  --font-mono:'Space Mono', monospace;
+
+  /* Spaziosi */
+  --space-xs:0.5rem;
+  --space-sm:1rem;
+  --space-md:1.5rem;
+  --space-lg:2.5rem;
+  --space-xl:4rem;
+  --space-2xl:7rem;
+
+  /* Raggi e altro */
+  --radius-md:18px;
+  --radius-full:999px;
+}
+
+/* ===========================================================
+   Reset
+   =========================================================== */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;}
+ul{list-style:none;}
+
+body{
+  background:var(--night-deep);
+  color:var(--paper);
+  font-family:var(--font-body);
+  font-weight:300;
+  overflow-x:hidden;
+}
+
+::selection{background:var(--sakura-pink);color:var(--night-deep);}
+
+/* ===========================================================
+   Tipografia di base
+   =========================================================== */
+h1,h2,h3,h4{
+  font-family:var(--font-display);
+  font-weight:600;
+  color:#fff;
+  line-height:1.2;
+}
+
+p{line-height:1.7;}
+
+.mono{
+  font-family:var(--font-mono);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *,*::before,*::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+  }
+}
