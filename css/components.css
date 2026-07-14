@@ -237,10 +237,9 @@
 .footer__bottom{
   position:relative;
   display:flex;
-  justify-content:space-between;
   align-items:center;
   flex-wrap:wrap;
-  gap:1rem;
+  gap:1.2rem;
   padding-top:1.6rem;
   font-family:var(--font-mono);
   font-size:0.7rem;
@@ -248,7 +247,15 @@
   color:var(--paper);
   opacity:0.55;
 }
+.footer__legal{
+  text-decoration:none;
+  color:inherit;
+  transition:opacity .2s ease;
+}
+.footer__legal:hover,
+.footer__legal:focus-visible{opacity:1;}
 .footer__phase{
+  margin-left:auto;
   display:flex;
   align-items:center;
   gap:0.5rem;

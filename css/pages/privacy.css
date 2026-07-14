@@ -1,0 +1,20 @@
+/* Stili specifici della pagina Privacy */
+
+.privacy-content{
+  display:flex;
+  flex-direction:column;
+  gap:1.3rem;
+  max-width:68ch;
+  padding:0 clamp(1.5rem,6vw,5rem) clamp(5rem,9vw,7rem);
+  font-size:1.05rem;
+  color:var(--paper);
+  opacity:0.9;
+  font-weight:300;
+}
+.privacy-content a{
+  color:var(--moon-glow);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.privacy-content a:hover,
+.privacy-content a:focus-visible{color:var(--sakura-pink);}
