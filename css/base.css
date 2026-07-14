@@ -31,6 +31,59 @@
 }
 
 /* ===========================================================
+   Font self-hosted (assets/fonts/)
+   =========================================================== */
+@font-face{
+  font-family:'Klee One';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('/assets/fonts/klee-one-600.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Zen Maru Gothic';
+  font-style:normal;
+  font-weight:300;
+  font-display:swap;
+  src:url('/assets/fonts/zen-maru-gothic-300.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Zen Maru Gothic';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('/assets/fonts/zen-maru-gothic-400.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Zen Maru Gothic';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('/assets/fonts/zen-maru-gothic-500.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Zen Maru Gothic';
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url('/assets/fonts/zen-maru-gothic-700.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Space Mono';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('/assets/fonts/space-mono-400.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Space Mono';
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url('/assets/fonts/space-mono-700.woff2') format('woff2');
+}
+
+/* ===========================================================
    Reset
    =========================================================== */
 *{margin:0;padding:0;box-sizing:border-box;}
