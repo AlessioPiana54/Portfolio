@@ -1,3 +1,36 @@
+<svg class="goo-filter" aria-hidden="true">
+  <defs>
+    <filter id="goo-moon" x="-30%" y="-100%" width="160%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+      <feColorMatrix
+        in="blur"
+        mode="matrix"
+        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -10"
+        result="goo"
+      />
+    </filter>
+  </defs>
+</svg>
+
+<div class="footer-goo" aria-hidden="true">
+  <div class="footer-goo__blobs">
+    <span class="goo-blob"></span>
+    <span class="goo-blob goo-blob--moon"></span>
+    <span class="goo-blob"></span>
+    <span class="goo-blob"></span>
+    <span class="goo-blob goo-blob--warm"></span>
+    <span class="goo-blob"></span>
+    <span class="goo-blob goo-blob--moon"></span>
+    <span class="goo-blob"></span>
+    <span class="goo-blob"></span>
+    <span class="goo-blob goo-blob--warm"></span>
+    <span class="goo-blob goo-blob--moon"></span>
+    <span class="goo-blob"></span>
+    <span class="goo-blob"></span>
+    <div class="footer-goo__base"></div>
+  </div>
+</div>
+
 <footer class="footer">
   <div class="footer__stars" aria-hidden="true"></div>
 

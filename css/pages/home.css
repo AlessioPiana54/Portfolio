@@ -186,6 +186,18 @@
   content: '\2022';
 }
 
+.hero__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22vh;
+  min-height: 140px;
+  background: linear-gradient(to bottom, rgb(27 27 58 / 0%) 0%, var(--night-deep) 92%);
+  z-index: 4;
+  pointer-events: none;
+}
+
 /* ---------- INTRO ---------- */
 .intro {
   position: relative;
@@ -194,7 +206,16 @@
   display: grid;
   grid-template-columns: 0.9fr 1.4fr;
   gap: 3rem;
-  border-top: 1px solid rgb(251 246 236 / 10%);
+}
+
+.intro::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: radial-gradient(ellipse at center, rgb(255 233 184 / 35%), transparent 75%);
 }
 
 .intro__label {
