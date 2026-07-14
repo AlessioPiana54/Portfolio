@@ -1,9 +1,9 @@
-# Convenzioni di codice
+# Code conventions
 
-- **HTML semantico**: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`, `<article>` al posto di `<div>` generici dove ha senso.
-- **CSS**: metodologia BEM per le classi (`.card__title`, `.nav__links`, `.footer__grid`), niente `!important`, niente stili inline nell'HTML — tutto nei file `.css`.
-- **Design tokens centralizzati**: tutti i colori, i font e gli spaziosi passano da variabili CSS in `css/base.css` (`:root { --night-deep: ...; }`), mai valori hardcoded ripetuti nei singoli file.
-- **JS**: niente script inline nell'HTML, funzioni piccole e commentate solo dove la logica non è ovvia, `const`/`let` mai `var`.
-- **Niente duplicazione**: nav e footer vivono in `partials/` e vengono iniettati via `include-partials.js`, non copiati e incollati in ogni pagina.
-- **Accessibilità minima**: `alt` su ogni immagine, focus visibile su link/bottoni, rispetto di `prefers-reduced-motion`.
-- **Commit message**: [Conventional Commits](https://www.conventionalcommits.org/) — `feat:`, `fix:`, `style:`, `refactor:`, `docs:`, `chore:`.
+- **Semantic HTML**: `<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`, `<article>` instead of generic `<div>`s where it makes sense.
+- **CSS**: BEM methodology for class names (`.card__title`, `.nav__links`, `.footer__grid`), no `!important`, no inline styles in HTML — everything lives in `.css` files.
+- **Centralized design tokens**: all colors, fonts, and spacing go through CSS variables in `css/base.css` (`:root { --night-deep: ...; }`), never hardcoded values repeated across files.
+- **JS**: no inline scripts in HTML, small functions commented only where the logic isn't obvious, `const`/`let` never `var`.
+- **No duplication**: nav and footer live in `partials/` and get injected via `include-partials.js`, not copy-pasted into every page.
+- **Minimal accessibility**: `alt` on every image, visible focus on links/buttons, respect `prefers-reduced-motion`.
+- **Commit messages**: [Conventional Commits](https://www.conventionalcommits.org/) — `feat:`, `fix:`, `style:`, `refactor:`, `docs:`, `chore:`.

@@ -1,36 +1,36 @@
 # Portfolio
 
-Sito portfolio personale — HTML/CSS/JS puro, nessun framework. Pensato per il deploy su GitHub Pages.
+Personal portfolio site — plain HTML/CSS/JS, no framework. Built for deployment on GitHub Pages.
 
-## Struttura
+## Structure
 
 ```
 portfolio/
 ├── index.html            Home
-├── progetti/              Elenco progetti + template singolo progetto
-├── chi-sono/              Pagina Chi sono
-├── partials/              Header e footer condivisi, iniettati via JS
-├── css/                   base.css (token/reset), components.css, pages/*.css
+├── projects/              Project list + single project template
+├── about/                 About page
+├── partials/              Shared header and footer, injected via JS
+├── css/                   base.css (tokens/reset), components.css, pages/*.css
 ├── js/                    include-partials.js, parallax.js, footer-animations.js
-└── assets/                Immagini e icone
+└── assets/                Images and icons
 ```
 
-## Sviluppo in locale
+## Local development
 
-Serve un server statico (i partial vengono caricati via `fetch`, che non funziona da `file://`):
+You need a static server (partials are loaded via `fetch`, which doesn't work from `file://`):
 
 ```bash
 npx serve .
-# oppure
+# or
 python -m http.server
 ```
 
-Poi apri `http://localhost:PORT`.
+Then open `http://localhost:PORT`.
 
 ## Deploy
 
-Il sito è statico: basta pubblicare la cartella su GitHub Pages (branch `main`, root `/`).
+The site is static: just publish the folder on GitHub Pages (branch `main`, root `/`).
 
-## Convenzioni
+## Conventions
 
-Vedi [CONTRIBUTING.md](./CONTRIBUTING.md).
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
