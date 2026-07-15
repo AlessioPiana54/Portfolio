@@ -18,9 +18,16 @@
 .nav__mark {
   font-family: var(--font-display);
   font-size: 1.2rem;
-  color: #fff;
+  color: var(--heading);
   text-decoration: none;
   text-shadow: 0 0 12px rgb(255 243 214 / 40%);
+  transition: color 0.5s ease;
+}
+
+.nav__right {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.2rem, 3vw, 2rem);
 }
 
 .nav__links {
@@ -33,10 +40,12 @@
 }
 
 .nav__links a {
-  color: #fff;
+  color: var(--heading);
   text-decoration: none;
   opacity: 0.75;
-  transition: opacity 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    color 0.5s ease;
   position: relative;
 }
 
@@ -57,6 +66,85 @@
   transform: translateX(-50%);
   font-size: 0.6rem;
   color: var(--moon-glow);
+}
+
+/* ---------- THEME TOGGLE ---------- */
+.theme-toggle {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.theme-toggle__track {
+  display: flex;
+  align-items: center;
+  width: 3.1rem;
+  height: 1.7rem;
+  border-radius: var(--radius-full);
+  background: rgb(251 246 236 / 16%);
+  border: 1px solid rgb(251 246 236 / 30%);
+  padding: 0.15rem;
+  transition:
+    background 0.4s ease,
+    border-color 0.4s ease;
+}
+
+html[data-theme='light'] .theme-toggle__track {
+  background: rgb(43 36 80 / 12%);
+  border-color: rgb(43 36 80 / 30%);
+}
+
+.theme-toggle__thumb {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--moon-glow) 60%, var(--moon-core) 85%);
+  box-shadow: 0 0 8px 2px rgb(255 233 184 / 35%);
+  transform: translateX(0);
+  transition:
+    transform 0.4s cubic-bezier(0.65, -0.2, 0.35, 1.2),
+    background 0.4s ease;
+}
+
+html[data-theme='light'] .theme-toggle__thumb {
+  transform: translateX(1.4rem);
+}
+
+.theme-toggle__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  color: var(--night-deep);
+  position: absolute;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.theme-toggle__icon--sun {
+  opacity: 0;
+  transform: scale(0.5) rotate(-45deg);
+}
+
+.theme-toggle__icon--moon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+html[data-theme='light'] .theme-toggle__icon--sun {
+  opacity: 1;
+  transform: scale(1) rotate(0deg);
+}
+
+html[data-theme='light'] .theme-toggle__icon--moon {
+  opacity: 0;
+  transform: scale(0.5) rotate(45deg);
 }
 
 /* ---------- CARD (progetto) ---------- */
@@ -106,7 +194,7 @@
   font-family: var(--font-display);
   font-size: 1.2rem;
   font-weight: 600;
-  color: #fff;
+  color: var(--heading);
   margin-bottom: 0.3rem;
 }
 
@@ -261,6 +349,12 @@
   opacity: 0.5;
   animation: footer-twinkle 4s ease-in-out infinite;
   pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+html[data-theme='light'] .footer__stars {
+  opacity: 0;
+  animation: none;
 }
 
 @keyframes footer-twinkle {
@@ -316,7 +410,7 @@
   font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.5rem, 2.8vw, 2.1rem);
-  color: #fff;
+  color: var(--heading);
   line-height: 1.25;
 }
 
@@ -361,7 +455,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--sakura-pink);
+  color: var(--footer-sky);
   margin-bottom: 0.9rem;
 }
 
@@ -373,7 +467,7 @@
 
 /* stylelint-disable-next-line no-descending-specificity -- unrelated to .nav__links a:hover above, never matches the same element */
 .footer__col a {
-  color: var(--paper);
+  color: var(--footer-sky);
   text-decoration: none;
   font-size: 0.92rem;
   opacity: 0.8;
@@ -398,8 +492,16 @@
   font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.04em;
-  color: var(--paper);
-  opacity: 0.55;
+  color: var(--heading);
+  opacity: 0.85;
+}
+
+/* Il footer resta ancorato a uno sfondo scuro in entrambi i temi, quindi in
+   tema chiaro il testo va forzato a bianco invece di seguire --heading/--footer-sky. */
+html[data-theme='light'] .footer__col h3,
+html[data-theme='light'] .footer__col a,
+html[data-theme='light'] .footer__bottom {
+  color: #fff;
 }
 
 .footer__legal {

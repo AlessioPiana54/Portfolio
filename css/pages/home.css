@@ -13,7 +13,14 @@
   inset: 0;
   background:
     radial-gradient(80% 60% at 72% 28%, rgb(255 233 184 / 18%), transparent 60%),
-    linear-gradient(180deg, #14123a 0%, #241f5c 38%, #4a3b7c 68%, #7a5c8e 100%);
+    linear-gradient(
+      180deg,
+      var(--sky-top) 0%,
+      var(--sky-mid) 38%,
+      var(--sky-low) 68%,
+      var(--sky-horizon) 100%
+    );
+  transition: background 0.6s ease;
 }
 
 .hero__stars {
@@ -28,7 +35,8 @@
     radial-gradient(1.2px 1.2px at 8% 32%, #fff 100%, transparent 0),
     radial-gradient(1.2px 1.2px at 25% 40%, #fff 100%, transparent 0),
     radial-gradient(1.6px 1.6px at 65% 6%, #fff 100%, transparent 0);
-  opacity: 0.75;
+  opacity: var(--star-opacity, 0.75);
+  transition: opacity 0.6s ease;
 }
 
 .hero__moon {
@@ -98,6 +106,22 @@
 .hero__hill svg {
   width: 100%;
   height: auto;
+}
+
+.hero__hill svg path {
+  transition: fill 0.6s ease;
+}
+
+.hill-fill-1 {
+  fill: var(--hill-1);
+}
+
+.hill-fill-2 {
+  fill: var(--hill-2);
+}
+
+.hill-fill-3 {
+  fill: var(--hill-3);
 }
 
 .hero__hill--1 {

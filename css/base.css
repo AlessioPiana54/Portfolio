@@ -11,6 +11,18 @@
   --sakura-pink: #f2a6b0;
   --meadow-teal: #6eb4a8;
   --paper: #fbf6ec;
+  --heading: #fff;
+  --footer-sky: #a9d6ee;
+
+  /* Cielo e colline (hero) */
+  --sky-top: #14123a;
+  --sky-mid: #241f5c;
+  --sky-low: #4a3b7c;
+  --sky-horizon: #7a5c8e;
+  --star-opacity: 0.75;
+  --hill-1: #3e7c74;
+  --hill-2: #4a3b7c;
+  --hill-3: #1b1b3a;
 
   /* Font */
   --font-display: 'Klee One', cursive;
@@ -28,6 +40,30 @@
   /* Raggi e altro */
   --radius-md: 18px;
   --radius-full: 999px;
+}
+
+/* ===========================================================
+   Tema chiaro
+   =========================================================== */
+html[data-theme='light'] {
+  --night-deep: #fbf3e6;
+  --night-mid: #f7e9d3;
+  --dusk-lilac: #f2c9a0;
+  --moon-glow: #ffd166;
+  --moon-core: #ffb347;
+  --sakura-pink: #e8748a;
+  --meadow-teal: #2f8f76;
+  --paper: #2b2450;
+  --heading: #2b2450;
+  --footer-sky: #2c6fa8;
+  --sky-top: #ffe3b0;
+  --sky-mid: #ffc98a;
+  --sky-low: #8fc7e8;
+  --sky-horizon: #4fa8d8;
+  --star-opacity: 0;
+  --hill-1: #2f8f76;
+  --hill-2: #f2a265;
+  --hill-3: #fbf3e6;
 }
 
 /* ===========================================================
@@ -122,6 +158,9 @@ body {
   font-family: var(--font-body);
   font-weight: 300;
   overflow-x: hidden;
+  transition:
+    background 0.5s ease,
+    color 0.5s ease;
 }
 
 ::selection {
@@ -144,7 +183,7 @@ h3,
 h4 {
   font-family: var(--font-display);
   font-weight: 600;
-  color: #fff;
+  color: var(--heading);
   line-height: 1.2;
 }
 
