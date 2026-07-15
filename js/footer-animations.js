@@ -17,7 +17,7 @@ function initFooterAnimations() {
 // Morphing dell'onda del footer tra tre forme, via Web Animations API.
 function initFooterWave() {
   const path = document.getElementById('footerWavePath');
-  if (!path) return;
+  if (!path || !path.animate) return;
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) return;
@@ -28,8 +28,9 @@ function initFooterWave() {
     'M0,30 C240,70 480,10 720,50 C960,90 1200,20 1440,60 L1440,100 L0,100 Z',
   ];
 
+  // La proprietà CSS "d" richiede la sintassi path("...."), non la stringa nuda.
   path.animate(
-    { d: shapes },
+    shapes.map((d) => ({ d: `path("${d}")` })),
     { duration: 9000, easing: 'ease-in-out', iterations: Infinity, direction: 'alternate' }
   );
 }
