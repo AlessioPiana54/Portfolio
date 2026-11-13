@@ -1,0 +1,183 @@
+/* ===========================================================
+   About: bio, contatti, carosello hobby
+   =========================================================== */
+
+.about-bio {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  max-width: 66ch;
+  padding: 0 var(--gutter) clamp(3rem, 6vw, 4rem);
+  font-size: 1.08rem;
+}
+
+/* ---------- CONTATTI ---------- */
+.about-contact {
+  margin-inline: var(--gutter);
+  padding: clamp(2.5rem, 5vw, 3.5rem) 0;
+  border-top: 1px solid var(--line);
+}
+
+.about-contact__title {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+.about-contact__text {
+  margin-top: 0.8rem;
+  max-width: 48ch;
+  color: var(--text-muted);
+}
+
+.about-contact__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.2rem 2.5rem;
+  margin-top: 1.8rem;
+}
+
+.about-contact__row .button {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 0.85rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.about-contact__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.6rem;
+}
+
+/* ---------- CAROSELLO ---------- */
+.carousel {
+  padding-top: clamp(3rem, 6vw, 4rem);
+  border-top: 1px solid var(--line);
+  margin-inline: var(--gutter);
+}
+
+.carousel__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.carousel__title {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+.carousel__controls {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.carousel__btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease,
+    transform 0.16s var(--ease-out);
+}
+
+.carousel__btn:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.carousel__btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.carousel__btn:hover:not(:disabled) {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: transparent;
+}
+
+.carousel__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.carousel__track {
+  display: flex;
+  gap: 1.3rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  padding-bottom: 1rem;
+  scrollbar-width: thin;
+}
+
+.carousel__track:focus-visible {
+  outline-offset: 4px;
+}
+
+.carousel__item {
+  flex: 0 0 auto;
+  width: min(72vw, 320px);
+  scroll-snap-align: start;
+}
+
+.carousel__img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+}
+
+.carousel__caption {
+  margin-top: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.carousel__img--placeholder {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(160deg, var(--card-top), var(--card-bottom));
+}
+
+.carousel__img--placeholder svg {
+  width: 28%;
+  filter: drop-shadow(0 0 18px var(--glow));
+}
+
+.carousel__moon-dark {
+  fill: color-mix(in srgb, var(--text) 10%, transparent);
+}
+
+.carousel__moon-lit {
+  fill: var(--accent);
+}
+
+.carousel__note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+@media (width <= 560px) {
+  .carousel__controls {
+    display: none;
+  }
+}

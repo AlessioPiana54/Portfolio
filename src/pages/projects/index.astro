@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import '../../styles/projects.css';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Projects"
+  description="Projects by Alessio Pianaroli: full stack web apps, a tactical game and the design of this site."
+>
+  <section class="page-header">
+    <h1 class="page-header__title">Projects</h1>
+    <p class="page-header__sub">
+      Things I've built, from web platforms to a game, each one drawn here in its own little scene.
+      More are on the way.
+    </p>
+  </section>
+
+  <section class="projects-list" aria-label="All projects">
+    <ul class="card-grid">
+      {
+        projects.map((project) => (
+          <li>
+            <ProjectCard project={project} headingLevel="h2" />
+          </li>
+        ))
+      }
+      <li class="card card--soon" aria-label="New projects coming soon">
+        <div class="card__body">
+          <h2 class="card__title">More on the way</h2>
+          <p class="card__meta">In progress</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+</BaseLayout>

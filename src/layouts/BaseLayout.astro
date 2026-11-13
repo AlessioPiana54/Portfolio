@@ -1,0 +1,76 @@
+---
+import '../styles/base.css';
+import '../styles/components.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { url } from '../utils/url';
+import kleeOne from '../assets/fonts/klee-one-600.woff2?url';
+import zenMaru300 from '../assets/fonts/zen-maru-gothic-300.woff2?url';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  showFooterCta?: boolean;
+}
+
+const { title, description = site.description, image, showFooterCta = true } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : site.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image ?? url('og-cover.png'), Astro.site);
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1b1b3a" />
+    <script is:inline>
+      // Applica il tema prima del primo paint (niente flash).
+      // Se il visitatore non ha mai scelto: di giorno il sole, di sera la luna.
+      (function () {
+        var t;
+        try {
+          t = localStorage.getItem('theme');
+        } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          var h = new Date().getHours();
+          t = h >= 7 && h < 19 ? 'light' : 'dark';
+        }
+        document.documentElement.setAttribute('data-theme', t);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute('content', t === 'light' ? '#fbf3e6' : '#1b1b3a');
+      })();
+    </script>
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <!-- ?v=2: cambia il numero quando cambi l'icona, altrimenti i browser tengono quella vecchia in cache. -->
+    <link rel="icon" href={url('favicon.svg?v=2')} type="image/svg+xml" />
+    <link rel="icon" href={url('favicon.png?v=2')} type="image/png" sizes="64x64" />
+    <link rel="apple-touch-icon" href={url('favicon.png?v=2')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
+    <link rel="preload" href={kleeOne} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={zenMaru300} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="generator" content={Astro.generator} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer showCta={showFooterCta} />
+  </body>
+</html>

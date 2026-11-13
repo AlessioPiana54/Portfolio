@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Arrow from '../components/Arrow.astro';
+import { url } from '../utils/url';
+---
+
+<BaseLayout title="Page not found" showFooterCta={false}>
+  <section class="lost">
+    <div class="lost__orb" aria-hidden="true"></div>
+    <h1 class="lost__title">This page has set.</h1>
+    <p class="lost__text">
+      Like the moon at dawn, whatever was here is gone &mdash; or it never rose in the first place.
+    </p>
+    <a class="button" href={url()}>Back home <Arrow /></a>
+  </section>
+</BaseLayout>
+
+<style>
+  .lost {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: clamp(9rem, 18vw, 12rem) var(--gutter) 0;
+    max-width: 44rem;
+  }
+
+  .lost__orb {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff, var(--accent-core) 55%, transparent 78%);
+    box-shadow: 0 0 40px 14px var(--glow);
+    margin-bottom: 1rem;
+  }
+
+  .lost__title {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+  }
+
+  .lost__text {
+    max-width: 44ch;
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+  }
+</style>

@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Arrow from '../components/Arrow.astro';
+import { url } from '../utils/url';
+import '../styles/home.css';
+
+const featured = (await getCollection('projects', (p) => p.data.featured))
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+const cloudPath =
+  'M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z';
+
+const hills = [
+  'M0,200 C 200,120 400,260 620,180 C 860,100 1080,220 1440,140 L1440,320 L0,320 Z',
+  'M0,240 C 220,180 380,280 640,210 C 900,150 1120,260 1440,190 L1440,320 L0,320 Z',
+  'M0,270 C 260,220 420,300 700,250 C 960,205 1180,290 1440,240 L1440,320 L0,320 Z',
+];
+
+// Raggi del sole: 12 tratti attorno al disco.
+const rays = Array.from({ length: 12 }, (_, i) => i * 30);
+---
+
+<BaseLayout>
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <div class="hero__sky" aria-hidden="true"></div>
+    <div class="hero__stars" aria-hidden="true"></div>
+
+    <div class="hero__orbit" data-parallax="0.2" aria-hidden="true">
+      <div class="hero__moon"></div>
+      <div class="hero__sun">
+        <svg class="hero__rays" viewBox="-100 -100 200 200">
+          {
+            rays.map((deg) => (
+              <line x1="0" y1="-62" x2="0" y2="-82" transform={`rotate(${deg})`} />
+            ))
+          }
+        </svg>
+      </div>
+    </div>
+
+    {
+      [1, 2, 3].map((n) => (
+        <div class={`hero__cloud hero__cloud--${n}`} data-parallax-x={['0.25', '-0.18', '0.1'][n - 1]} aria-hidden="true">
+          <svg viewBox="0 0 400 140">
+            <path d={cloudPath} />
+          </svg>
+        </div>
+      ))
+    }
+
+    {
+      hills.map((d, i) => (
+        <div class={`hero__hill hero__hill--${i + 1}`} data-parallax={['0.15', '0.28', '0.42'][i]} aria-hidden="true">
+          <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <path d={d} />
+          </svg>
+        </div>
+      ))
+    }
+
+    <div class="hero__content">
+      <h1 class="hero__title" id="heroTitle">
+        Every story<br />needs its light<br />
+        <span class="hero__word">
+          <span class="only-dark">&ndash;Moon&ndash;</span><span class="only-light">&ndash;Sun&ndash;</span>
+        </span>
+      </h1>
+      <p class="hero__sub">
+        Always a student, always under construction. I'm cultivating a growing passion for web
+        development, searching every day for the point where thoughtful design and clean code meet.
+      </p>
+      <div class="hero__actions">
+        <a class="button" href={url('projects/')}>See projects <Arrow /></a>
+        <a class="hero__link" href={url('about/')}>About me</a>
+      </div>
+    </div>
+
+    <a class="hero__scroll" href="#intro">
+      <span>Scroll</span>
+      <svg viewBox="0 0 16 24" aria-hidden="true"><rect x="1" y="1" width="14" height="22" rx="7"></rect><circle cx="8" cy="7" r="1.8"></circle></svg>
+    </a>
+    <div class="hero__fade" aria-hidden="true"></div>
+  </section>
+
+  <section class="intro" id="intro">
+    <h2 class="intro__title">Hi, I'm Alessio.</h2>
+    <div class="intro__body">
+      <p class="intro__text">
+        Full stack by necessity, <b>full stack by choice</b>. I build the interface you see and the
+        logic that makes it work &mdash; front to back, one project at a time.
+      </p>
+      <a class="text-link" href={url('about/')}>More about me <Arrow /></a>
+    </div>
+  </section>
+
+  <section class="featured" aria-labelledby="featuredTitle">
+    <div class="featured__head">
+      <h2 id="featuredTitle">Selected projects</h2>
+      <a class="text-link" href={url('projects/')}>View all <Arrow /></a>
+    </div>
+    <div class="card-grid">
+      {featured.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { initParallax } from '../scripts/parallax';
+  initParallax();
+</script>

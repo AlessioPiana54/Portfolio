@@ -1,0 +1,471 @@
+/* ===========================================================
+   Home: scena hero notte/giorno, intro, progetti in evidenza
+   =========================================================== */
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+}
+
+.hero__sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(80% 60% at 78% 26%, var(--sky-halo), transparent 60%),
+    linear-gradient(
+      180deg,
+      var(--sky-top) 0%,
+      var(--sky-mid) 38%,
+      var(--sky-low) 68%,
+      var(--sky-horizon) 100%
+    );
+}
+
+.hero__stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 15% 18%, #fff 100%, transparent 0),
+    radial-gradient(1.6px 1.6px at 80% 12%, #fff 100%, transparent 0),
+    radial-gradient(1.2px 1.2px at 92% 46%, #fff 100%, transparent 0),
+    radial-gradient(1.2px 1.2px at 35% 8%, #fff 100%, transparent 0),
+    radial-gradient(1.6px 1.6px at 55% 20%, #fff 100%, transparent 0),
+    radial-gradient(1.2px 1.2px at 8% 32%, #fff 100%, transparent 0),
+    radial-gradient(1.2px 1.2px at 47% 44%, #fff 100%, transparent 0),
+    radial-gradient(1px 1px at 72% 52%, #fff 100%, transparent 0),
+    radial-gradient(1.6px 1.6px at 65% 6%, #fff 100%, transparent 0);
+  opacity: var(--star-opacity);
+  transition: opacity 0.8s ease;
+}
+
+/* ---------- Luna e sole ----------
+   Entrambi vivono nella stessa "orbita". Il tema decide chi è in cielo:
+   l'altro è tramontato dietro le colline (traslato in basso, fuori vista). */
+.hero__orbit {
+  position: absolute;
+  right: 12%;
+  top: 14%;
+  width: min(30vw, 260px);
+  aspect-ratio: 1;
+}
+
+.hero__moon,
+.hero__sun {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transition:
+    transform 1.3s var(--ease-out),
+    opacity 0.9s ease;
+}
+
+.hero__moon {
+  background: radial-gradient(
+    circle at 38% 35%,
+    #fff 0%,
+    #ffe9b8 32%,
+    #fff3d6 55%,
+    transparent 78%
+  );
+  box-shadow: 0 0 90px 40px rgb(255 233 184 / 22%);
+}
+
+/* Crateri */
+.hero__moon::after {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background:
+    radial-gradient(7% 7% at 30% 35%, rgb(200 170 140 / 30%), transparent 70%),
+    radial-gradient(11% 11% at 60% 55%, rgb(200 170 140 / 24%), transparent 70%),
+    radial-gradient(6% 6% at 45% 72%, rgb(200 170 140 / 26%), transparent 70%);
+}
+
+.hero__sun {
+  background: radial-gradient(
+    circle at 40% 38%,
+    #fffbe8 0%,
+    #ffe08a 30%,
+    #ffc24d 58%,
+    rgb(255 179 71 / 0%) 76%
+  );
+  box-shadow: 0 0 120px 50px rgb(255 196 90 / 35%);
+  transform: translateY(260%) scale(0.85);
+  opacity: 0;
+}
+
+.hero__rays {
+  position: absolute;
+  inset: -22%;
+  width: 144%;
+  height: 144%;
+  max-width: none;
+  stroke: #ffc24d;
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: 0.75;
+  animation: spin 80s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+html[data-theme='light'] .hero__moon {
+  transform: translateY(260%) rotate(-25deg);
+  opacity: 0;
+}
+
+html[data-theme='light'] .hero__sun {
+  transform: none;
+  opacity: 1;
+}
+
+/* Durante la rivelazione circolare i colori cambiano di colpo,
+   ma il tramonto/alba degli astri deve comunque animarsi. */
+html.theme-switching .hero__moon,
+html.theme-switching .hero__sun {
+  transition-duration: 1.3s, 0.9s;
+}
+
+html.theme-switching .hero__stars {
+  transition-duration: 0.8s;
+}
+
+/* ---------- Nuvole ---------- */
+.hero__cloud {
+  position: absolute;
+  opacity: var(--cloud-opacity);
+  transition: opacity var(--theme-duration) ease;
+}
+
+/* L'ombra sta sull'elemento animato, non sul genitore: così viene disegnata una volta
+   e poi solo spostata, invece di essere ridipinta a ogni frame della deriva. */
+.hero__cloud svg {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 18px rgb(20 15 50 / 18%));
+  animation: cloud-drift 26s ease-in-out infinite alternate;
+}
+
+.hero__cloud path {
+  transition: fill var(--theme-duration) ease;
+}
+
+.hero__cloud--1 {
+  width: min(40vw, 380px);
+  top: 9%;
+  left: -7%;
+}
+
+.hero__cloud--1 path {
+  fill: var(--cloud-1);
+}
+
+.hero__cloud--2 {
+  width: min(36vw, 320px);
+  top: 42%;
+  right: -6%;
+}
+
+.hero__cloud--2 path {
+  fill: var(--cloud-2);
+}
+
+.hero__cloud--2 svg {
+  animation-duration: 32s;
+  animation-direction: alternate-reverse;
+}
+
+.hero__cloud--3 {
+  width: min(24vw, 220px);
+  top: 8%;
+  left: 44%;
+}
+
+.hero__cloud--3 path {
+  fill: var(--cloud-3);
+}
+
+@keyframes cloud-drift {
+  to {
+    transform: translateX(4vw);
+  }
+}
+
+/* ---------- Colline ---------- */
+.hero__hill {
+  position: absolute;
+  left: -5%;
+  right: -5%;
+  bottom: 0;
+}
+
+.hero__hill svg {
+  width: 100%;
+  height: clamp(150px, 22vw, 320px);
+}
+
+.hero__hill path {
+  transition: fill var(--theme-duration) ease;
+}
+
+.hero__hill--1 {
+  opacity: 0.6;
+}
+
+.hero__hill--1 path {
+  fill: var(--hill-1);
+}
+
+.hero__hill--2 {
+  opacity: 0.85;
+}
+
+.hero__hill--2 path {
+  fill: var(--hill-2);
+}
+
+.hero__hill--3 path {
+  fill: var(--hill-3);
+}
+
+/* ---------- Testo ---------- */
+.hero__content {
+  position: relative;
+  z-index: 6;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem var(--gutter) 0;
+  max-width: 52rem;
+}
+
+/* Velo morbido dietro al testo: scuro di notte, color crema di giorno. */
+.hero__content::before {
+  content: '';
+  position: absolute;
+  inset: 10% -2rem 10% 0;
+  z-index: -1;
+  background: radial-gradient(70% 60% at 30% 50%, var(--hero-veil), transparent 75%);
+  pointer-events: none;
+  transition: background var(--theme-duration) ease;
+}
+
+.hero__title {
+  color: var(--hero-heading);
+  font-size: clamp(2.6rem, 6.4vw, 4.8rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+.hero__word {
+  color: var(--hero-word);
+  text-shadow: 0 0 28px var(--glow);
+}
+
+.hero__sub {
+  margin-top: 1.5rem;
+  max-width: 44ch;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--hero-text);
+  font-weight: 400;
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.8rem;
+  margin-top: 2.2rem;
+}
+
+.hero__link {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hero-heading);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentcolor 40%, transparent);
+  text-underline-offset: 0.35em;
+  padding-block: 0.6rem;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.hero__link:hover {
+  text-decoration-color: currentcolor;
+}
+
+/* Le entrate del testo: una sola volta, al caricamento. */
+.hero__title,
+.hero__sub,
+.hero__actions {
+  animation: rise 0.9s var(--ease-out) both;
+}
+
+.hero__sub {
+  animation-delay: 0.12s;
+}
+
+.hero__actions {
+  animation-delay: 0.22s;
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: var(--gutter);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.hero__scroll:hover {
+  opacity: 1;
+}
+
+.hero__scroll svg {
+  width: 12px;
+  height: 18px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+}
+
+.hero__scroll circle {
+  fill: currentcolor;
+  stroke: none;
+  animation: scroll-dot 2s ease-in-out infinite;
+}
+
+@keyframes scroll-dot {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  60% {
+    transform: translateY(7px);
+    opacity: 0;
+  }
+}
+
+.hero__fade {
+  position: absolute;
+  inset: auto 0 0;
+  height: 18vh;
+  min-height: 110px;
+  background: linear-gradient(to bottom, transparent, var(--bg) 92%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* ---------- INTRO ---------- */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: 1.5rem 3rem;
+  padding: clamp(4rem, 10vw, 7rem) var(--gutter);
+}
+
+.intro__title {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+.intro__text {
+  font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+  line-height: 1.55;
+  margin-bottom: 1.5rem;
+}
+
+.intro__text b {
+  color: var(--accent-text);
+  font-weight: 500;
+}
+
+/* ---------- PROGETTI IN EVIDENZA ---------- */
+.featured {
+  padding: 0 var(--gutter);
+}
+
+.featured__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.featured__head h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+}
+
+@media (width <= 820px) {
+  .intro {
+    grid-template-columns: 1fr;
+  }
+
+  .hero__orbit {
+    width: 34vw;
+    right: 7%;
+    top: 13%;
+  }
+}
+
+@media (width <= 560px) {
+  .hero__orbit {
+    width: 40vw;
+    top: 11%;
+    right: 6%;
+  }
+
+  .hero__cloud--1 {
+    top: 25%;
+    width: 55vw;
+  }
+
+  .hero__cloud--3 {
+    display: none;
+  }
+
+  .hero__content {
+    justify-content: flex-end;
+    padding-bottom: 7rem;
+  }
+}
+
+/* Hero fuori schermo: le animazioni infinite si fermano (vedi scripts/parallax.ts). */
+.hero.is-offscreen .hero__rays,
+.hero.is-offscreen .hero__cloud svg,
+.hero.is-offscreen .hero__scroll circle {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__rays,
+  .hero__cloud svg,
+  .hero__scroll circle {
+    animation: none;
+  }
+}

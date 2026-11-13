@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="52 52 920 920" width="1024" height="1024">
+<defs>
+ <radialGradient id="night" cx="38%" cy="30%" r="75%"><stop offset="0" stop-color="#3d3678"/><stop offset="1" stop-color="#17132e"/></radialGradient>
+ <radialGradient id="day" cx="62%" cy="70%" r="75%"><stop offset="0" stop-color="#fff6e2"/><stop offset="0.6" stop-color="#fde0aa"/><stop offset="1" stop-color="#f2a65a"/></radialGradient>
+ <radialGradient id="moon" cx="35%" cy="35%" r="75%"><stop offset="0" stop-color="#fffaf0"/><stop offset="1" stop-color="#fde3b0"/></radialGradient>
+ <radialGradient id="sun" cx="40%" cy="38%" r="70%"><stop offset="0" stop-color="#ffc977"/><stop offset="1" stop-color="#e07a3c"/></radialGradient>
+ <mask id="crescent"><rect width="1024" height="1024" fill="#fff"/><circle cx="548" cy="262" r="68" fill="#000"/></mask>
+</defs>
+<circle cx="512" cy="512" r="440" fill="url(#day)"/>
+<path d="M512 72 A440 440 0 0 0 512 952 A220 220 0 0 1 512 512 A220 220 0 0 0 512 72 Z" fill="url(#night)"/>
+<path d="M236 338 Q245.52 362.48 270 372 Q245.52 381.52 236 406 Q226.48 381.52 202 372 Q226.48 362.48 236 338 Z" fill="#fff3d6"/><path d="M352 178 Q357.04 190.96 370 196 Q357.04 201.04 352 214 Q346.96 201.04 334 196 Q346.96 190.96 352 178 Z" fill="#fff3d6"/><path d="M178 570 Q183.6 584.4 198 590 Q183.6 595.6 178 610 Q172.4 595.6 158 590 Q172.4 584.4 178 570 Z" fill="#fff3d6"/>
+<circle cx="318" cy="520" r="7" fill="#fff3d6" opacity="0.8"/><circle cx="270" cy="760" r="6" fill="#fff3d6" opacity="0.6"/>
+<circle cx="806" cy="300" r="9" fill="#f2b8c0"/><circle cx="846" cy="560" r="7" fill="#f2b8c0" opacity="0.8"/><circle cx="736" cy="440" r="5" fill="#f2b8c0" opacity="0.7"/>
+<path d="M512 952 A220 220 0 0 1 512 512 A220 220 0 0 0 512 72" fill="none" stroke="#f2b8c0" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+<circle cx="512" cy="292" r="82" fill="url(#moon)" mask="url(#crescent)"/>
+<g stroke="#e8964c" stroke-width="16" stroke-linecap="round"><line x1="576.7" y1="758.8" x2="602.5" y2="769.5"/><line x1="538.8" y1="796.7" x2="549.5" y2="822.5"/><line x1="485.2" y1="796.7" x2="474.5" y2="822.5"/><line x1="447.3" y1="758.8" x2="421.5" y2="769.5"/><line x1="447.3" y1="705.2" x2="421.5" y2="694.5"/><line x1="485.2" y1="667.3" x2="474.5" y2="641.5"/><line x1="538.8" y1="667.3" x2="549.5" y2="641.5"/><line x1="576.7" y1="705.2" x2="602.5" y2="694.5"/></g>
+<circle cx="512" cy="732" r="52" fill="url(#sun)"/>
+<circle cx="512" cy="512" r="446" fill="none" stroke="#fde3b0" stroke-width="16"/>
+</svg>

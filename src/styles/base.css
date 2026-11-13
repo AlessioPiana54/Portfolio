@@ -1,0 +1,409 @@
+/* ===========================================================
+   Design tokens
+   Nomi semantici: --bg, --text, --accent… cambiano valore col tema
+   (notte = luna, giorno = sole). I colori decorativi della scena
+   (cielo, colline, nuvole) hanno token dedicati.
+   =========================================================== */
+:root {
+  color-scheme: dark;
+
+  /* Superfici e testo */
+  --bg: #1b1b3a;
+  --bg-raised: #2e2a5c;
+  --line: rgb(251 246 236 / 12%);
+  --line-strong: rgb(251 246 236 / 28%);
+  --text: #fbf6ec;
+  --text-muted: rgb(251 246 236 / 74%);
+  --heading: #fff;
+
+  /* Astro del tema: luna di notte, sole di giorno */
+  --accent: #fff3d6;
+  --accent-core: #ffe9b8;
+  --accent-text: #fff3d6;
+  --accent-ink: #1b1b3a;
+  --glow: rgb(255 233 184 / 25%);
+
+  /* Colori di supporto (versioni leggibili come testo) */
+  --pink: #f2a6b0;
+  --teal: #7cc2b5;
+
+  /* Scena hero */
+  --sky-top: #14123a;
+  --sky-mid: #241f5c;
+  --sky-low: #4a3b7c;
+  --sky-horizon: #7a5c8e;
+  --sky-halo: rgb(255 233 184 / 18%);
+  --star-opacity: 0.8;
+  --hill-1: #3e7c74;
+  --hill-2: #4a3b7c;
+  --hill-3: #1b1b3a;
+  --cloud-1: #c9bfe0;
+  --cloud-2: #a99cc9;
+  --cloud-3: #e4dcf0;
+  --cloud-opacity: 0.55;
+  --hero-heading: #fff;
+  --hero-text: rgb(251 246 236 / 88%);
+  --hero-word: #fff3d6;
+  --hero-veil: rgb(15 13 42 / 55%);
+
+  /* Card */
+  --card-top: #2e2a5c;
+  --card-bottom: #1b1b3a;
+  --card-scrim: rgb(20 18 50 / 94%);
+
+  /* Footer: resta un "cielo" scuro, notturno o diurno */
+  --footer-top: #2e2a5c;
+  --footer-bottom: #100e2e;
+  --footer-text: #fbf6ec;
+  --footer-muted: rgb(251 246 236 / 72%);
+  --footer-heading: #a9d6ee;
+
+  /* Tipografia */
+  --font-display: 'Klee One', 'Zen Maru Gothic', serif;
+  --font-body: 'Zen Maru Gothic', system-ui, sans-serif;
+  --font-mono: 'Space Mono', ui-monospace, monospace;
+
+  /* Spaziature */
+  --gutter: clamp(1rem, 6vw, 5rem);
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: clamp(5rem, 9vw, 7rem);
+
+  /* Raggi, movimento */
+  --radius-md: 18px;
+  --radius-full: 999px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-swing: cubic-bezier(0.65, -0.2, 0.35, 1.2);
+  --theme-duration: 0.6s;
+
+  /* 1 = movimento pieno, 0 = "riduci movimento" (moltiplica gli spostamenti delle entrate). */
+  --motion: 1;
+}
+
+/* ===========================================================
+   Tema giorno
+   =========================================================== */
+html[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #fbf3e6;
+  --bg-raised: #f5e6cd;
+  --line: rgb(43 36 80 / 14%);
+  --line-strong: rgb(43 36 80 / 30%);
+  --text: #2b2450;
+  --text-muted: rgb(43 36 80 / 78%);
+  --heading: #2b2450;
+  --accent: #ffd166;
+  --accent-core: #ffb347;
+  --accent-text: #a8481a;
+  --accent-ink: #2b2450;
+  --glow: rgb(255 179 71 / 35%);
+  --pink: #b8405f;
+  --teal: #2a7a64;
+  --sky-top: #ffe3b0;
+  --sky-mid: #ffd29c;
+  --sky-low: #a9d4ee;
+  --sky-horizon: #6fb8e0;
+  --sky-halo: rgb(255 209 102 / 45%);
+  --star-opacity: 0;
+  --hill-1: #2f8f76;
+  --hill-2: #f2a265;
+  --hill-3: #fbf3e6;
+  --cloud-1: #fff;
+  --cloud-2: #fff8ee;
+  --cloud-3: #fff;
+  --cloud-opacity: 0.9;
+  --hero-heading: #2b2450;
+  --hero-text: rgb(43 36 80 / 88%);
+  --hero-word: #c2571a;
+  --hero-veil: rgb(255 243 222 / 55%);
+  --card-top: #fff8ec;
+  --card-bottom: #f5e6cd;
+  --card-scrim: rgb(251 243 230 / 95%);
+  --footer-top: #2c6fa8;
+  --footer-bottom: #183a66;
+  --footer-text: #fff;
+  --footer-muted: rgb(255 255 255 / 82%);
+  --footer-heading: #ffe3b0;
+}
+
+/* ===========================================================
+   Font self-hosted
+   =========================================================== */
+@font-face {
+  font-family: 'Klee One';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../assets/fonts/klee-one-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/zen-maru-gothic-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/zen-maru-gothic-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/zen-maru-gothic-500.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Zen Maru Gothic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/zen-maru-gothic-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/space-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/space-mono-700.woff2') format('woff2');
+}
+
+/* ===========================================================
+   Reset
+   =========================================================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 300;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color var(--theme-duration) ease,
+    color var(--theme-duration) ease;
+}
+
+main {
+  flex: 1;
+}
+
+::selection {
+  background: var(--pink);
+  color: var(--bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-core);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Scrollbar coerente col tema */
+html {
+  scrollbar-color: var(--line-strong) var(--bg);
+}
+
+/* ===========================================================
+   Tipografia di base
+   =========================================================== */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--heading);
+  line-height: 1.2;
+  text-wrap: balance;
+  transition: color var(--theme-duration) ease;
+}
+
+p {
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+}
+
+/* Parole che dipendono dal tema (es. "Moon" / "Sun"): solo CSS, niente flash. */
+html[data-theme='light'] .only-dark,
+html:not([data-theme='light']) .only-light {
+  display: none;
+}
+
+/* ===========================================================
+   Transizione tema: rivelazione circolare dal pulsante
+   (View Transitions API, vedi scripts/theme.ts)
+   =========================================================== */
+html.theme-switching::view-transition-old(root),
+html.theme-switching::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Durante il cambio tema tutta la pagina (nav compresa) deve stare nella rivelazione circolare. */
+html.theme-switching .nav,
+html.theme-switching .nav__dot {
+  view-transition-name: none;
+}
+
+html.theme-switching * {
+  transition-duration: 0s;
+}
+
+/* ===========================================================
+   Transizioni tra pagine (View Transitions cross-document, solo CSS).
+   La nav resta ferma, il contenuto si dissolve, il puntino della voce
+   attiva scivola sotto la nuova voce. Browser senza supporto: cambio normale.
+   =========================================================== */
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(root) {
+  animation: vt-out 150ms ease-out both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 260ms ease-out 40ms both;
+}
+
+::view-transition-group(nav-dot) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  /* Le entrate (keyframe `rise`) restano dissolvenze, senza spostamento. */
+  :root {
+    --motion: 0;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Meno movimento, non zero feedback: i fade di colore e opacità restano,
+     gli spostamenti diventano istantanei. Le animazioni infinite sono spente
+     nei singoli fogli (components.css, home.css).
+     Il prefisso `html` serve a vincere sui fogli caricati dopo questo. */
+  html .hero__moon,
+  html .hero__sun,
+  html .nav > *,
+  html .nav__logo,
+  html .theme-toggle__thumb,
+  html .theme-toggle__icon,
+  html .card,
+  html .card__art,
+  html .button,
+  html .button svg,
+  html .carousel__btn,
+  html .text-link svg,
+  html .footer__col a {
+    transition-property: opacity, color, background-color, border-color, box-shadow, fill;
+  }
+}

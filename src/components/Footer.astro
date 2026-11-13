@@ -1,0 +1,134 @@
+---
+import { getCollection } from 'astro:content';
+import { nav, site, visibleSocials } from '../data/site';
+import { url } from '../utils/url';
+import Arrow from './Arrow.astro';
+
+interface Props {
+  // Nasconde l'invito "vai ad About" quando sei già su About.
+  showCta?: boolean;
+}
+const { showCta = true } = Astro.props;
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+
+// Piccoli astri che galleggiano sul bordo dell'onda.
+const orbs = [
+  { x: '6%', size: '0.9rem', dur: '7.2s', delay: '0s' },
+  { x: '23%', size: '0.6rem', dur: '6.4s', delay: '1.4s' },
+  { x: '41%', size: '1.1rem', dur: '8s', delay: '0.6s' },
+  { x: '58%', size: '0.7rem', dur: '6.8s', delay: '2.1s' },
+  { x: '74%', size: '1rem', dur: '7.6s', delay: '0.3s' },
+  { x: '91%', size: '0.65rem', dur: '6.2s', delay: '1.8s' },
+];
+---
+
+<div class="footer-wave" aria-hidden="true">
+  <svg class="footer-wave__svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
+    <path id="footerWavePath" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,100 L0,100 Z"></path>
+  </svg>
+  {
+    orbs.map((o) => (
+      <span
+        class="footer-wave__orb"
+        style={`--x:${o.x};--size:${o.size};--dur:${o.dur};--delay:${o.delay}`}
+      />
+    ))
+  }
+</div>
+
+<footer class="footer">
+  <div class="footer__stars" aria-hidden="true"></div>
+
+  {
+    showCta && (
+      <div class="footer__top">
+        <div class="footer__headline">
+          <div class="footer__orb" aria-hidden="true" />
+          <h2>Want to see hobbies and side projects?</h2>
+        </div>
+        <a class="button" href={url('about/')}>
+          Go to About <Arrow />
+        </a>
+      </div>
+    )
+  }
+
+  <div class="footer__grid">
+    <div class="footer__col">
+      <h3>Navigate</h3>
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={url(item.path)}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h3>Projects</h3>
+      <ul>
+        {
+          projects.map((p) => (
+            <li>
+              <a href={url(`projects/${p.id}/`)}>{p.data.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    {
+      visibleSocials.length > 0 && (
+        <div class="footer__col">
+          <h3>Elsewhere</h3>
+          <ul>
+            {visibleSocials.map((s) => (
+              <li>
+                <a href={s.href} rel="me noopener" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    <div class="footer__col">
+      <h3>Contact</h3>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {
+          site.cv && (
+            <li>
+              <a href={url(site.cv)} download>
+                Download CV
+              </a>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <span>&copy; {year} {site.name}</span>
+    <a href={url('privacy/')}>Privacy</a>
+    <p class="moon-phase" id="moonPhase" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle class="moon-phase__dark" cx="12" cy="12" r="10"></circle>
+        <path class="moon-phase__lit" d=""></path>
+      </svg>
+      <span></span>
+    </p>
+  </div>
+</footer>
+
+<script>
+  import { initMoonPhase } from '../scripts/moon-phase';
+  import { initFooterWave } from '../scripts/footer-wave';
+  initMoonPhase();
+  initFooterWave();
+</script>

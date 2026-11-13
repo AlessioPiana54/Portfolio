@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Arrow from '../components/Arrow.astro';
+import { site, visibleSocials } from '../data/site';
+import { hobbies } from '../data/hobbies';
+import { litPath } from '../scripts/moon-phase';
+import '../styles/about.css';
+
+// Segnaposto finché non ci sono foto: sei fasi lunari, dalla falce alla luna piena.
+const placeholderPhases = [0.08, 0.17, 0.25, 0.33, 0.42, 0.5];
+---
+
+<BaseLayout
+  title="About"
+  description="About Alessio Pianaroli — a student and full stack web developer who also loves design and illustration."
+  showFooterCta={false}
+>
+  <section class="page-header">
+    <h1 class="page-header__title">About</h1>
+    <p class="page-header__sub">
+      A student who builds websites, draws when the code is compiling, and still gets excited every
+      time the two meet.
+    </p>
+  </section>
+
+  <!-- BOZZA: testo segnaposto, riscrivilo con parole tue. -->
+  <section class="about-bio prose">
+    <p>
+      I'm Alessio. I'm still studying, and I like it that way: every project teaches me something I
+      didn't know the week before. I started with the parts of a website you can see &mdash; layouts,
+      colors, typography &mdash; and kept following the thread down to the parts you can't: APIs,
+      databases, the logic that makes a page actually do something.
+    </p>
+    <p>
+      That's why I call myself full stack by choice. I enjoy owning a project from the first sketch to
+      the last deploy, and I care about the small details in between: a readable line length, a
+      transition that feels right, a page that loads fast on a slow phone.
+    </p>
+    <p>
+      When I'm not coding, I'm usually drawing. The illustrations on this site &mdash; including the
+      sun and moon you can switch at the top of the page &mdash; are mine.
+    </p>
+  </section>
+
+  <section class="about-contact" aria-labelledby="contactTitle">
+    <h2 class="about-contact__title" id="contactTitle">Say hello</h2>
+    <p class="about-contact__text">
+      Open to internships, collaborations and small freelance projects. Email is the fastest way to
+      reach me.
+    </p>
+    <div class="about-contact__row">
+      <a class="button" href={`mailto:${site.email}`}>{site.email} <Arrow /></a>
+      {
+        visibleSocials.length > 0 && (
+          <ul class="about-contact__social">
+            {visibleSocials.map((s) => (
+              <li>
+                <a class="text-link" href={s.href} rel="me noopener" target="_blank">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="carousel" aria-labelledby="hobbiesTitle" data-carousel>
+    <div class="carousel__head">
+      <h2 class="carousel__title" id="hobbiesTitle">Hobbies &amp; side projects</h2>
+      <div class="carousel__controls">
+        <button class="carousel__btn" type="button" data-dir="-1" aria-label="Previous">
+          <Arrow direction="left" />
+        </button>
+        <button class="carousel__btn" type="button" data-dir="1" aria-label="Next">
+          <Arrow />
+        </button>
+      </div>
+    </div>
+    <ul class="carousel__track" tabindex="0" aria-label="Hobbies gallery, scroll horizontally or use the arrow keys">
+      {
+        hobbies.length > 0
+          ? hobbies.map((h) => (
+              <li class="carousel__item">
+                <Image class="carousel__img" src={h.image} alt={h.alt} widths={[400, 800]} sizes="320px" />
+                <p class="carousel__caption">{h.title}</p>
+              </li>
+            ))
+          : placeholderPhases.map((phase) => (
+              <li class="carousel__item" aria-hidden="true">
+                <div class="carousel__img carousel__img--placeholder">
+                  <svg viewBox="0 0 24 24">
+                    <circle class="carousel__moon-dark" cx="12" cy="12" r="10" />
+                    <path class="carousel__moon-lit" d={litPath(phase)} />
+                  </svg>
+                </div>
+              </li>
+            ))
+      }
+    </ul>
+    {hobbies.length === 0 && <p class="carousel__note">Photos coming soon.</p>}
+  </section>
+</BaseLayout>
+
+<script>
+  import { initCarousels } from '../scripts/carousel';
+  initCarousels();
+</script>

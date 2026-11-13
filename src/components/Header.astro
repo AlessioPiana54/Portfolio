@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/img/sun-moon-mark.png';
+import { nav, site } from '../data/site';
+import { url, isActive } from '../utils/url';
+import ThemeToggle from './ThemeToggle.astro';
+
+const current = Astro.url.pathname;
+---
+
+<header>
+  <nav class="nav" id="siteNav" aria-label="Main navigation">
+    <a class="nav__mark" href={url()}>
+      <Image class="nav__logo" src={logo} alt="" width={56} height={56} loading="eager" />
+      <span class="nav__name">{site.name}</span>
+      <span class="visually-hidden">— Home</span>
+    </a>
+    <div class="nav__right">
+      <ul class="nav__links">
+        {
+          nav.map((item) => {
+            const active = isActive(current, item.path);
+            return (
+              <li>
+                <a href={url(item.path)} aria-current={active ? 'page' : undefined}>
+                  {item.label}
+                  {/* Un solo puntino per pagina: cambiando pagina scivola sotto la nuova voce (base.css). */}
+                  {active && <span class="nav__dot" aria-hidden="true" />}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+      <ThemeToggle />
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Sfondo alla nav quando la pagina scorre.
+  const navEl = document.getElementById('siteNav');
+  if (navEl) {
+    const update = () => navEl.classList.toggle('is-scrolled', window.scrollY > 24);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+</script>

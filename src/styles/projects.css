@@ -1,0 +1,257 @@
+/* ===========================================================
+   Progetti: elenco e pagina di dettaglio
+   =========================================================== */
+
+/* ---------- ELENCO ---------- */
+.projects-list {
+  padding: 0 var(--gutter);
+}
+
+/* "Coming soon": una card larga due colonne. Cielo notturno con l'alba dietro le colline
+   e una costellazione </> ancora da finire: progetti che non sono ancora sorti.
+   Resta "notturna" in entrambi i temi. */
+.card--soon {
+  grid-column: span 2;
+  aspect-ratio: auto;
+  min-height: 16rem;
+  background:
+    url('../assets/img/coming-soon-sky.png') center 35% / cover no-repeat,
+    linear-gradient(160deg, #2e2a5c, #1b1b3a);
+  border-style: dashed;
+  border-color: var(--line-strong);
+}
+
+@media (width <= 560px) {
+  .card--soon {
+    grid-column: auto;
+    aspect-ratio: 4 / 5;
+  }
+}
+
+.card--soon .card__body {
+  background: none;
+}
+
+.card--soon .card__title {
+  color: #fff;
+}
+
+.card--soon .card__meta {
+  color: rgb(251 246 236 / 72%);
+}
+
+/* ---------- DETTAGLIO ---------- */
+.project {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: clamp(7rem, 14vw, 9rem) var(--gutter) 0;
+}
+
+.project__back {
+  margin-bottom: 2rem;
+}
+
+.project__header {
+  margin-bottom: 2.5rem;
+}
+
+.project__title {
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+}
+
+.project__meta {
+  margin-top: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.project__summary {
+  margin-top: 1.2rem;
+  max-width: 50ch;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+}
+
+/* Ruolo, tecnologie e link: una griglia etichetta / valore. */
+.project__facts {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 2rem;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--line);
+  max-width: 44rem;
+}
+
+.project__fact {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.project__fact dt {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.project__fact dd {
+  margin: 0;
+  color: var(--text);
+}
+
+.project__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.project__stack li {
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg-raised) 55%, transparent);
+}
+
+.project__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+}
+
+@media (width <= 560px) {
+  .project__fact {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
+}
+
+/* Le illustrazioni hanno sfondo trasparente e figure scure: le mettiamo
+   sempre su "carta" chiara, altrimenti di notte le silhouette sparirebbero. */
+.project__hero {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: radial-gradient(120% 90% at 50% 0%, #fffaf0, #f5e6cd);
+  border: 1px solid var(--line);
+  margin-bottom: 3rem;
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 40%);
+}
+
+.project__hero-img {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  max-width: 66ch;
+  font-size: 1.08rem;
+  color: var(--text);
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 1.5rem;
+  font-size: 1.6rem;
+}
+
+.prose a {
+  color: var(--accent-text);
+}
+
+.prose strong {
+  font-weight: 500;
+  color: var(--heading);
+}
+
+.project__gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.3rem;
+  margin-top: 3rem;
+}
+
+.project__gallery-img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  background: #fffaf0;
+}
+
+/* ---------- PROGETTO PRECEDENTE / SUCCESSIVO ---------- */
+.project__pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: var(--space-xl);
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.project__pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.project__pager-link:hover {
+  border-color: color-mix(in srgb, var(--accent-core) 55%, transparent);
+  background: color-mix(in srgb, var(--bg-raised) 60%, transparent);
+}
+
+.project__pager-link--next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.project__pager-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pink);
+}
+
+.project__pager-label svg {
+  width: 1em;
+  height: 1em;
+}
+
+.project__pager-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--heading);
+}
+
+@media (width <= 560px) {
+  .project__gallery,
+  .project__pager {
+    grid-template-columns: 1fr;
+  }
+}
