@@ -335,6 +335,21 @@ html.theme-switching::view-transition-new(root) {
   animation: theme-reveal 700ms var(--ease-out) both;
 }
 
+/* Il vecchio tema resta (coperto) finché sole e luna non hanno finito di muoversi
+   (1.3s, vedi home.css). Così la transizione termina solo quando non si muove più nulla:
+   Safari/iOS, alla fine della View Transition, ricrea le animazioni ancora in corso
+   e l'alba/tramonto ripartiva da capo (sembrava fatta due volte). */
+html.theme-switching::view-transition-old(root) {
+  animation: theme-hold 1.35s linear both;
+}
+
+@keyframes theme-hold {
+  from,
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes theme-reveal {
   from {
     clip-path: circle(0 at var(--vt-x) var(--vt-y));

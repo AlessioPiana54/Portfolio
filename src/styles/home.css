@@ -51,6 +51,11 @@
   top: 14%;
   width: min(30vw, 260px);
   aspect-ratio: 1;
+
+  /* Di quanto scende l'astro che tramonta: legato all'altezza della scena, non alla
+     dimensione dell'astro, così finisce sempre dietro le colline (su mobile l'orbita è
+     piccola e un 260% lo lasciava a metà schermo, sopra il testo). */
+  --set-distance: max(85svh, 560px);
 }
 
 .hero__moon,
@@ -95,7 +100,7 @@
     rgb(255 179 71 / 0%) 76%
   );
   box-shadow: 0 0 120px 50px rgb(255 196 90 / 35%);
-  transform: translateY(260%) scale(0.85);
+  transform: translateY(var(--set-distance)) scale(0.85);
   opacity: 0;
 }
 
@@ -119,7 +124,7 @@
 }
 
 html[data-theme='light'] .hero__moon {
-  transform: translateY(260%) rotate(-25deg);
+  transform: translateY(var(--set-distance)) rotate(-25deg);
   opacity: 0;
 }
 
@@ -129,9 +134,17 @@ html[data-theme='light'] .hero__sun {
 }
 
 /* Durante la rivelazione circolare i colori cambiano di colpo,
-   ma il tramonto/alba degli astri deve comunque animarsi. */
+   ma il tramonto/alba degli astri deve comunque animarsi.
+   L'astro che tramonta sfuma in fretta: su mobile l'orbita sta sopra il testo
+   e un astro sbiadito che scende piano sembrava una seconda animazione. */
 html.theme-switching .hero__moon,
 html.theme-switching .hero__sun {
+  transition-duration: 1.3s, 0.45s;
+}
+
+/* L'astro che sorge mantiene la dissolvenza lunga. */
+html.theme-switching:not([data-theme='light']) .hero__moon,
+html.theme-switching[data-theme='light'] .hero__sun {
   transition-duration: 1.3s, 0.9s;
 }
 
@@ -265,6 +278,11 @@ html.theme-switching .hero__stars {
   font-size: clamp(2.6rem, 6.4vw, 4.8rem);
   line-height: 1.12;
   letter-spacing: -0.01em;
+}
+
+.hero__line,
+.hero__word {
+  display: block;
 }
 
 .hero__word {

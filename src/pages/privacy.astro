@@ -27,8 +27,19 @@ import { site } from '../data/site';
       for details.
     </p>
     <p>
-      For any request regarding personal data, write to <a href={`mailto:${site.email}`}>{site.email}</a>.
+      The data controller is {site.name}, reachable at <a href={`mailto:${site.email}`}>{site.email}</a>.
     </p>
+    <p>
+      If you write to me by email, I use your address and the content of your message only to reply,
+      and I don't share them with anyone.
+    </p>
+    <p>
+      Under the GDPR (Articles 15–22) you have the right to access, correct or delete your personal data,
+      to restrict or object to its processing, and to data portability. To exercise these rights, write to
+      the address above. You also have the right to lodge a complaint with the Italian Data Protection
+      Authority (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">Garante per la protezione dei dati personali</a>).
+    </p>
+    <p class="privacy__updated">Last updated: November 14, 2026</p>
   </section>
 </BaseLayout>
 
@@ -39,5 +50,10 @@ import { site } from '../data/site';
 
   .privacy a {
     color: var(--accent-text);
+  }
+
+  .privacy__updated {
+    opacity: 0.7;
+    font-size: 0.9em;
   }
 </style>
