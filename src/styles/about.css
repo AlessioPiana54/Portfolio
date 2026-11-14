@@ -186,10 +186,15 @@
 
 .carousel__img {
   width: 100%;
+  /* <Image> scrive width/height sull'<img>: senza height:auto vincerebbe sull'aspect-ratio. */
+  height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
+
+  /* Le illustrazioni sono trasparenti: il fondo è quello delle card dei progetti e segue il tema. */
+  background: linear-gradient(160deg, var(--card-top), var(--card-bottom));
 }
 
 .carousel__caption {

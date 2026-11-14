@@ -601,28 +601,29 @@ a.card:hover {
   width: 234.67%;
   color: var(--footer-top);
   transition: color var(--theme-duration) ease;
-  animation: wave-drift 20s cubic-bezier(0.55, 0.5, 0.45, 0.5) -5s infinite;
+  /* Moto costante: lineare, così l'onda scorre come corrente e non "frena" a fine giro. */
+  animation: wave-drift 22s linear -5s infinite;
 }
 
+/* Il respiro della marea: l'SVG si alza e si abbassa ancorato in basso, con un periodo
+   che non divide quello della deriva, così le creste non tornano mai uguali. */
 .footer-wave__layer svg {
   display: block;
   width: 100%;
   height: 100%;
   fill: currentcolor;
+  transform-origin: 50% 100%;
+  animation: wave-swell 7.4s cubic-bezier(0.37, 0, 0.63, 1) -2s infinite alternate;
 }
 
-/* La più lontana prende la tinta d'accento del footer: dà profondità anche di notte. */
-.footer-wave__layer--far {
-  color: var(--footer-heading);
-  opacity: 0.3;
-  animation-duration: 9s;
-  animation-delay: -2s;
-}
+@keyframes wave-swell {
+  from {
+    transform: scale3d(1, 0.86, 1);
+  }
 
-.footer-wave__layer--mid {
-  opacity: 0.6;
-  animation-duration: 13s;
-  animation-delay: -4s;
+  to {
+    transform: scale3d(1, 1.08, 1);
+  }
 }
 
 /* L'onda si ripete ogni 176 unità (su 352 del div) e ne scorre 175: il salto non si vede. */
@@ -646,7 +647,11 @@ a.card:hover {
   height: var(--size);
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #fff, var(--accent) 60%, transparent 78%);
-  animation: orb-drift var(--dur) ease-in-out var(--delay) infinite;
+  /* Due moti su proprietà separate (translate / transform) che si sommano: su e giù come
+     una boa, e un'oscillazione laterale più lenta, così il percorso non si ripete mai. */
+  animation:
+    orb-bob calc(var(--dur) / 2) cubic-bezier(0.37, 0, 0.63, 1) var(--delay) infinite alternate,
+    orb-sway calc(var(--dur) * 1.3) cubic-bezier(0.37, 0, 0.63, 1) var(--delay) infinite alternate;
   pointer-events: none;
 }
 
@@ -671,48 +676,43 @@ a.card:hover {
   border-radius: 50%;
   background: radial-gradient(closest-side, var(--accent), transparent);
   opacity: 0.25;
-  animation: orb-glint var(--dur) ease-in-out var(--delay) infinite;
+  animation: orb-glint calc(var(--dur) / 2) cubic-bezier(0.37, 0, 0.63, 1) var(--delay) infinite alternate;
 }
 
-/* Il riflesso è figlio dell'astro: la sua traslazione verticale la compensa al contrario,
-   così resta a pelo d'acqua mentre l'astro sale e scende. */
-@keyframes orb-drift {
-  0%,
-  100% {
-    transform: translate(0, 0);
+/* L'astro scende fin quasi a sfiorare l'acqua e risale. Il riflesso è suo figlio: stessa
+   durata, curva e ritardo ma traslazione opposta, così resta a pelo d'acqua e si accende
+   e allarga quando l'astro è basso. */
+@keyframes orb-bob {
+  from {
+    translate: 0 0.35rem;
   }
 
-  25% {
-    transform: translate(0.25rem, -0.35rem);
+  to {
+    translate: 0 -1.3rem;
+  }
+}
+
+@keyframes orb-sway {
+  from {
+    transform: translate3d(-0.3rem, 0, 0);
   }
 
-  50% {
-    transform: translate(0, -0.7rem);
-  }
-
-  75% {
-    transform: translate(-0.25rem, -0.35rem);
+  to {
+    transform: translate3d(0.3rem, 0, 0);
   }
 }
 
 @keyframes orb-glint {
-  0%,
-  100% {
-    opacity: 0.45;
-    transform: translate(0, 0) scaleX(1);
+  from {
+    opacity: 0.55;
+    translate: 0 -0.35rem;
+    scale: 1.15 1;
   }
 
-  25% {
-    transform: translate(0, 0.35rem) scaleX(0.85);
-  }
-
-  50% {
-    opacity: 0.12;
-    transform: translate(0, 0.7rem) scaleX(0.65);
-  }
-
-  75% {
-    transform: translate(0, 0.35rem) scaleX(0.85);
+  to {
+    opacity: 0.08;
+    translate: 0 1.3rem;
+    scale: 0.55 1;
   }
 }
 
@@ -940,7 +940,23 @@ html[data-theme='light'] .footer__stars {
   .footer-wave__orb,
   .footer-wave__orb::before,
   .footer-wave__glint,
-  .footer-wave__layer {
+  .footer-wave__layer,
+  .footer-wave__layer svg {
     animation: none;
+  }
+
+  /* Meno movimento, non zero: l'alone continua a pulsare solo in opacità. */
+  .footer-wave__orb::before {
+    animation: orb-glow-soft var(--glow-dur) ease-in-out var(--delay) infinite alternate;
+  }
+}
+
+@keyframes orb-glow-soft {
+  from {
+    opacity: 0.55;
+  }
+
+  to {
+    opacity: 1;
   }
 }
