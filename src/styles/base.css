@@ -329,6 +329,22 @@ html.theme-switching::view-transition-new(root) {
   mix-blend-mode: normal;
 }
 
+/* Il vecchio tema resta fermo sotto; il nuovo si apre a cerchio dal pulsante.
+   Centro e raggio li scrive scripts/theme.ts in --vt-x, --vt-y, --vt-r. */
+html.theme-switching::view-transition-new(root) {
+  animation: theme-reveal 700ms var(--ease-out) both;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0 at var(--vt-x) var(--vt-y));
+  }
+
+  to {
+    clip-path: circle(var(--vt-r) at var(--vt-x) var(--vt-y));
+  }
+}
+
 /* Durante il cambio tema tutta la pagina (nav compresa) deve stare nella rivelazione circolare. */
 html.theme-switching .nav,
 html.theme-switching .nav__dot {

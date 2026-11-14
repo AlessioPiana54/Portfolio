@@ -105,7 +105,7 @@ const { Content } = await render(project);
 
     {
       prev.id !== project.id && (
-        <nav class="project__pager" aria-label="More projects">
+        <nav class="project__pager drawn-rule" aria-label="More projects">
           <a class="project__pager-link" href={url(`projects/${prev.id}/`)}>
             <span class="project__pager-label"><Arrow direction="left" /> Previous</span>
             <span class="project__pager-title">{prev.data.title}</span>

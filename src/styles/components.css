@@ -463,7 +463,7 @@ a.card:hover {
     .card-grid > *,
     .about-bio,
     .about-contact,
-    .carousel,
+    .carousel__head,
     .project__body,
     .project__gallery > *,
     .project__pager {
@@ -481,6 +481,92 @@ a.card:hover {
 
     .card-grid > :nth-child(3n) {
       animation-range: entry 70px entry 250px;
+    }
+  }
+}
+
+/* ---------- SEGNI A MANO (components/Doodle.astro) ----------
+   Una passata da sinistra a destra, come un pennarello. Parte una volta sola
+   quando la parola entra nello schermo; con "riduci movimento" il segno c'è già. */
+.doodle {
+  position: relative;
+  isolation: isolate;
+  white-space: nowrap;
+}
+
+.doodle__mark {
+  position: absolute;
+  left: -3%;
+  width: 106%;
+  overflow: visible;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.25s;
+}
+
+.doodle.is-in .doodle__mark {
+  clip-path: inset(0 0 0 0);
+}
+
+.doodle--underline .doodle__mark {
+  bottom: -0.38em;
+  height: 0.55em;
+}
+
+.doodle--underline path {
+  fill: none;
+  stroke: var(--pink);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.doodle--highlight .doodle__mark {
+  z-index: -1;
+  bottom: -0.08em;
+  height: 0.72em;
+}
+
+.doodle--highlight path {
+  fill: color-mix(in srgb, var(--pink) 32%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .doodle__mark {
+    clip-path: none;
+    transition: none;
+  }
+}
+
+/* ---------- LINEE DI SEZIONE che si tracciano da sinistra ----------
+   Al posto di border-top: un filo che si allunga mentre la sezione entra (solo CSS).
+   Senza supporto per le animazioni legate allo scroll la linea è semplicemente intera. */
+.drawn-rule {
+  position: relative;
+  view-timeline-name: --rule;
+}
+
+.drawn-rule::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left;
+}
+
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drawn-rule::before {
+      animation: rule-draw both var(--ease-out);
+      animation-timeline: --rule;
+      animation-range: entry 0px entry 260px;
     }
   }
 }

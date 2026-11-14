@@ -1,0 +1,22 @@
+---
+// Segno a mano attorno a una parola: sottolineatura o evidenziatore.
+// Si "disegna" una volta sola quando entra nello schermo (vedi scripts/in-view.ts).
+interface Props {
+  variant?: 'underline' | 'highlight';
+}
+const { variant = 'underline' } = Astro.props;
+---
+
+<span class={`doodle doodle--${variant}`} data-inview>
+  <slot />{
+    variant === 'underline' ? (
+      <svg class="doodle__mark" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M2 8 C18 3 34 10 52 6 S84 3 98 7" />
+      </svg>
+    ) : (
+      <svg class="doodle__mark" viewBox="0 0 100 20" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M3 5 C25 2 60 3 97 4 C99 9 98 14 96 17 C64 19 30 18 4 16 C1 12 1 8 3 5 Z" />
+      </svg>
+    )
+  }
+</span>

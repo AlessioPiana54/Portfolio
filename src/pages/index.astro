@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Arrow from '../components/Arrow.astro';
+import Doodle from '../components/Doodle.astro';
 import { url } from '../utils/url';
 import '../styles/home.css';
 
@@ -89,7 +90,7 @@ const rays = Array.from({ length: 12 }, (_, i) => i * 30);
     <h2 class="intro__title">Hi, I'm Alessio.</h2>
     <div class="intro__body">
       <p class="intro__text">
-        Full stack by necessity, <b>full stack by choice</b>. I build the interface you see and the
+        Full stack by necessity, <b><Doodle>full stack by choice</Doodle></b>. I build the interface you see and the
         logic that makes it work &mdash; front to back, one project at a time.
       </p>
       <a class="text-link" href={url('about/')}>More about me <Arrow /></a>

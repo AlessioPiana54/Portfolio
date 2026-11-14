@@ -45,21 +45,17 @@ export function initThemeToggle() {
     const y = rect.top + rect.height / 2;
     const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
+    // Il cerchio lo anima il CSS (base.css, keyframe theme-reveal): parte insieme alla
+    // transizione, senza aspettare `ready`. Animandolo da JS dopo `ready`, Safari/iOS può
+    // mostrare un fotogramma col nuovo tema già intero prima del cerchio: la pagina lampeggia.
     const root = document.documentElement;
+    root.style.setProperty('--vt-x', `${x}px`);
+    root.style.setProperty('--vt-y', `${y}px`);
+    root.style.setProperty('--vt-r', `${radius}px`);
     root.classList.add('theme-switching');
     const transition = document.startViewTransition(() => {
       applyTheme(next);
       syncButton(button);
-    });
-
-    // Stessa curva del resto del sito: il token --ease-out in base.css.
-    const easing = getComputedStyle(root).getPropertyValue('--ease-out').trim() || 'ease-out';
-
-    transition.ready.then(() => {
-      root.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-        { duration: 700, easing, pseudoElement: '::view-transition-new(root)' }
-      );
     });
     transition.finished.finally(() => root.classList.remove('theme-switching'));
   });

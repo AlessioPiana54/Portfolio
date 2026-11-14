@@ -1,0 +1,1808 @@
+---
+// Gatto e lampione nella pagina About (generato da uno script: i keyframe di falena, testa,
+// farfalla e le pose della coda sono calcolati, non scritti a mano).
+// Notte (tema luna): il lampione è acceso e un gatto nero dipinto caccia una falena che non prende.
+// Giorno (tema sole): il lampione è spento e il gatto dorme; ogni tanto una farfalla gli si posa
+// sull'orecchio. Animazioni CSS su transform/opacity; la forma della coda è interpolata dall'SVG
+// (<animate>). Il pulsante pausa ferma tutto (scripts/lamp-cat.ts); fuori schermo si ferma da sola.
+---
+
+<figure class="lamp-cat" id="lampCat">
+  <!-- Descrizione per gli screen reader. Non è un <title> SVG: il browser lo mostrerebbe
+       come tooltip passandoci sopra col mouse. -->
+  <span class="visually-hidden" id="lampCatTitle">
+    A black cat beside a street lamp: at night it hunts a moth under the light and always misses,
+    by day it sleeps curled up at the foot of the lamp while a butterfly lands on its ear.
+  </span>
+  <button class="lamp-cat__pet" type="button" aria-label="Pet the cat" aria-describedby="lampCatTitle">
+  <svg viewBox="0 0 480 600" aria-hidden="true">
+    <defs>
+      <radialGradient id="lcGlow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#ffd59a" stop-opacity="0.75"></stop>
+        <stop offset="0.45" stop-color="#ffd59a" stop-opacity="0.22"></stop>
+        <stop offset="1" stop-color="#ffd59a" stop-opacity="0"></stop>
+      </radialGradient>
+      <linearGradient id="lcCone" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffd59a" stop-opacity="0.32"></stop>
+        <stop offset="1" stop-color="#ffd59a" stop-opacity="0.06"></stop>
+      </linearGradient>
+      <radialGradient id="lcPool" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#ffd59a" stop-opacity="0.45"></stop>
+        <stop offset="1" stop-color="#ffd59a" stop-opacity="0"></stop>
+      </radialGradient>
+      <linearGradient id="lcLit" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#fff6e2"></stop>
+        <stop offset="1" stop-color="#ffc977"></stop>
+      </linearGradient>
+      <radialGradient id="lcSun" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#ffd166" stop-opacity="0.35"></stop>
+        <stop offset="1" stop-color="#ffd166" stop-opacity="0"></stop>
+      </radialGradient>
+
+      <!-- Pelo nero: il lato verso la luce (in alto a destra) è più caldo e chiaro. -->
+      <radialGradient id="lcFur" cx="0.74" cy="0.26" r="0.95">
+        <stop offset="0" stop-color="#43374b"></stop>
+        <stop offset="0.38" stop-color="#261f35"></stop>
+        <stop offset="1" stop-color="#110e1a"></stop>
+      </radialGradient>
+      <!-- Il gatto sveglio usa una sfumatura sola, nelle sue coordinate: le parti non hanno
+           ciascuna il proprio centro di luce, quindi coscia e zampe non si staccano come dischi. -->
+      <radialGradient id="lcFurCat" gradientUnits="userSpaceOnUse" cx="34" cy="-150" r="210">
+        <stop offset="0" stop-color="#43374b"></stop>
+        <stop offset="0.4" stop-color="#261f35"></stop>
+        <stop offset="1" stop-color="#110e1a"></stop>
+      </radialGradient>
+      <linearGradient id="lcHaunchLight" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#55465f" stop-opacity="0.85"></stop>
+        <stop offset="1" stop-color="#55465f" stop-opacity="0"></stop>
+      </linearGradient>
+      <radialGradient id="lcFurSoft" cx="0.7" cy="0.2" r="1">
+        <stop offset="0" stop-color="#352c42"></stop>
+        <stop offset="1" stop-color="#15121f"></stop>
+      </radialGradient>
+      <!-- Bordo di luce: freddo a sinistra, niente al centro, caldo verso il lampione. -->
+      <linearGradient id="lcRim" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#a8b4ff" stop-opacity="0.38"></stop>
+        <stop offset="0.38" stop-color="#a8b4ff" stop-opacity="0"></stop>
+        <stop offset="0.66" stop-color="#ffd59a" stop-opacity="0"></stop>
+        <stop offset="1" stop-color="#ffd59a" stop-opacity="0.75"></stop>
+      </linearGradient>
+      <!-- luce sul muscolo della coscia: dà volume senza disegnare un contorno -->
+      <radialGradient id="lcHaunch" cx="0.68" cy="0.22" r="0.8">
+        <stop offset="0" stop-color="#4d3f57" stop-opacity="0.9"></stop>
+        <stop offset="0.55" stop-color="#2a2238" stop-opacity="0.35"></stop>
+        <stop offset="1" stop-color="#1a1526" stop-opacity="0"></stop>
+      </radialGradient>
+      <radialGradient id="lcIris" cx="0.45" cy="0.4" r="0.6">
+        <stop offset="0" stop-color="#ffe9a6"></stop>
+        <stop offset="0.6" stop-color="#e3a634"></stop>
+        <stop offset="1" stop-color="#8a5414"></stop>
+      </radialGradient>
+      <radialGradient id="lcShadow" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#05040b" stop-opacity="0.6"></stop>
+        <stop offset="1" stop-color="#05040b" stop-opacity="0"></stop>
+      </radialGradient>
+    </defs>
+
+    <!-- ===== Sfondo che cambia col tema ===== -->
+    <g class="lc-night">
+      <g class="lc-stars">
+        <circle cx="70" cy="90" r="2.5"></circle>
+        <circle cx="150" cy="40" r="2"></circle>
+        <circle cx="420" cy="70" r="2.5"></circle>
+        <circle cx="440" cy="220" r="2"></circle>
+        <circle cx="40" cy="250" r="2"></circle>
+        <path d="M110 150 q2 8 10 10 q-8 2 -10 10 q-2 -8 -10 -10 q8 -2 10 -10 Z"></path>
+        <path d="M400 140 q1.5 6 7 7 q-5.5 1.5 -7 7 q-1.5 -5.5 -7 -7 q5.5 -1 7 -7 Z"></path>
+      </g>
+      <g class="lc-flicker">
+        <circle class="lc-glow" cx="300" cy="166" r="150" fill="url(#lcGlow)"></circle>
+        <path d="M282 196 L318 196 L438 548 L162 548 Z" fill="url(#lcCone)"></path>
+      </g>
+    </g>
+    <g class="lc-day">
+      <circle cx="380" cy="110" r="120" fill="url(#lcSun)"></circle>
+      <path
+        class="lc-cloud"
+        d="M60 120 q6 -22 30 -16 q12 -22 38 -8 q24 -4 26 18 q16 4 10 16 h-104 q-10 -4 0 -10 z"
+      ></path>
+    </g>
+
+    <!-- ===== Terreno e lampione (comuni) ===== -->
+    <ellipse class="lc-ground" cx="250" cy="548" rx="230" ry="26"></ellipse>
+    <g class="lc-night">
+      <ellipse class="lc-flicker" cx="300" cy="546" rx="150" ry="20" fill="url(#lcPool)"></ellipse>
+    </g>
+
+    <g class="lc-lamp">
+      <path d="M274 548 L283 516 H317 L326 548 Z"></path>
+      <rect x="293" y="200" width="14" height="320" rx="3"></rect>
+      <rect x="284" y="194" width="32" height="10" rx="3"></rect>
+      <path class="lc-glass" d="M274 136 H326 L318 196 H282 Z"></path>
+      <g class="lc-night">
+        <path class="lc-flicker" d="M274 136 H326 L318 196 H282 Z" fill="url(#lcLit)"></path>
+      </g>
+      <path d="M300 136 V196 M278 166 H322" class="lc-frame"></path>
+      <path d="M262 138 L300 106 L338 138 Z"></path>
+      <circle cx="300" cy="100" r="6"></circle>
+    </g>
+
+    <!-- ===== Notte: il gatto caccia la falena ===== -->
+    <g class="lc-night">
+      <g transform="translate(215 548)">
+        <!-- ombra a terra: si stringe e schiarisce quando il gatto è in aria -->
+        <ellipse class="cat__shadow" cx="-14" cy="0" rx="66" ry="7" fill="url(#lcShadow)"></ellipse>
+        <g class="cat">
+          <g class="cat__body">
+            <!-- coda: una sola forma che si assottiglia; l'SVG la fa passare tra tre pose -->
+            <path class="cat__tail fur-cat" d="M-51.1 -15.4 L-56.0 -14.3 L-60.9 -13.5 L-65.6 -12.8 L-70.2 -12.4 L-74.8 -12.2 L-79.1 -12.1 L-83.4 -12.3 L-87.4 -12.7 L-91.2 -13.3 L-94.9 -14.0 L-98.3 -15.0 L-101.4 -16.2 L-104.3 -17.7 L-106.9 -19.3 L-109.3 -21.1 L-111.4 -23.2 L-113.2 -25.5 L-114.7 -28.1 L-116.0 -31.0 L-116.8 -34.3 L-117.4 -37.9 L-117.5 -42.0 Q-120.0 -44.5 -122.5 -42.0 L-122.7 -37.7 L-122.5 -33.4 L-121.8 -29.4 L-120.7 -25.6 L-119.1 -22.0 L-117.1 -18.8 L-114.7 -15.7 L-111.9 -13.0 L-108.8 -10.5 L-105.4 -8.4 L-101.7 -6.5 L-97.8 -4.8 L-93.6 -3.4 L-89.3 -2.3 L-84.7 -1.4 L-80.0 -0.7 L-75.1 -0.2 L-70.0 0.0 L-64.9 0.1 L-59.6 0.0 L-54.3 -0.2 L-48.9 -0.6 Z">
+              <animate
+                attributeName="d"
+                dur="5.6s"
+                repeatCount="indefinite"
+                calcMode="spline"
+                keyTimes="0;0.25;0.5;0.75;1"
+                keySplines="0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1;0.45 0 0.55 1"
+                values="M-51.1 -15.4 L-56.0 -14.3 L-60.9 -13.5 L-65.6 -12.8 L-70.2 -12.4 L-74.8 -12.2 L-79.1 -12.1 L-83.4 -12.3 L-87.4 -12.7 L-91.2 -13.3 L-94.9 -14.0 L-98.3 -15.0 L-101.4 -16.2 L-104.3 -17.7 L-106.9 -19.3 L-109.3 -21.1 L-111.4 -23.2 L-113.2 -25.5 L-114.7 -28.1 L-116.0 -31.0 L-116.8 -34.3 L-117.4 -37.9 L-117.5 -42.0 Q-120.0 -44.5 -122.5 -42.0 L-122.7 -37.7 L-122.5 -33.4 L-121.8 -29.4 L-120.7 -25.6 L-119.1 -22.0 L-117.1 -18.8 L-114.7 -15.7 L-111.9 -13.0 L-108.8 -10.5 L-105.4 -8.4 L-101.7 -6.5 L-97.8 -4.8 L-93.6 -3.4 L-89.3 -2.3 L-84.7 -1.4 L-80.0 -0.7 L-75.1 -0.2 L-70.0 0.0 L-64.9 0.1 L-59.6 0.0 L-54.3 -0.2 L-48.9 -0.6 Z;M-51.2 -15.4 L-56.4 -14.1 L-61.4 -13.2 L-66.3 -12.7 L-71.2 -12.5 L-76.0 -12.6 L-80.6 -13.0 L-85.1 -13.6 L-89.3 -14.6 L-93.3 -15.7 L-97.0 -17.1 L-100.3 -18.7 L-103.4 -20.5 L-106.0 -22.5 L-108.3 -24.6 L-110.2 -26.9 L-111.6 -29.4 L-112.6 -32.0 L-113.2 -34.9 L-113.2 -38.0 L-112.8 -41.3 L-111.6 -44.9 L-109.8 -48.8 Q-110.8 -52.2 -114.2 -51.2 L-116.6 -47.1 L-118.3 -42.9 L-119.3 -38.7 L-119.7 -34.6 L-119.3 -30.6 L-118.3 -26.7 L-116.7 -23.0 L-114.5 -19.6 L-111.9 -16.4 L-108.7 -13.5 L-105.2 -10.8 L-101.2 -8.4 L-97.0 -6.3 L-92.4 -4.5 L-87.6 -2.9 L-82.5 -1.7 L-77.2 -0.7 L-71.7 -0.1 L-66.1 0.2 L-60.3 0.2 L-54.5 -0.1 L-48.8 -0.6 Z;M-51.1 -15.4 L-56.0 -14.3 L-60.9 -13.5 L-65.6 -12.8 L-70.2 -12.4 L-74.8 -12.2 L-79.1 -12.1 L-83.4 -12.3 L-87.4 -12.7 L-91.2 -13.3 L-94.9 -14.0 L-98.3 -15.0 L-101.4 -16.2 L-104.3 -17.7 L-106.9 -19.3 L-109.3 -21.1 L-111.4 -23.2 L-113.2 -25.5 L-114.7 -28.1 L-116.0 -31.0 L-116.8 -34.3 L-117.4 -37.9 L-117.5 -42.0 Q-120.0 -44.5 -122.5 -42.0 L-122.7 -37.7 L-122.5 -33.4 L-121.8 -29.4 L-120.7 -25.6 L-119.1 -22.0 L-117.1 -18.8 L-114.7 -15.7 L-111.9 -13.0 L-108.8 -10.5 L-105.4 -8.4 L-101.7 -6.5 L-97.8 -4.8 L-93.6 -3.4 L-89.3 -2.3 L-84.7 -1.4 L-80.0 -0.7 L-75.1 -0.2 L-70.0 0.0 L-64.9 0.1 L-59.6 0.0 L-54.3 -0.2 L-48.9 -0.6 Z;M-50.8 -15.5 L-55.6 -14.5 L-60.4 -13.8 L-65.2 -13.1 L-70.0 -12.5 L-74.7 -12.1 L-79.4 -11.8 L-84.0 -11.5 L-88.6 -11.5 L-93.0 -11.5 L-97.3 -11.7 L-101.5 -12.1 L-105.6 -12.6 L-109.5 -13.3 L-113.2 -14.2 L-116.8 -15.3 L-120.1 -16.6 L-123.3 -18.1 L-126.2 -19.8 L-129.0 -21.8 L-131.5 -24.0 L-133.8 -26.5 L-135.9 -29.4 Q-139.4 -30.1 -140.1 -26.6 L-138.1 -23.3 L-135.7 -20.1 L-133.0 -17.2 L-130.1 -14.6 L-126.8 -12.2 L-123.3 -10.1 L-119.6 -8.2 L-115.7 -6.6 L-111.6 -5.1 L-107.4 -3.9 L-103.0 -2.9 L-98.4 -2.1 L-93.8 -1.4 L-89.1 -0.9 L-84.2 -0.5 L-79.3 -0.3 L-74.4 -0.2 L-69.4 -0.1 L-64.3 -0.2 L-59.3 -0.3 L-54.2 -0.4 L-49.2 -0.5 Z;M-51.1 -15.4 L-56.0 -14.3 L-60.9 -13.5 L-65.6 -12.8 L-70.2 -12.4 L-74.8 -12.2 L-79.1 -12.1 L-83.4 -12.3 L-87.4 -12.7 L-91.2 -13.3 L-94.9 -14.0 L-98.3 -15.0 L-101.4 -16.2 L-104.3 -17.7 L-106.9 -19.3 L-109.3 -21.1 L-111.4 -23.2 L-113.2 -25.5 L-114.7 -28.1 L-116.0 -31.0 L-116.8 -34.3 L-117.4 -37.9 L-117.5 -42.0 Q-120.0 -44.5 -122.5 -42.0 L-122.7 -37.7 L-122.5 -33.4 L-121.8 -29.4 L-120.7 -25.6 L-119.1 -22.0 L-117.1 -18.8 L-114.7 -15.7 L-111.9 -13.0 L-108.8 -10.5 L-105.4 -8.4 L-101.7 -6.5 L-97.8 -4.8 L-93.6 -3.4 L-89.3 -2.3 L-84.7 -1.4 L-80.0 -0.7 L-75.1 -0.2 L-70.0 0.0 L-64.9 0.1 L-59.6 0.0 L-54.3 -0.2 L-48.9 -0.6 Z"></animate>
+            </path>
+            <!-- zampa anteriore lontana: dietro il busto, in aria penzola sotto la pancia -->
+            <g class="cat__far">
+              <path
+                class="fur-cat cat__sep cat__shade"
+                d="M2 -82 C0 -58 1 -32 1 -12 C1 -4 3 0 8 0 L18 0 C22 0 23 -4 19 -7 C15 -9 14 -12 14 -16 C14 -36 14 -60 15 -82 Z"
+              ></path>
+            </g>
+            <!-- busto: anca piena dietro, schiena che sale, pancia appena arrotondata -->
+            <path
+              class="fur-cat cat__sep"
+              d="M38 -72 C36 -54 35 -36 34 -22 C32 -6 22 4 8 6 C-6 8 -18 8 -30 5 C-48 1 -60 -9 -65 -26 C-68 -36 -67 -46 -64 -54 C-58 -82 -38 -104 -12 -118 C-2 -124 6 -128 12 -128 C22 -128 30 -120 34 -108 C38 -96 40 -84 38 -72 Z"
+            ></path>
+            <!-- zampa posteriore: stinco e piede sotto, coscia sopra -->
+            <g class="cat__foot">
+              <path
+                class="fur-cat cat__sep cat__shade"
+                d="M-44 -34 C-46 -20 -44 -8 -40 -2 C-38 1 -34 1 -30 1 L-4 1 C4 1 9 0 9 -4 C9 -8 2 -11 -12 -12 C-22 -13 -26 -16 -28 -22 C-30 -28 -30 -32 -30 -34 Z"
+              ></path>
+            </g>
+            <!-- coscia: stesso pelo del busto (sfumatura continua), il volume lo dà una luce a mezzaluna -->
+            <g class="cat__thigh">
+              <path class="fur-cat" d="M-60 -28 C-62 -52 -46 -68 -26 -64 C-10 -60 -6 -42 -10 -26 C-14 -12 -24 -5 -36 -5 C-50 -5 -58 -14 -60 -28 Z"></path>
+              <path class="cat__haunch-light" d="M-61 -34 C-60 -56 -44 -68 -26 -64 C-13 -61 -7 -50 -7 -38 C-14 -51 -26 -57 -38 -55 C-50 -53 -57 -45 -61 -34 Z"></path>
+            </g>
+            <!-- zampa anteriore vicina, in due pezzi: il gomito si piega per portarla al muso -->
+            <g class="cat__paw">
+              <!-- braccio: il contorno è aperto sotto, così al gomito non resta una riga -->
+              <path class="fur-cat" d="M16 -84 C14 -70 14 -54 15 -42 C15.5 -35 28.5 -35 28.5 -42 C28.5 -56 28.5 -70 29 -84 Z"></path>
+              <path class="cat__outline" d="M16 -84 C14 -70 14 -54 15 -42 M28.5 -42 C28.5 -56 28.5 -70 29 -84"></path>
+              <!-- avambraccio sopra il braccio: piegato, passa davanti per arrivare al muso -->
+              <g class="cat__forearm">
+                <path
+                  class="fur-cat"
+                  d="M15.5 -44 C15.5 -49 28.5 -49 28.5 -44 C28 -30 28 -20 28 -16 C28 -12 29 -9 33 -7 C37 -4 36 0 32 0 L22 0 C17 0 15 -4 15 -12 C15 -24 15.5 -36 15.5 -44 Z"
+                ></path>
+                <path
+                  class="cat__outline"
+                  d="M15.5 -44 C15.5 -36 15 -24 15 -12 C15 -4 17 0 22 0 L32 0 C36 0 37 -4 33 -7 C29 -9 28 -12 28 -16 C28 -20 28 -30 28.5 -44"
+                ></path>
+              </g>
+            </g>
+            <g class="cat__head">
+              <!-- stessa testa del gatto che dorme (rotonda, simmetrica attorno a x=20), con gli occhi aperti -->
+              <path class="fur-cat cat__shade" d="M-10 -149 C-14 -167 -12 -183 -7 -193 C2 -189 10 -179 14 -165 Z"></path>
+              <path class="cat__ear-in" d="M-5 -161 C-7 -171 -6 -179 -4 -185 C1 -181 5 -175 7 -167 Z"></path>
+              <path class="fur-cat" d="M50 -149 C54 -167 52 -183 47 -193 C38 -189 30 -179 26 -165 Z"></path>
+              <path class="cat__ear-in" d="M45 -161 C47 -171 46 -179 44 -185 C39 -181 35 -175 33 -167 Z"></path>
+              <path
+                class="fur-cat cat__sep"
+                d="M20 -167 C40 -167 54 -155 54 -141 L59 -137 L53 -133 L57 -128 L50 -125 C44 -117 34 -113 20 -113 C6 -113 -4 -117 -10 -125 L-17 -128 L-13 -133 L-19 -137 L-14 -141 C-14 -155 0 -167 20 -167 Z"
+              ></path>
+              <g class="cat__eyes">
+                <path class="cat__eye" d="M2.5 -141 C4.5 -146 13.5 -146 15.5 -141 C13.5 -136.5 4.5 -136.5 2.5 -141 Z"></path>
+                <path class="cat__eye" d="M24.5 -141 C26.5 -146 35.5 -146 37.5 -141 C35.5 -136.5 26.5 -136.5 24.5 -141 Z"></path>
+                <ellipse class="cat__pupil" cx="9" cy="-141" rx="1.3" ry="3.9"></ellipse>
+                <ellipse class="cat__pupil" cx="31" cy="-141" rx="1.3" ry="3.9"></ellipse>
+                <circle class="cat__catch" cx="11" cy="-143" r="0.9"></circle>
+                <circle class="cat__catch" cx="33" cy="-143" r="0.9"></circle>
+              </g>
+              <path class="cat__nose" d="M16.5 -133 L23.5 -133 L20 -129 Z"></path>
+              <path class="cat__mouth" d="M20 -129 V-127.5 M20 -127.5 Q17.5 -125 15 -126.5 M20 -127.5 Q22.5 -125 25 -126.5"></path>
+              <path class="cat__whisker" d="M-2 -132 L-24 -136 M-2 -128 L-24 -126 M42 -132 L64 -136 M42 -128 L64 -126"></path>
+            </g>
+          </g>
+        </g>
+      </g>
+
+      <g transform="translate(300 166)">
+        <g class="moth">
+          <g class="moth__wings">
+            <ellipse cx="-7" cy="0" rx="8" ry="5.5"></ellipse>
+            <ellipse cx="7" cy="0" rx="8" ry="5.5"></ellipse>
+          </g>
+          <ellipse class="moth__body" cx="0" cy="0" rx="2" ry="5"></ellipse>
+        </g>
+      </g>
+    </g>
+
+    <!-- ===== Giorno: il gatto dorme ===== -->
+    <g class="lc-day">
+      <g transform="translate(196 548)">
+        <ellipse cx="2" cy="1" rx="96" ry="8" fill="url(#lcShadow)" opacity="0.55"></ellipse>
+        <g class="sleeper">
+          <!-- corpo acciambellato: anca alta a destra, spalle basse verso la testa -->
+          <path
+            class="fur rim"
+            d="M-64 0 C-94 0 -100 -38 -76 -56 C-50 -78 20 -88 54 -68 C86 -50 90 -14 72 0 Z"
+          ></path>
+          <!-- coscia con lo zampino posteriore raccolto in avanti -->
+          <path
+            class="cat__haunch"
+            d="M24 -34 C22 -54 40 -66 58 -60 C76 -54 80 -32 70 -16 C64 -8 56 -4 46 -4 L14 -4 C6 -4 4 -12 12 -14 C18 -16 24 -22 24 -34 Z"
+          ></path>
+          <path class="sleeper__tail" d="M72 -4 C62 10 20 10 -24 6"></path>
+          <g class="sleeper__tip">
+            <path class="sleeper__tail sleeper__tail--tip" d="M-24 6 C-36 5 -44 3 -50 0"></path>
+          </g>
+          <g class="sleeper__head">
+            <path class="fur-soft" d="M-100 -44 C-104 -62 -102 -78 -97 -88 C-88 -84 -80 -74 -76 -60 Z"></path>
+            <g class="sleeper__ear">
+              <path class="fur rim" d="M-40 -44 C-36 -62 -38 -78 -43 -88 C-52 -84 -60 -74 -64 -60 Z"></path>
+              <path class="cat__ear-in" d="M-45 -56 C-43 -66 -44 -74 -46 -80 C-51 -76 -55 -70 -57 -62 Z"></path>
+            </g>
+            <path
+              class="fur rim sleeper__sep"
+              d="M-70 -62 C-50 -62 -36 -50 -36 -36 L-31 -32 L-37 -28 L-33 -23 L-40 -20 C-46 -12 -56 -8 -70 -8 C-84 -8 -94 -12 -100 -20 L-107 -23 L-103 -28 L-109 -32 L-104 -36 C-104 -50 -90 -62 -70 -62 Z"
+            ></path>
+            <path class="sleeper__eye" d="M-87 -36 q6 4 12 0 M-65 -36 q6 4 12 0"></path>
+            <path class="cat__nose" d="M-73.5 -28 L-66.5 -28 L-70 -24 Z"></path>
+            <path class="cat__whisker" d="M-92 -27 L-114 -31 M-92 -23 L-114 -21 M-48 -27 L-26 -31 M-48 -23 L-26 -21"></path>
+          </g>
+          <ellipse class="fur sleeper__sep" cx="-83" cy="-5" rx="13" ry="7"></ellipse>
+          <ellipse class="fur sleeper__sep" cx="-57" cy="-5" rx="13" ry="7"></ellipse>
+        </g>
+      </g>
+
+      <g class="zzz">
+        <text x="116" y="444">z</text>
+        <text x="116" y="444">z</text>
+        <text x="116" y="444">z</text>
+      </g>
+
+      <g transform="translate(318 112)">
+        <g class="butterfly">
+          <g class="butterfly__wing butterfly__wing--l">
+            <path d="M0 0 C-14 -18 -26 -8 -18 4 C-24 14 -10 18 0 4 Z"></path>
+          </g>
+          <g class="butterfly__wing butterfly__wing--r">
+            <path d="M0 0 C14 -18 26 -8 18 4 C24 14 10 18 0 4 Z"></path>
+          </g>
+          <ellipse cx="0" cy="2" rx="1.8" ry="7" class="butterfly__body"></ellipse>
+        </g>
+      </g>
+    </g>
+  </svg>
+  </button>
+  <button class="lamp-cat__pause" type="button" aria-pressed="false" aria-label="Pause the animation">
+    <svg class="lamp-cat__icon lamp-cat__icon--pause" viewBox="0 0 14 14" aria-hidden="true">
+      <rect x="2.5" y="1.5" width="3" height="11" rx="1.2"></rect>
+      <rect x="8.5" y="1.5" width="3" height="11" rx="1.2"></rect>
+    </svg>
+    <svg class="lamp-cat__icon lamp-cat__icon--play" viewBox="0 0 14 14" aria-hidden="true">
+      <path d="M3.8 2 L11.8 7 L3.8 12 Z"></path>
+    </svg>
+  </button>
+  <span class="lamp-cat__bubble" role="status" aria-live="polite"></span>
+</figure>
+
+<style>
+  .lamp-cat {
+    position: relative;
+    margin: 0;
+    width: 100%;
+  }
+
+  .lamp-cat__pet {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    border-radius: var(--radius-md);
+    touch-action: manipulation;
+  }
+
+  .lamp-cat__pet > svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ---------- Pulsante pausa: stesso disegno dei pulsanti del carosello ---------- */
+  .lamp-cat__pause {
+    position: absolute;
+    right: 2%;
+    bottom: 1%;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: color-mix(in srgb, var(--bg) 60%, transparent);
+    color: var(--text);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.16s var(--ease-out);
+  }
+  /* area di tocco di 48px senza ingrandire il disegno */
+  .lamp-cat__pause::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+  }
+  .lamp-cat__pause:active {
+    transform: scale(0.92);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .lamp-cat__pause:hover {
+      background: var(--accent);
+      color: var(--accent-ink);
+      border-color: transparent;
+    }
+  }
+  .lamp-cat__icon {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+  }
+  .lamp-cat__icon--play,
+  .lamp-cat.is-user-paused .lamp-cat__icon--pause {
+    display: none;
+  }
+  .lamp-cat.is-user-paused .lamp-cat__icon--play {
+    display: block;
+  }
+
+  /* Il fumetto: posizionato dallo script sopra la testa del gatto, ovunque sia in quel momento. */
+  .lamp-cat__bubble {
+    position: absolute;
+    left: var(--x, 50%);
+    top: var(--y, 50%);
+    padding: 0.45rem 0.8rem;
+    border-radius: var(--radius-full);
+    background: #fff3d6;
+    color: #1b1b3a;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    translate: -50% -100%;
+    transform-origin: 50% 100%;
+  }
+
+  .lamp-cat__bubble::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 10px;
+    height: 10px;
+    background: inherit;
+    border-radius: 2px;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  :global(html[data-theme='light']) .lamp-cat__bubble {
+    background: #2b2450;
+    color: #fbf3e6;
+  }
+
+  /* ---------- Colori della scena ---------- */
+  .lc-lamp {
+    fill: #2e2a5c;
+  }
+  .lc-lamp .lc-glass {
+    fill: #e9dfcd;
+  }
+  .lc-frame {
+    fill: none;
+    stroke: #2e2a5c;
+    stroke-width: 3;
+  }
+  .lc-ground {
+    fill: var(--bg-raised);
+    transition: fill var(--theme-duration) ease;
+  }
+  .lc-stars {
+    fill: #fff3d6;
+  }
+  .lc-cloud {
+    fill: #fff;
+    opacity: 0.9;
+  }
+
+  /* ---------- Il gatto dipinto ---------- */
+  .fur {
+    fill: url(#lcFur);
+  }
+  .fur-soft {
+    fill: url(#lcFurSoft);
+  }
+  .fur-cat {
+    fill: url(#lcFurCat);
+  }
+  /* le parti lontane (orecchio, zampe dietro) un filo più in ombra */
+  .cat__shade {
+    filter: brightness(0.82);
+  }
+  .cat__haunch-light {
+    fill: url(#lcHaunchLight);
+    opacity: 0.45;
+  }
+  .cat__outline {
+    fill: none;
+    stroke: #3e3450;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+  /* bordo di luce sul contorno: caldo verso il lampione, freddo dall'altra parte */
+  .rim {
+    stroke: url(#lcRim);
+    stroke-width: 1.7;
+    stroke-linejoin: round;
+  }
+  .rim--soft {
+    stroke-width: 1.2;
+    stroke-opacity: 0.55;
+  }
+  .cat__haunch {
+    fill: url(#lcHaunch);
+  }
+  .cat__tail {
+    stroke: none;
+  }
+  .cat__ear-in {
+    fill: #5a3443;
+    opacity: 0.85;
+  }
+  .cat__ear-hair {
+    fill: none;
+    stroke: #e8d6c4;
+    stroke-opacity: 0.45;
+    stroke-width: 0.9;
+    stroke-linecap: round;
+  }
+  .cat__eye {
+    fill: url(#lcIris);
+  }
+  .cat__pupil {
+    fill: #0b0910;
+  }
+  .cat__catch {
+    fill: #fff8e8;
+  }
+  .cat__nose {
+    fill: #6e3c4a;
+  }
+  .cat__mouth {
+    fill: none;
+    stroke: #f4d9a0;
+    stroke-opacity: 0.4;
+    stroke-width: 1;
+    stroke-linecap: round;
+  }
+  .cat__whisker {
+    fill: none;
+    stroke: #f4ead8;
+    stroke-opacity: 0.5;
+    stroke-width: 0.9;
+    stroke-linecap: round;
+  }
+  /* testa e zampine del gatto che dorme si staccano dal corpo con un filo di pelo più chiaro */
+  .sleeper__sep,
+  .cat__sep {
+    stroke: #3e3450;
+    stroke-width: 1.6;
+  }
+  .sleeper__tail {
+    fill: none;
+    stroke: #1c1828;
+    stroke-width: 13;
+    stroke-linecap: round;
+  }
+  .sleeper__tail--tip {
+    stroke-width: 10;
+  }
+  .sleeper__eye {
+    fill: none;
+    stroke: #f4d9a0;
+    stroke-opacity: 0.55;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+
+  .moth__wings {
+    fill: #fde3b0;
+    opacity: 0.9;
+  }
+  .moth__body {
+    fill: #f2a65a;
+  }
+  .zzz {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    fill: var(--pink);
+    transition: opacity 0.2s ease;
+  }
+  /* Mentre il gatto "parla" le z si fanno da parte. */
+  .lamp-cat.is-talking .zzz {
+    opacity: 0;
+  }
+  .zzz text:nth-child(1) {
+    font-size: 26px;
+  }
+  .zzz text:nth-child(2) {
+    font-size: 32px;
+  }
+  .zzz text:nth-child(3) {
+    font-size: 38px;
+  }
+  .butterfly__wing {
+    fill: #f2a6b0;
+  }
+  .butterfly__body {
+    fill: #2e2a5c;
+  }
+
+  /* ---------- Notte / giorno ---------- */
+  .lc-night,
+  .lc-day {
+    transition: opacity var(--theme-duration) ease;
+  }
+  .lc-day {
+    opacity: 0;
+  }
+  :global(html[data-theme='light']) .lc-day {
+    opacity: 1;
+  }
+  :global(html[data-theme='light']) .lc-night {
+    opacity: 0;
+  }
+
+  /* La scena nascosta non consuma frame; il pulsante pausa e lo scroll fermano tutto. */
+  :global(html:not([data-theme='light'])) .lc-day *,
+  :global(html[data-theme='light']) .lc-night *,
+  .lamp-cat.is-paused *,
+  .lamp-cat.is-user-paused * {
+    animation-play-state: paused !important;
+  }
+
+  /* ---------- Origini delle trasformazioni ---------- */
+  /* Le parti del gatto ruotano su perni anatomici, scritti nelle coordinate del gatto. */
+  .cat,
+  .cat__body,
+  .cat__shadow,
+  .cat__head,
+  .cat__paw,
+  .cat__forearm,
+  .cat__far,
+  .cat__thigh,
+  .cat__foot {
+    transform-box: view-box;
+  }
+  .cat__eyes,
+  .cat__pupil,
+  .moth__wings,
+  .lc-glow,
+  .sleeper,
+  .sleeper__tip,
+  .sleeper__ear,
+  .zzz text,
+  .butterfly__wing,
+  .lc-stars > * {
+    transform-box: fill-box;
+  }
+
+  /* ---------- NOTTE: ciclo di caccia di 10 s, condiviso da gatto, ombra e falena ----------
+     0-3 s osserva · 3-3.8 s si acquatta · 3.8-4.3 s dondola · 4.3-4.8 s balzo · 4.8-5.05 s sospeso
+     5.05-5.45 s caduta · 5.45-5.9 s atterraggio · 6-8.5 s toeletta · poi torna a osservare */
+  .cat {
+    transform-origin: -14px 0;
+    animation: cat-jump 10s infinite;
+  }
+  .cat__body {
+    transform-origin: -14px 0;
+    animation: cat-squash 10s infinite;
+  }
+  .cat__shadow {
+    transform-origin: -14px 0;
+    animation: cat-shadow 10s infinite;
+  }
+  .cat__paw {
+    transform-origin: 22px -80px;
+    animation: cat-paw 10s infinite;
+  }
+  .cat__forearm {
+    transform-origin: 22px -42px;
+    animation: cat-forearm 10s infinite;
+  }
+  .cat__far {
+    transform-origin: 8px -80px;
+    animation: far-leg 10s infinite;
+  }
+  .cat__thigh {
+    transform-origin: -34px -56px;
+    animation: hind-thigh 10s infinite;
+  }
+  .cat__foot {
+    transform-origin: -37px -34px;
+    animation: hind-foot 10s infinite;
+  }
+  /* la testa ha un ciclo di 20 s: due cacce, e nella prima alza lo sguardo al lampione */
+  .cat__head {
+    transform-origin: 20px -118px;
+    animation: cat-look 20s ease-in-out infinite;
+  }
+  .cat__eyes {
+    transform-origin: 50% 50%;
+    animation: blink 5.3s infinite;
+  }
+  .cat__pupil {
+    transform-origin: 50% 50%;
+    animation: pupil 10s infinite;
+  }
+  .moth {
+    animation: moth-fly 10s linear infinite;
+  }
+  .moth__wings {
+    transform-origin: 50% 50%;
+    animation: flap 0.16s ease-in-out infinite alternate;
+  }
+  .lc-glow {
+    transform-origin: 50% 50%;
+    animation: glow 3.2s ease-in-out infinite alternate;
+  }
+  /* il lampione trema per un istante ogni 20 s, mentre il gatto alza la testa */
+  .lc-flicker {
+    animation: flicker 20s linear infinite;
+  }
+  .lc-stars > * {
+    transform-origin: 50% 50%;
+    animation: twinkle 2.8s ease-in-out infinite alternate;
+  }
+  .lc-stars > :nth-child(2n) {
+    animation-delay: -1.4s;
+  }
+  .lc-stars > :nth-child(3n) {
+    animation-duration: 3.6s;
+  }
+
+  @keyframes cat-jump {
+    0%,
+    43% {
+      transform: translate(0, 0) rotate(0);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1); /* spinta che si smorza */
+    }
+    48% {
+      transform: translate(8px, -100px) rotate(5deg);
+      animation-timing-function: ease-in-out;
+    }
+    50.5% {
+      transform: translate(10px, -104px) rotate(2deg);
+      animation-timing-function: cubic-bezier(0.5, 0, 0.85, 0.45); /* gravità */
+    }
+    54.5% {
+      transform: translate(2px, 0) rotate(-2deg);
+      animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    59%,
+    100% {
+      transform: translate(0, 0) rotate(0);
+    }
+  }
+
+  @keyframes cat-squash {
+    0%,
+    30% {
+      transform: translateX(0) scale(1, 1);
+      animation-timing-function: ease-in-out;
+    }
+    38% {
+      transform: translateX(0) scale(1.06, 0.88);
+      animation-timing-function: ease-in-out;
+    }
+    /* il sedere che dondola prima del salto: tre oscillazioni da 160 ms */
+    39.6% {
+      transform: translateX(-3px) scale(1.06, 0.88);
+      animation-timing-function: ease-in-out;
+    }
+    41.2% {
+      transform: translateX(3px) scale(1.06, 0.88);
+      animation-timing-function: ease-in-out;
+    }
+    43% {
+      transform: translateX(0) scale(1.08, 0.86);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1);
+    }
+    46% {
+      transform: translateX(0) scale(0.95, 1.07);
+      animation-timing-function: ease-in-out;
+    }
+    50.5% {
+      transform: translateX(0) scale(0.98, 1.03);
+      animation-timing-function: ease-in;
+    }
+    54.5% {
+      transform: translateX(0) scale(1.1, 0.87);
+      animation-timing-function: linear;
+    }
+    55.7% {
+      transform: translateX(0) scale(1.1, 0.87);
+      animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    59.2%,
+    100% {
+      transform: translateX(0) scale(1, 1);
+    }
+  }
+
+  @keyframes cat-shadow {
+    0%,
+    30% {
+      opacity: 1;
+      transform: scale(1, 1);
+      animation-timing-function: ease-in-out;
+    }
+    43% {
+      opacity: 1;
+      transform: scale(1.1, 1);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1);
+    }
+    48% {
+      opacity: 0.4;
+      transform: scale(0.62, 0.8);
+      animation-timing-function: ease-in-out;
+    }
+    50.5% {
+      opacity: 0.38;
+      transform: scale(0.6, 0.8);
+      animation-timing-function: cubic-bezier(0.5, 0, 0.85, 0.45);
+    }
+    54.5% {
+      opacity: 1;
+      transform: scale(1.14, 1);
+      animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    59.2%,
+    100% {
+      opacity: 1;
+      transform: scale(1, 1);
+    }
+  }
+
+  /* Zampata verso la falena (che è già scappata); per la toeletta il braccio si alza appena
+     e l'avambraccio si piega sul gomito, portando la zampa sotto il muso. */
+  @keyframes cat-paw {
+    0%,
+    43% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1);
+    }
+    48% {
+      transform: rotate(-150deg);
+      animation-timing-function: ease-in-out;
+    }
+    50.5% {
+      transform: rotate(-130deg);
+      animation-timing-function: ease-in-out;
+    }
+    56%,
+    59% {
+      transform: rotate(0);
+      animation-timing-function: ease-in-out;
+    }
+    62.5%,
+    80% {
+      transform: rotate(-12deg);
+      animation-timing-function: ease-in-out;
+    }
+    85%,
+    100% {
+      transform: rotate(0);
+    }
+  }
+
+  @keyframes cat-forearm {
+    0%,
+    59% {
+      transform: rotate(0);
+      animation-timing-function: ease-in-out;
+    }
+    62.5% {
+      transform: rotate(-165deg);
+      animation-timing-function: ease-in-out;
+    }
+    65.5% {
+      transform: rotate(-157deg);
+      animation-timing-function: ease-in-out;
+    }
+    68.5% {
+      transform: rotate(-165deg);
+      animation-timing-function: ease-in-out;
+    }
+    71.5% {
+      transform: rotate(-157deg);
+      animation-timing-function: ease-in-out;
+    }
+    74.5% {
+      transform: rotate(-165deg);
+      animation-timing-function: ease-in-out;
+    }
+    77.5% {
+      transform: rotate(-157deg);
+      animation-timing-function: ease-in-out;
+    }
+    80% {
+      transform: rotate(-165deg);
+      animation-timing-function: ease-in-out;
+    }
+    85%,
+    100% {
+      transform: rotate(0);
+    }
+  }
+
+  /* L'altra zampa anteriore: in aria penzola sotto la pancia, all'atterraggio torna a terra. */
+  @keyframes far-leg {
+    0%,
+    43% {
+      transform: rotate(0) scale(1, 1);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1);
+    }
+    48% {
+      transform: rotate(-24deg) scale(1, 1.18);
+      animation-timing-function: ease-in-out;
+    }
+    50.5% {
+      transform: rotate(-18deg) scale(1, 1.16);
+      animation-timing-function: ease-in-out;
+    }
+    54.5% {
+      transform: rotate(-3deg) scale(1, 1.02);
+      animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    59%,
+    100% {
+      transform: rotate(0) scale(1, 1);
+    }
+  }
+
+  /* Zampe posteriori: spinta allo stacco, penzolano in aria, si raccolgono per atterrare. */
+  @keyframes hind-thigh {
+    0%,
+    43% {
+      transform: rotate(0);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1);
+    }
+    48% {
+      transform: rotate(12deg);
+      animation-timing-function: ease-in-out;
+    }
+    52% {
+      transform: rotate(7deg);
+      animation-timing-function: ease-in-out;
+    }
+    55% {
+      transform: rotate(-4deg);
+      animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    62%,
+    100% {
+      transform: rotate(0);
+    }
+  }
+
+  @keyframes hind-foot {
+    0%,
+    43% {
+      transform: rotate(0) scale(1, 1);
+      animation-timing-function: cubic-bezier(0.2, 0.75, 0.35, 1);
+    }
+    47% {
+      transform: rotate(30deg) scale(1, 1.3);
+      animation-timing-function: ease-in-out;
+    }
+    51% {
+      transform: rotate(20deg) scale(1, 1.25);
+      animation-timing-function: ease-in-out;
+    }
+    54.5% {
+      transform: rotate(-6deg) scale(1, 1.04);
+      animation-timing-function: ease-out;
+    }
+    57% {
+      transform: rotate(-4deg) scale(1, 0.96);
+      animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    63%,
+    100% {
+      transform: rotate(0) scale(1, 1);
+    }
+  }
+
+  /* La testa segue la falena, alza lo sguardo quando il lampione trema, si china per la toeletta. */
+  @keyframes cat-look {
+    0% {
+      transform: translateY(0px) rotate(-6deg);
+    }
+    6% {
+      transform: translateY(0px) rotate(-16deg);
+    }
+    7% {
+      transform: translateY(0px) rotate(-12deg);
+    }
+    8.4% {
+      transform: translateY(0px) rotate(-32deg);
+    }
+    11% {
+      transform: translateY(0px) rotate(-32deg);
+    }
+    12.5% {
+      transform: translateY(0px) rotate(-15deg);
+    }
+    15% {
+      transform: translateY(0px) rotate(-10deg);
+    }
+    19% {
+      transform: translateY(0px) rotate(-14deg);
+    }
+    23% {
+      transform: translateY(0px) rotate(-24deg);
+    }
+    28% {
+      transform: translateY(0px) rotate(-8deg);
+    }
+    29.5% {
+      transform: translateY(0px) rotate(-4deg);
+    }
+    31.25% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    32.75% {
+      transform: translateY(20px) rotate(5deg);
+    }
+    34.25% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    35.75% {
+      transform: translateY(20px) rotate(5deg);
+    }
+    37.25% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    38.75% {
+      transform: translateY(20px) rotate(5deg);
+    }
+    40% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    42.5% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(0px) rotate(-6deg);
+    }
+    56% {
+      transform: translateY(0px) rotate(-16deg);
+    }
+    62% {
+      transform: translateY(0px) rotate(-4deg);
+    }
+    65% {
+      transform: translateY(0px) rotate(-10deg);
+    }
+    69% {
+      transform: translateY(0px) rotate(-14deg);
+    }
+    73% {
+      transform: translateY(0px) rotate(-24deg);
+    }
+    78% {
+      transform: translateY(0px) rotate(-8deg);
+    }
+    79.5% {
+      transform: translateY(0px) rotate(-4deg);
+    }
+    81.25% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    82.75% {
+      transform: translateY(20px) rotate(5deg);
+    }
+    84.25% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    85.75% {
+      transform: translateY(20px) rotate(5deg);
+    }
+    87.25% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    88.75% {
+      transform: translateY(20px) rotate(5deg);
+    }
+    90% {
+      transform: translateY(24px) rotate(2deg);
+    }
+    92.5% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    100% {
+      transform: translateY(0px) rotate(-6deg);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    94%,
+    100% {
+      transform: scaleY(1);
+    }
+    96% {
+      transform: scaleY(0.1);
+    }
+  }
+
+  /* Pupille da caccia: sottili mentre osserva, tonde quando punta la preda. */
+  @keyframes pupil {
+    0%,
+    28% {
+      transform: scaleX(1);
+      animation-timing-function: ease-out;
+    }
+    36%,
+    58% {
+      transform: scaleX(2.6);
+      animation-timing-function: ease-in-out;
+    }
+    70%,
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  /* Giri morbidi attorno alla lanterna; scende a fare da esca e, prima dello stacco, scappa in alto:
+     durante il salto resta ad almeno 60px dalla zampa (verificato dallo script che genera il file).
+     Curva continua campionata ogni 2% con timing lineare, così non rallenta a ogni tappa. */
+  @keyframes moth-fly {
+    0% {
+      transform: translate(-62.0px, -12.0px);
+    }
+    2% {
+      transform: translate(-59.3px, -17.0px);
+    }
+    4% {
+      transform: translate(-50.3px, -28.9px);
+    }
+    6% {
+      transform: translate(-37.5px, -43.2px);
+    }
+    8% {
+      transform: translate(-23.3px, -55.7px);
+    }
+    10% {
+      transform: translate(-10.0px, -62.0px);
+    }
+    12% {
+      transform: translate(3.8px, -61.5px);
+    }
+    14% {
+      transform: translate(19.6px, -56.9px);
+    }
+    16% {
+      transform: translate(35.3px, -49.5px);
+    }
+    18% {
+      transform: translate(48.9px, -40.2px);
+    }
+    20% {
+      transform: translate(58.0px, -30.0px);
+    }
+    22% {
+      transform: translate(61.7px, -17.4px);
+    }
+    24% {
+      transform: translate(60.7px, -1.6px);
+    }
+    26% {
+      transform: translate(55.3px, 15.0px);
+    }
+    28% {
+      transform: translate(46.0px, 30.0px);
+    }
+    30% {
+      transform: translate(27.8px, 42.8px);
+    }
+    32% {
+      transform: translate(2.4px, 54.1px);
+    }
+    34% {
+      transform: translate(-20.0px, 64.0px);
+    }
+    36% {
+      transform: translate(-36.3px, 75.3px);
+    }
+    38% {
+      transform: translate(-47.6px, 82.2px);
+    }
+    40% {
+      transform: translate(-48.7px, 71.0px);
+    }
+    42% {
+      transform: translate(-36.8px, 37.7px);
+    }
+    44% {
+      transform: translate(-22.9px, 1.3px);
+    }
+    46% {
+      transform: translate(-6.9px, -38.4px);
+    }
+    48% {
+      transform: translate(5.8px, -60.6px);
+    }
+    50% {
+      transform: translate(16.3px, -72.3px);
+    }
+    52% {
+      transform: translate(25.6px, -76.6px);
+    }
+    54% {
+      transform: translate(34.4px, -73.8px);
+    }
+    56% {
+      transform: translate(43.6px, -65.5px);
+    }
+    58% {
+      transform: translate(52.3px, -54.0px);
+    }
+    60% {
+      transform: translate(59.5px, -41.4px);
+    }
+    62% {
+      transform: translate(64.0px, -30.0px);
+    }
+    64% {
+      transform: translate(66.4px, -18.2px);
+    }
+    66% {
+      transform: translate(67.7px, -4.4px);
+    }
+    68% {
+      transform: translate(67.9px, 9.4px);
+    }
+    70% {
+      transform: translate(66.8px, 21.2px);
+    }
+    72% {
+      transform: translate(64.2px, 28.7px);
+    }
+    74% {
+      transform: translate(60.0px, 30.0px);
+    }
+    76% {
+      transform: translate(53.7px, 22.0px);
+    }
+    78% {
+      transform: translate(45.2px, 5.9px);
+    }
+    80% {
+      transform: translate(35.3px, -14.5px);
+    }
+    82% {
+      transform: translate(24.6px, -34.9px);
+    }
+    84% {
+      transform: translate(14.0px, -51.4px);
+    }
+    86% {
+      transform: translate(4.0px, -60.0px);
+    }
+    88% {
+      transform: translate(-6.4px, -59.7px);
+    }
+    90% {
+      transform: translate(-18.2px, -53.7px);
+    }
+    92% {
+      transform: translate(-30.3px, -44.2px);
+    }
+    94% {
+      transform: translate(-41.8px, -33.1px);
+    }
+    96% {
+      transform: translate(-51.6px, -22.7px);
+    }
+    98% {
+      transform: translate(-58.6px, -14.9px);
+    }
+    100% {
+      transform: translate(-62.0px, -12.0px);
+    }
+  }
+
+  @keyframes flap {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0.35);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      opacity: 0.82;
+      transform: scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+  }
+
+  @keyframes flicker {
+    0%,
+    7.6% {
+      opacity: 1;
+    }
+    8% {
+      opacity: 0.35;
+    }
+    8.4% {
+      opacity: 0.95;
+    }
+    8.9% {
+      opacity: 0.5;
+    }
+    9.6%,
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes twinkle {
+    from {
+      opacity: 0.35;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* ---------- GIORNO ---------- */
+  .sleeper {
+    transform-origin: 50% 100%;
+    animation: breathe 4.2s ease-in-out infinite alternate;
+  }
+  .sleeper__tip {
+    transform-origin: 100% 30%;
+    animation: tip-twitch 7s ease-in-out infinite;
+  }
+  /* l'orecchio scatta da solo a metà ciclo, e quando la farfalla ci si posa sopra */
+  .sleeper__ear {
+    transform-origin: 50% 100%;
+    animation: ear-flick 24s infinite;
+  }
+  .zzz text {
+    transform-origin: 50% 50%;
+    opacity: 0;
+    animation: zz 4.5s var(--ease-out) infinite;
+  }
+  .zzz text:nth-child(2) {
+    animation-delay: 1.5s;
+  }
+  .zzz text:nth-child(3) {
+    animation-delay: 3s;
+  }
+  .butterfly {
+    animation: butterfly-fly 24s infinite;
+  }
+  .butterfly__wing--l {
+    transform-origin: 100% 50%;
+    animation: wing 24s linear infinite;
+  }
+  .butterfly__wing--r {
+    transform-origin: 0% 50%;
+    animation: wing 24s linear infinite;
+  }
+
+  @keyframes breathe {
+    from {
+      transform: scale(1, 1);
+    }
+    to {
+      transform: scale(1.015, 1.03);
+    }
+  }
+
+  @keyframes tip-twitch {
+    0%,
+    84%,
+    100% {
+      transform: rotate(0);
+    }
+    88% {
+      transform: rotate(-16deg);
+    }
+    92% {
+      transform: rotate(6deg);
+    }
+    96% {
+      transform: rotate(0);
+    }
+  }
+
+  @keyframes ear-flick {
+    0%,
+    30%,
+    33%,
+    77.8%,
+    80.5%,
+    100% {
+      transform: rotate(0);
+    }
+    31% {
+      transform: rotate(-14deg);
+    }
+    32% {
+      transform: rotate(4deg);
+    }
+    78.6% {
+      transform: rotate(-18deg);
+    }
+    79.5% {
+      transform: rotate(5deg);
+    }
+  }
+
+  @keyframes zz {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) scale(0.8);
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(40px, -110px) scale(1.1);
+    }
+  }
+
+  /* La farfalla lascia il lampione, scende sull'orecchio del gatto, l'orecchio scatta e lei riparte. */
+  @keyframes butterfly-fly {
+    0% {
+      transform: translate(0px, 0px);
+      animation-timing-function: linear;
+    }
+    58% {
+      transform: translate(0px, 0px);
+      animation-timing-function: ease-in-out;
+    }
+    60% {
+      transform: translate(-18px, -14px);
+      animation-timing-function: linear;
+    }
+    63% {
+      transform: translate(-58px, 40px);
+      animation-timing-function: linear;
+    }
+    66% {
+      transform: translate(-92px, 136px);
+      animation-timing-function: linear;
+    }
+    69% {
+      transform: translate(-128px, 236px);
+      animation-timing-function: linear;
+    }
+    72% {
+      transform: translate(-158px, 324px);
+      animation-timing-function: linear;
+    }
+    73.5% {
+      transform: translate(-165px, 342px);
+      animation-timing-function: ease-in-out;
+    }
+    78.5% {
+      transform: translate(-165px, 342px);
+      animation-timing-function: ease-in-out;
+    }
+    79.5% {
+      transform: translate(-150px, 318px);
+      animation-timing-function: linear;
+    }
+    82% {
+      transform: translate(-112px, 240px);
+      animation-timing-function: linear;
+    }
+    85% {
+      transform: translate(-72px, 150px);
+      animation-timing-function: linear;
+    }
+    88% {
+      transform: translate(-32px, 62px);
+      animation-timing-function: linear;
+    }
+    91% {
+      transform: translate(-6px, 8px);
+      animation-timing-function: linear;
+    }
+    92% {
+      transform: translate(0px, 0px);
+      animation-timing-function: ease-in-out;
+    }
+    100% {
+      transform: translate(0px, 0px);
+      animation-timing-function: linear;
+    }
+  }
+
+  /* Ali: si aprono e chiudono piano da ferma, battono veloci in volo. */
+  @keyframes wing {
+    0% {
+      transform: scaleX(1);
+    }
+    2% {
+      transform: scaleX(1);
+    }
+    2.5% {
+      transform: scaleX(0.3);
+    }
+    3% {
+      transform: scaleX(1);
+    }
+    12.8% {
+      transform: scaleX(1);
+    }
+    13.3% {
+      transform: scaleX(0.3);
+    }
+    13.8% {
+      transform: scaleX(1);
+    }
+    23.6% {
+      transform: scaleX(1);
+    }
+    24.1% {
+      transform: scaleX(0.3);
+    }
+    24.6% {
+      transform: scaleX(1);
+    }
+    34.4% {
+      transform: scaleX(1);
+    }
+    34.9% {
+      transform: scaleX(0.3);
+    }
+    35.4% {
+      transform: scaleX(1);
+    }
+    45.2% {
+      transform: scaleX(1);
+    }
+    45.7% {
+      transform: scaleX(0.3);
+    }
+    46.2% {
+      transform: scaleX(1);
+    }
+    56% {
+      transform: scaleX(1);
+    }
+    56.5% {
+      transform: scaleX(0.3);
+    }
+    57% {
+      transform: scaleX(1);
+    }
+    58% {
+      transform: scaleX(1);
+    }
+    58.375% {
+      transform: scaleX(0.25);
+    }
+    58.75% {
+      transform: scaleX(1);
+    }
+    59.125% {
+      transform: scaleX(0.25);
+    }
+    59.5% {
+      transform: scaleX(1);
+    }
+    59.875% {
+      transform: scaleX(0.25);
+    }
+    60.25% {
+      transform: scaleX(1);
+    }
+    60.625% {
+      transform: scaleX(0.25);
+    }
+    61% {
+      transform: scaleX(1);
+    }
+    61.375% {
+      transform: scaleX(0.25);
+    }
+    61.75% {
+      transform: scaleX(1);
+    }
+    62.125% {
+      transform: scaleX(0.25);
+    }
+    62.5% {
+      transform: scaleX(1);
+    }
+    62.875% {
+      transform: scaleX(0.25);
+    }
+    63.25% {
+      transform: scaleX(1);
+    }
+    63.625% {
+      transform: scaleX(0.25);
+    }
+    64% {
+      transform: scaleX(1);
+    }
+    64.375% {
+      transform: scaleX(0.25);
+    }
+    64.75% {
+      transform: scaleX(1);
+    }
+    65.125% {
+      transform: scaleX(0.25);
+    }
+    65.5% {
+      transform: scaleX(1);
+    }
+    65.875% {
+      transform: scaleX(0.25);
+    }
+    66.25% {
+      transform: scaleX(1);
+    }
+    66.625% {
+      transform: scaleX(0.25);
+    }
+    67% {
+      transform: scaleX(1);
+    }
+    67.375% {
+      transform: scaleX(0.25);
+    }
+    67.75% {
+      transform: scaleX(1);
+    }
+    68.125% {
+      transform: scaleX(0.25);
+    }
+    68.5% {
+      transform: scaleX(1);
+    }
+    68.875% {
+      transform: scaleX(0.25);
+    }
+    69.25% {
+      transform: scaleX(1);
+    }
+    69.625% {
+      transform: scaleX(0.25);
+    }
+    70% {
+      transform: scaleX(1);
+    }
+    70.375% {
+      transform: scaleX(0.25);
+    }
+    70.75% {
+      transform: scaleX(1);
+    }
+    71.125% {
+      transform: scaleX(0.25);
+    }
+    71.5% {
+      transform: scaleX(1);
+    }
+    71.875% {
+      transform: scaleX(0.25);
+    }
+    72.25% {
+      transform: scaleX(1);
+    }
+    72.625% {
+      transform: scaleX(0.25);
+    }
+    73% {
+      transform: scaleX(1);
+    }
+    73.375% {
+      transform: scaleX(0.25);
+    }
+    73.6% {
+      transform: scaleX(1);
+    }
+    75.5% {
+      transform: scaleX(1);
+    }
+    76% {
+      transform: scaleX(0.3);
+    }
+    76.5% {
+      transform: scaleX(1);
+    }
+    78.5% {
+      transform: scaleX(1);
+    }
+    78.875% {
+      transform: scaleX(0.25);
+    }
+    79.25% {
+      transform: scaleX(1);
+    }
+    79.625% {
+      transform: scaleX(0.25);
+    }
+    80% {
+      transform: scaleX(1);
+    }
+    80.375% {
+      transform: scaleX(0.25);
+    }
+    80.75% {
+      transform: scaleX(1);
+    }
+    81.125% {
+      transform: scaleX(0.25);
+    }
+    81.5% {
+      transform: scaleX(1);
+    }
+    81.875% {
+      transform: scaleX(0.25);
+    }
+    82.25% {
+      transform: scaleX(1);
+    }
+    82.625% {
+      transform: scaleX(0.25);
+    }
+    83% {
+      transform: scaleX(1);
+    }
+    83.375% {
+      transform: scaleX(0.25);
+    }
+    83.75% {
+      transform: scaleX(1);
+    }
+    84.125% {
+      transform: scaleX(0.25);
+    }
+    84.5% {
+      transform: scaleX(1);
+    }
+    84.875% {
+      transform: scaleX(0.25);
+    }
+    85.25% {
+      transform: scaleX(1);
+    }
+    85.625% {
+      transform: scaleX(0.25);
+    }
+    86% {
+      transform: scaleX(1);
+    }
+    86.375% {
+      transform: scaleX(0.25);
+    }
+    86.75% {
+      transform: scaleX(1);
+    }
+    87.125% {
+      transform: scaleX(0.25);
+    }
+    87.5% {
+      transform: scaleX(1);
+    }
+    87.875% {
+      transform: scaleX(0.25);
+    }
+    88.25% {
+      transform: scaleX(1);
+    }
+    88.625% {
+      transform: scaleX(0.25);
+    }
+    89% {
+      transform: scaleX(1);
+    }
+    89.375% {
+      transform: scaleX(0.25);
+    }
+    89.75% {
+      transform: scaleX(1);
+    }
+    90.125% {
+      transform: scaleX(0.25);
+    }
+    90.5% {
+      transform: scaleX(1);
+    }
+    90.875% {
+      transform: scaleX(0.25);
+    }
+    91.25% {
+      transform: scaleX(1);
+    }
+    91.625% {
+      transform: scaleX(0.25);
+    }
+    92% {
+      transform: scaleX(1);
+    }
+    92.1% {
+      transform: scaleX(1);
+    }
+    94% {
+      transform: scaleX(1);
+    }
+    94.5% {
+      transform: scaleX(0.3);
+    }
+    95% {
+      transform: scaleX(1);
+    }
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  /* ---------- Movimento ridotto: due pose ferme, resta solo il cambio di tema ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .lamp-cat * {
+      animation: none !important;
+    }
+    .lamp-cat__pause {
+      display: none;
+    }
+    .moth {
+      transform: translate(-44px, 30px);
+    }
+    .cat__head {
+      transform: rotate(-16deg);
+    }
+    .zzz text {
+      opacity: 0.8;
+    }
+    .zzz text:nth-child(2) {
+      transform: translate(10px, -26px);
+    }
+    .zzz text:nth-child(3) {
+      transform: translate(20px, -52px);
+    }
+  }
+</style>

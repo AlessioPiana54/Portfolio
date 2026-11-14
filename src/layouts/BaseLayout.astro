@@ -72,5 +72,9 @@ const ogImage = new URL(image ?? url('og-cover.png'), Astro.site);
       <slot />
     </main>
     <Footer showCta={showFooterCta} />
+    <script>
+      import { initInView } from '../scripts/in-view';
+      initInView();
+    </script>
   </body>
 </html>
