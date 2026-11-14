@@ -573,45 +573,159 @@ a.card:hover {
 
 /* ---------- FOOTER: onda ---------- */
 .footer-wave {
+  --wave-h: clamp(3.6rem, 7vw, 5.5rem);
+
   position: relative;
-  height: 3.4rem;
+  height: var(--wave-h);
   margin-top: var(--space-2xl);
   margin-bottom: -1px;
+
+  /* Le onde sbordano ai lati: si tagliano in orizzontale senza allargare la pagina
+     (overflow-x: clip non crea scroll e lascia liberi gli astri sopra). */
+  overflow-x: clip;
 }
 
-.footer-wave__svg {
+.footer-wave__defs {
   position: absolute;
-  inset: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Il div copre 352 unità (due periodi) partendo da -112 rispetto ai 150 visibili,
+   e scorre di 175 unità (-90 → +85): i bordi del div non entrano mai in vista. */
+.footer-wave__layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -74.67%;
+  width: 234.67%;
+  color: var(--footer-top);
+  transition: color var(--theme-duration) ease;
+  animation: wave-drift 20s cubic-bezier(0.55, 0.5, 0.45, 0.5) -5s infinite;
+}
+
+.footer-wave__layer svg {
+  display: block;
   width: 100%;
   height: 100%;
+  fill: currentcolor;
 }
 
-.footer-wave__svg path {
-  fill: var(--footer-top);
-  transition: fill var(--theme-duration) ease;
+/* La più lontana prende la tinta d'accento del footer: dà profondità anche di notte. */
+.footer-wave__layer--far {
+  color: var(--footer-heading);
+  opacity: 0.3;
+  animation-duration: 9s;
+  animation-delay: -2s;
 }
 
+.footer-wave__layer--mid {
+  opacity: 0.6;
+  animation-duration: 13s;
+  animation-delay: -4s;
+}
+
+/* L'onda si ripete ogni 176 unità (su 352 del div) e ne scorre 175: il salto non si vede. */
+@keyframes wave-drift {
+  from {
+    transform: translate3d(-25.57%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(24.15%, 0, 0);
+  }
+}
+
+/* Astri sospesi: derivano a otto (su/giù e un po' di lato), l'alone respira con un ritmo
+   suo e sull'acqua sotto c'è un riflesso che si accende quando l'astro si abbassa. */
 .footer-wave__orb {
   position: absolute;
-  bottom: 1.3rem;
+  bottom: 52%;
+  left: var(--x);
   width: var(--size);
   height: var(--size);
-  left: var(--x);
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #fff, var(--accent) 60%, transparent 78%);
-  box-shadow: 0 0 12px 4px var(--glow);
   animation: orb-drift var(--dur) ease-in-out var(--delay) infinite;
   pointer-events: none;
 }
 
+/* Alone: un livello a parte, così si anima solo opacity/scale invece di ridisegnare l'ombra. */
+.footer-wave__orb::before {
+  content: '';
+  position: absolute;
+  inset: -60%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+  animation: orb-breathe var(--glow-dur) ease-in-out var(--delay) infinite;
+}
+
+/* Riflesso sull'acqua, sotto l'astro: segue la sua discesa. */
+.footer-wave__glint {
+  position: absolute;
+  left: 50%;
+  top: calc(var(--size) + 0.7rem);
+  width: calc(var(--size) * 1.8);
+  height: calc(var(--size) * 0.28);
+  margin-left: calc(var(--size) * -0.9);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--accent), transparent);
+  opacity: 0.25;
+  animation: orb-glint var(--dur) ease-in-out var(--delay) infinite;
+}
+
+/* Il riflesso è figlio dell'astro: la sua traslazione verticale la compensa al contrario,
+   così resta a pelo d'acqua mentre l'astro sale e scende. */
 @keyframes orb-drift {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(0.25rem, -0.35rem);
   }
 
   50% {
-    transform: translateY(-0.6rem);
+    transform: translate(0, -0.7rem);
+  }
+
+  75% {
+    transform: translate(-0.25rem, -0.35rem);
+  }
+}
+
+@keyframes orb-glint {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: translate(0, 0) scaleX(1);
+  }
+
+  25% {
+    transform: translate(0, 0.35rem) scaleX(0.85);
+  }
+
+  50% {
+    opacity: 0.12;
+    transform: translate(0, 0.7rem) scaleX(0.65);
+  }
+
+  75% {
+    transform: translate(0, 0.35rem) scaleX(0.85);
+  }
+}
+
+@keyframes orb-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
   }
 }
 
@@ -814,10 +928,19 @@ html[data-theme='light'] .footer__stars {
   }
 }
 
+/* Footer fuori schermo: tutto fermo (vedi scripts/footer-wave.ts). */
+.footer-wave.is-offscreen *,
+.footer-wave.is-offscreen *::before {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .footer__stars,
   .footer__orb,
-  .footer-wave__orb {
+  .footer-wave__orb,
+  .footer-wave__orb::before,
+  .footer-wave__glint,
+  .footer-wave__layer {
     animation: none;
   }
 }

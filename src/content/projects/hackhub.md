@@ -11,7 +11,7 @@ links:
   - { label: GitHub, href: 'https://github.com/AlessioPiana54/HackHub' }
   - { label: Docs, href: 'https://github.com/AlessioPiana54/HackHub/wiki' }
 cover: ../../assets/img/hackhub.png
-coverAlt: A three-step podium with small teams of silhouettes, the winners raising their arms under a glowing trophy and a timeline of dots.
+coverAlt: An hourglass whose colorful code fragments fall through the neck into a glowing trophy on a podium, circled by an orbit of six milestones.
 coverSize: auto 100%
 coverPosition: center
 ---

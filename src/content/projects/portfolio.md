@@ -10,7 +10,7 @@ stack: [Astro, TypeScript, CSS, GitHub Pages]
 links:
   - { label: GitHub, href: 'https://github.com/AlessioPiana54/Portfolio' }
 cover: ../../assets/img/portfolio.png
-coverAlt: A browser window split between a starry night with a crescent moon and a sunny day over green hills, a pencil sketching a cloud and a theme switch beside it.
+coverAlt: A snow globe split by a yin-yang curve into a starry night with a crescent moon and a sunny day, over the same rolling hills.
 coverSize: auto 100%
 coverPosition: center
 ---

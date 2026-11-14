@@ -13,27 +13,45 @@ const { showCta = true } = Astro.props;
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const year = new Date().getFullYear();
 
-// Piccoli astri che galleggiano sul bordo dell'onda.
+// Piccoli astri sospesi sopra l'onda. Tempi diversi per ognuno, così non si muovono a tempo.
 const orbs = [
-  { x: '6%', size: '0.9rem', dur: '7.2s', delay: '0s' },
-  { x: '23%', size: '0.6rem', dur: '6.4s', delay: '1.4s' },
-  { x: '41%', size: '1.1rem', dur: '8s', delay: '0.6s' },
-  { x: '58%', size: '0.7rem', dur: '6.8s', delay: '2.1s' },
-  { x: '74%', size: '1rem', dur: '7.6s', delay: '0.3s' },
-  { x: '91%', size: '0.65rem', dur: '6.2s', delay: '1.8s' },
+  { x: '6%', size: '0.9rem', dur: '7.2s', delay: '0s', glow: '4.6s' },
+  { x: '23%', size: '0.6rem', dur: '6.4s', delay: '-1.4s', glow: '3.8s' },
+  { x: '41%', size: '1.1rem', dur: '8s', delay: '-0.6s', glow: '5.2s' },
+  { x: '58%', size: '0.7rem', dur: '6.8s', delay: '-2.1s', glow: '4.1s' },
+  { x: '74%', size: '1rem', dur: '7.6s', delay: '-0.3s', glow: '4.9s' },
+  { x: '91%', size: '0.65rem', dur: '6.2s', delay: '-1.8s', glow: '3.6s' },
 ];
 ---
 
 <div class="footer-wave" aria-hidden="true">
-  <svg class="footer-wave__svg" viewBox="0 0 1440 100" preserveAspectRatio="none">
-    <path id="footerWavePath" d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,100 L0,100 Z"></path>
+  <!-- Ogni onda è un div con dentro il suo SVG e scorre con translateX: così Safari/iOS la
+       sposta sulla GPU invece di ridisegnare l'SVG a ogni fotogramma. La forma si ripete
+       ogni 176 unità: il div ne contiene due periodi e ne scorre uno. -->
+  <svg class="footer-wave__defs" width="0" height="0">
+    <defs>
+      <path id="footerWave" d="M0 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44H0z"></path>
+    </defs>
   </svg>
+  <div class="footer-wave__layer footer-wave__layer--far">
+    <svg viewBox="0 24 352 28" preserveAspectRatio="none"><use href="#footerWave" y="1"></use></svg>
+  </div>
+  <div class="footer-wave__layer footer-wave__layer--mid">
+    <svg viewBox="0 24 352 28" preserveAspectRatio="none"><use href="#footerWave" y="4"></use></svg>
+  </div>
+
+  <div class="footer-wave__layer footer-wave__layer--front">
+    <svg viewBox="0 24 352 28" preserveAspectRatio="none"><use href="#footerWave" y="7"></use></svg>
+  </div>
+
   {
     orbs.map((o) => (
       <span
         class="footer-wave__orb"
-        style={`--x:${o.x};--size:${o.size};--dur:${o.dur};--delay:${o.delay}`}
-      />
+        style={`--x:${o.x};--size:${o.size};--dur:${o.dur};--delay:${o.delay};--glow-dur:${o.glow}`}
+      >
+        <span class="footer-wave__glint" />
+      </span>
     ))
   }
 </div>
