@@ -1,0 +1,11 @@
+/* Astro luminoso condiviso (footer, 404) */
+
+/* ---------- ASTRO LUMINOSO (footer, 404) ----------
+   Dimensione e alone si regolano con --orb-size, --orb-blur, --orb-spread. */
+.orb {
+  width: var(--orb-size, 46px);
+  height: var(--orb-size, 46px);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--accent-core) 55%, transparent 78%);
+  box-shadow: 0 0 var(--orb-blur, 30px) var(--orb-spread, 10px) var(--glow);
+}

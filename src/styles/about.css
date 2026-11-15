@@ -90,7 +90,7 @@
     transition-delay: calc(var(--i, 0) * 70ms);
   }
 
-  .carousel__track.is-in .carousel__item {
+  .carousel__viewport.is-in .carousel__item {
     opacity: 1;
     translate: none;
   }
@@ -110,6 +110,36 @@
   }
 }
 
+/* Col mouse su una card il nastro si ferma (più sotto) e quella card viene in avanti:
+   si solleva con l'alone, come le card dei progetti, e le altre si attenuano.
+   Gli effetti stanno su immagine e didascalia, non sulla card: la card ha già la sua
+   transizione d'entrata con ritardo sfalsato, che rallenterebbe l'hover. */
+.carousel__img,
+.carousel__caption {
+  transition:
+    opacity 0.3s ease,
+    color 0.25s ease,
+    transform 0.25s var(--ease-out),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .carousel__viewport:has(.carousel__item:hover) .carousel__item:not(:hover) :is(.carousel__img, .carousel__caption) {
+    opacity: 0.45;
+  }
+
+  .carousel__item:hover .carousel__img {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--accent-core) 55%, transparent);
+    box-shadow: 0 14px 28px -14px var(--glow);
+  }
+
+  .carousel__item:hover .carousel__caption {
+    color: var(--text);
+  }
+}
+
 .carousel__head {
   display: flex;
   justify-content: space-between;
@@ -120,11 +150,6 @@
 
 .carousel__title {
   font-size: clamp(1.7rem, 3.2vw, 2.4rem);
-}
-
-.carousel__controls {
-  display: flex;
-  gap: 0.6rem;
 }
 
 .carousel__btn {
@@ -140,11 +165,10 @@
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
-    opacity 0.2s ease,
     transform 0.16s var(--ease-out);
 }
 
-.carousel__btn:active:not(:disabled) {
+.carousel__btn:active {
   transform: scale(0.92);
 }
 
@@ -153,35 +177,110 @@
   height: 18px;
 }
 
-.carousel__btn:hover:not(:disabled) {
+.carousel__btn:hover {
   background: var(--accent);
   color: var(--accent-ink);
   border-color: transparent;
 }
 
-.carousel__btn:disabled {
-  opacity: 0.35;
-  cursor: default;
+/* Pausa mentre scorre, play quando è fermo. */
+.carousel__btn svg[class] {
+  fill: currentcolor;
 }
 
+.carousel__icon-play,
+.carousel.is-paused .carousel__icon-pause {
+  display: none;
+}
+
+.carousel.is-paused .carousel__icon-play {
+  display: block;
+}
+
+/* Il nastro: due copie identiche della lista, una dopo l'altra. Scorre di -50% (= una copia)
+   a velocità costante e riparte da capo senza salti. Ai bordi le card sfumano. */
+.carousel__viewport {
+  --gap: 1.3rem;
+
+  overflow: hidden;
+
+  /* Spazio per la card sollevata e la sua ombra, che overflow: hidden taglierebbe;
+     i margini negativi lo restituiscono, così l'impaginazione non cambia. */
+  padding-block: 0.75rem 2rem;
+  margin: -0.75rem calc(var(--gutter) * -1) -1rem;
+  mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+}
+
+.carousel__belt {
+  display: flex;
+  width: max-content;
+  /* ~7s per card: abbastanza lento da leggere le didascalie. */
+  animation: carousel-marquee calc(var(--count, 6) * 7s) linear infinite;
+}
+
+/* Il gap sta come margine su ogni card (non `gap` del flex), così le due copie sono
+   larghe esattamente uguale e il -50% cade preciso sull'inizio della seconda. */
 .carousel__track {
   display: flex;
-  gap: 1.3rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  overscroll-behavior-x: contain;
-  padding-bottom: 1rem;
-  scrollbar-width: thin;
-}
-
-.carousel__track:focus-visible {
-  outline-offset: 4px;
 }
 
 .carousel__item {
   flex: 0 0 auto;
   width: min(72vw, 320px);
-  scroll-snap-align: start;
+  margin-right: var(--gap);
+}
+
+@keyframes carousel-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Si ferma: col mouse sopra, col pulsante pausa, o quando è fuori schermo. */
+@media (hover: hover) and (pointer: fine) {
+  .carousel__viewport:hover .carousel__belt {
+    animation-play-state: paused;
+  }
+}
+
+.carousel.is-paused .carousel__belt,
+.carousel__viewport.is-offscreen .carousel__belt {
+  animation-play-state: paused;
+}
+
+/* Riduci movimento, o niente JavaScript (quindi niente pulsante pausa): niente nastro.
+   Una sola copia, scorrimento manuale con snap. */
+@media (prefers-reduced-motion: reduce), (scripting: none) {
+  .carousel__belt {
+    padding-inline: var(--gutter);
+    animation: none;
+  }
+
+  .carousel__viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scroll-padding-left: var(--gutter);
+    mask-image: none;
+  }
+
+  .carousel__track[aria-hidden='true']:not(:first-child),
+  .carousel__toggle {
+    display: none;
+  }
+
+  .carousel__item {
+    scroll-snap-align: start;
+  }
+
+  /* La card in risalto si illumina ma non si sposta. */
+  .carousel__item:hover .carousel__img {
+    transform: none;
+  }
 }
 
 .carousel__img {
@@ -231,10 +330,4 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);
-}
-
-@media (width <= 560px) {
-  .carousel__controls {
-    display: none;
-  }
 }

@@ -4,8 +4,9 @@ Personal portfolio of Alessio Pianaroli, built with [Astro](https://astro.build)
 GitHub Pages at **https://alessiopiana54.github.io/Portfolio/**.
 
 The whole site follows a day/night idea: the toggle in the header swaps the moon for the sun.
-On the home page the moon sets behind the hills while the sun rises; the footer shows the real
-moon phase of tonight.
+On the home page the moon sets behind the hills while the sun rises; on the About page a cat
+hunts a moth under a street lamp (or sleeps, by day); the footer shows the real moon phase of
+tonight.
 
 ## Local development
 
@@ -21,7 +22,7 @@ npm run check     # type-check .astro and .ts files
 
 ## Deploy
 
-Every push to `main` runs `.github/workflows/deploy.yml`, which builds the site and publishes it.
+Every push to the `Website` branch runs `.github/workflows/deploy.yml`, which builds the site and publishes it.
 One-time setup on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 ## Where things live
@@ -29,13 +30,22 @@ One-time setup on GitHub: **Settings → Pages → Build and deployment → Sour
 ```
 src/
 ├── content/projects/   One Markdown file per project (text, cover, framing)
-├── data/site.ts        Name, email, social links, CV
-├── data/hobbies.ts     Photos for the About carousel
+├── data/
+│   ├── site.ts         Name, email, social links, CV, menu
+│   ├── projects.ts     getProjects() / getFeaturedProjects(): projects in display order
+│   ├── theme.ts        Theme colors and defaults, shared by the <head> script and the toggle
+│   └── hobbies.ts      Illustrations for the About carousel
 ├── pages/              Routes: home, about, privacy, 404, projects
-├── components/         Header, Footer, ThemeToggle, ProjectCard, Arrow
+├── components/         Header, Footer, ThemeToggle, ProjectCard, Arrow, Doodle, LampCat
 ├── layouts/            BaseLayout (head, SEO meta, theme bootstrap)
-├── styles/             base.css (tokens), components.css, per-page CSS
-├── scripts/            theme, parallax, carousel, moon phase, footer wave
+├── styles/
+│   ├── base.css        Design tokens, reset, typography
+│   ├── components.css  Index of the shared component styles in styles/components/
+│   └── home.css, about.css, projects.css   Page styles
+├── scripts/            One module per behaviour (theme, nav, parallax, carousel, moon phase,
+│   │                   footer wave, lamp cat), imported from the components' <script>
+│   └── lib/motion.ts   Shared helpers: reduced motion, pause when off screen
+├── utils/url.ts        url() and projectUrl(): internal links that respect the /Portfolio/ base
 └── assets/             Fonts and images (optimized to WebP at build time)
 public/                 Files copied as-is (favicon, og-cover, robots.txt)
 ```
@@ -43,8 +53,8 @@ public/                 Files copied as-is (favicon, og-cover, robots.txt)
 ### Add a project
 
 1. Put the image in `src/assets/img/`.
-2. Copy `src/content/projects/project-01.md`, rename it (the file name becomes the URL) and edit
-   the frontmatter. `featured: true` shows it on the home page; `order` sets the position.
+2. Copy one of the files in `src/content/projects/`, rename it (the file name becomes the URL)
+   and edit the frontmatter (the fields are described in `src/content.config.ts`). `featured: true` shows it on the home page; `order` sets the position.
 3. Optional: add a `gallery` list of `{ src, alt }` images.
 
 ## Conventions

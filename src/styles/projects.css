@@ -15,7 +15,7 @@
   aspect-ratio: auto;
   min-height: 16rem;
   background:
-    url('../assets/img/coming-soon-sky.png') center 35% / cover no-repeat,
+    var(--soon-sky) center 35% / cover no-repeat,
     linear-gradient(160deg, #2e2a5c, #1b1b3a);
   border-style: dashed;
   border-color: var(--line-strong);

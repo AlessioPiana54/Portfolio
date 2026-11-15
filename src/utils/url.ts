@@ -6,6 +6,11 @@ export function url(path = ''): string {
   return `${base}/${clean}`;
 }
 
+// Pagina di dettaglio di un progetto: projectUrl('soup') -> '/Portfolio/projects/soup/'
+export function projectUrl(id: string): string {
+  return url(`projects/${id}/`);
+}
+
 // Confronta il percorso corrente con una voce di menu (Home attiva solo sulla home).
 export function isActive(current: string, path: string): boolean {
   const target = url(path);

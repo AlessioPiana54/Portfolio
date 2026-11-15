@@ -1,0 +1,364 @@
+/* Footer: onde, stelle, colonne e fase lunare (components/Footer.astro) */
+
+/* ---------- FOOTER: onda ---------- */
+.footer-wave {
+  --wave-h: clamp(3.6rem, 7vw, 5.5rem);
+
+  position: relative;
+  height: var(--wave-h);
+  margin-top: var(--space-2xl);
+  margin-bottom: -1px;
+
+  /* Le onde sbordano ai lati: si tagliano in orizzontale senza allargare la pagina
+     (overflow-x: clip non crea scroll e lascia libere le stelle sopra). */
+  overflow-x: clip;
+}
+
+/* Tre strati che scorrono a velocità diverse (il centrale al contrario): la cresta si
+   muove per interferenza tra le onde, senza mai deformare l'SVG. */
+.footer-wave__layer {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 200%;
+  color: var(--footer-top);
+  transition: color var(--theme-duration) ease;
+  /* Moto costante: lineare, così l'onda scorre come corrente e non "frena" a fine giro. */
+  animation: wave-loop var(--wave-dur) linear var(--wave-delay) infinite;
+}
+
+.footer-wave__layer svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentcolor;
+}
+
+.footer-wave__layer--back {
+  --wave-dur: 38s;
+  --wave-delay: -11s;
+
+  opacity: 0.45;
+  animation:
+    wave-loop var(--wave-dur) linear var(--wave-delay) infinite,
+    wave-rise 9s cubic-bezier(0.37, 0, 0.63, 1) -3s infinite alternate;
+}
+
+.footer-wave__layer--mid {
+  --wave-dur: 27s;
+  --wave-delay: -4s;
+
+  opacity: 0.7;
+  animation:
+    wave-loop var(--wave-dur) linear var(--wave-delay) infinite reverse,
+    wave-rise 11s cubic-bezier(0.37, 0, 0.63, 1) -7s infinite alternate;
+}
+
+.footer-wave__layer--front {
+  --wave-dur: 19s;
+  --wave-delay: -8s;
+}
+
+/* Metà del div = un periodo dell'onda: a fine giro la forma è identica a quella iniziale. */
+@keyframes wave-loop {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Il respiro della marea: gli strati dietro salgono e scendono di poco, su `translate`,
+   che si somma al `transform` della deriva invece di sostituirlo. */
+@keyframes wave-rise {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 0 3px;
+  }
+}
+
+/* Stelle: una stellina a quattro punte che brilla (si accende, si allarga e ruota appena)
+   e un alone che respira solo in opacità. Fluttuano piano sopra la cresta più alta.
+   Di giorno non ci sono, come le stelle del footer. */
+.footer-wave__star {
+  position: absolute;
+  bottom: 84%;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  animation: star-float calc(var(--dur) / 2) cubic-bezier(0.37, 0, 0.63, 1) var(--delay) infinite alternate;
+  pointer-events: none;
+}
+
+html[data-theme='light'] .footer-wave__star {
+  display: none;
+}
+
+.footer-wave__star svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: var(--accent);
+  animation: star-twinkle var(--glow-dur) cubic-bezier(0.37, 0, 0.63, 1) var(--delay) infinite alternate;
+}
+
+/* Alone: un livello a parte, così si anima solo l'opacità invece di ridisegnare un'ombra. */
+.footer-wave__star::before {
+  content: '';
+  position: absolute;
+  inset: -120%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow) 0%, transparent 60%);
+  animation: star-glow var(--glow-dur) cubic-bezier(0.37, 0, 0.63, 1) var(--delay) infinite alternate;
+}
+
+@keyframes star-float {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 0 -0.5rem;
+  }
+}
+
+@keyframes star-twinkle {
+  from {
+    opacity: 0.55;
+    transform: scale(0.72) rotate(0deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(20deg);
+  }
+}
+
+@keyframes star-glow {
+  from {
+    opacity: 0.25;
+  }
+
+  to {
+    opacity: 0.85;
+  }
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  position: relative;
+  background:
+    radial-gradient(55% 38% at 85% 58%, rgb(255 233 184 / 9%), transparent 60%),
+    linear-gradient(180deg, var(--footer-top) 0%, var(--footer-bottom) 100%);
+  color: var(--footer-text);
+  padding: clamp(3.5rem, 8vw, 5.5rem) var(--gutter) clamp(2rem, 4vw, 2.6rem);
+  overflow: hidden;
+}
+
+.footer h2 {
+  color: var(--footer-text);
+}
+
+.footer__stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 20%, #fff 100%, transparent 0),
+    radial-gradient(1.4px 1.4px at 30% 60%, #fff 100%, transparent 0),
+    radial-gradient(1px 1px at 48% 15%, #fff 100%, transparent 0),
+    radial-gradient(1.4px 1.4px at 66% 45%, #fff 100%, transparent 0),
+    radial-gradient(1px 1px at 78% 75%, #fff 100%, transparent 0),
+    radial-gradient(1.4px 1.4px at 90% 25%, #fff 100%, transparent 0),
+    radial-gradient(1px 1px at 5% 80%, #fff 100%, transparent 0);
+  opacity: 0.5;
+  animation: twinkle 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+html[data-theme='light'] .footer__stars {
+  display: none;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.footer__top {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem 3rem;
+  padding-bottom: clamp(2.5rem, 6vw, 3.5rem);
+}
+
+.footer__headline {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.footer__headline h2 {
+  max-width: 20ch;
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  line-height: 1.25;
+}
+
+.footer__orb {
+  flex: none;
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.footer__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 2rem;
+  padding: clamp(2rem, 4vw, 2.8rem) 0;
+  border-block: 1px solid rgb(255 255 255 / 12%);
+}
+
+.footer__col h2 {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--footer-heading);
+  margin-bottom: 0.9rem;
+}
+
+.footer__col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footer__col a {
+  display: inline-block;
+  padding-block: 0.2rem;
+  color: var(--footer-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  overflow-wrap: anywhere;
+  transition:
+    color 0.2s ease,
+    transform 0.25s var(--ease-out);
+}
+
+.footer__col a:hover {
+  color: var(--footer-text);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .footer__col a:hover {
+    transform: translateX(4px);
+  }
+}
+
+.footer__bottom {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem 1.4rem;
+  padding-top: 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--footer-muted);
+}
+
+.footer__bottom a {
+  color: inherit;
+  padding-block: 0.4rem;
+}
+
+.footer__bottom a:hover {
+  color: var(--footer-text);
+}
+
+.moon-phase {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.moon-phase[hidden] {
+  display: none;
+}
+
+.moon-phase svg {
+  width: 18px;
+  height: 18px;
+  filter: drop-shadow(0 0 4px rgb(255 233 184 / 45%));
+}
+
+.moon-phase__dark {
+  fill: rgb(255 255 255 / 14%);
+}
+
+.moon-phase__lit {
+  fill: #fff3d6;
+}
+
+@media (width <= 560px) {
+  .moon-phase {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* Footer fuori schermo: tutto fermo (vedi scripts/footer-wave.ts). */
+.footer-wave.is-offscreen *,
+.footer-wave.is-offscreen *::before {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__stars,
+  .footer__orb,
+  .footer-wave__star,
+  .footer-wave__layer {
+    animation: none;
+  }
+
+  /* Le stelle restano ferme ma brillano ancora, solo in luminosità. */
+  .footer-wave__star svg {
+    animation: star-glow var(--glow-dur) ease-in-out var(--delay) infinite alternate;
+  }
+
+  /* Meno movimento, non zero: le onde restano ferme ma sfasate tra loro (così si vede
+     comunque la profondità), le stelle continuano a brillare in opacità. */
+  .footer-wave__layer--back {
+    transform: translate3d(-18%, 0, 0);
+  }
+
+  .footer-wave__layer--mid {
+    transform: translate3d(-34%, 0, 0);
+  }
+}

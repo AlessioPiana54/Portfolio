@@ -4,6 +4,7 @@ import '../styles/components.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
+import { DAY_HOURS, THEME_COLORS, THEME_STORAGE_KEY } from '../data/theme';
 import { url } from '../utils/url';
 import kleeOne from '../assets/fonts/klee-one-600.woff2?url';
 import zenMaru300 from '../assets/fonts/zen-maru-gothic-300.woff2?url';
@@ -26,23 +27,21 @@ const ogImage = new URL(image ?? url('og-cover.png'), Astro.site);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#1b1b3a" />
-    <script is:inline>
-      // Applica il tema prima del primo paint (niente flash).
+    <meta name="theme-color" content={THEME_COLORS.dark} />
+    <script is:inline define:vars={{ colors: THEME_COLORS, storageKey: THEME_STORAGE_KEY, day: DAY_HOURS }}>
+      // Applica il tema prima del primo paint (niente flash): per questo è inline e non un modulo.
       // Se il visitatore non ha mai scelto: di giorno il sole, di sera la luna.
-      (function () {
-        var t;
-        try {
-          t = localStorage.getItem('theme');
-        } catch (e) {}
-        if (t !== 'light' && t !== 'dark') {
-          var h = new Date().getHours();
-          t = h >= 7 && h < 19 ? 'light' : 'dark';
-        }
-        document.documentElement.setAttribute('data-theme', t);
-        var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute('content', t === 'light' ? '#fbf3e6' : '#1b1b3a');
-      })();
+      var t;
+      try {
+        t = localStorage.getItem(storageKey);
+      } catch (e) {}
+      if (!Object.prototype.hasOwnProperty.call(colors, t)) {
+        var h = new Date().getHours();
+        t = h >= day.from && h < day.to ? 'light' : 'dark';
+      }
+      document.documentElement.setAttribute('data-theme', t);
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.setAttribute('content', colors[t]);
     </script>
     <title>{pageTitle}</title>
     <meta name="description" content={description} />

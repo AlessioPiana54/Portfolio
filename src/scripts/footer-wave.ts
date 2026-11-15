@@ -1,11 +1,8 @@
-// Onde e astri del footer sono animazioni CSS infinite. Il footer è quasi sempre fuori schermo:
-// lì si mettono in pausa.
-export function initFooterWave() {
-  const wave = document.querySelector<HTMLElement>('.footer-wave');
-  if (!wave || !('IntersectionObserver' in window)) return;
+// Onde e stelle del footer sono animazioni CSS infinite. Il footer è quasi sempre fuori
+// schermo: lì si mettono in pausa.
+import { pauseWhenOffscreen } from './lib/motion';
 
-  new IntersectionObserver(
-    ([entry]) => wave.classList.toggle('is-offscreen', !entry.isIntersecting),
-    { rootMargin: '200px 0px' }
-  ).observe(wave);
+export function initFooterWave() {
+  const wave = document.querySelector('.footer-wave');
+  if (wave) pauseWhenOffscreen(wave, { rootMargin: '200px 0px' });
 }

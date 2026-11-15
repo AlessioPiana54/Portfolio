@@ -1,13 +1,14 @@
 ---
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Arrow from '../../components/Arrow.astro';
-import { url } from '../../utils/url';
+import { getProjects, type Project } from '../../data/projects';
+import { url, projectUrl } from '../../utils/url';
 import '../../styles/projects.css';
 
 export async function getStaticPaths() {
-  const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+  const projects = await getProjects();
   return projects.map((project, i) => ({
     params: { slug: project.id },
     props: {
@@ -19,9 +20,9 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  project: CollectionEntry<'projects'>;
-  prev: CollectionEntry<'projects'>;
-  next: CollectionEntry<'projects'>;
+  project: Project;
+  prev: Project;
+  next: Project;
 }
 
 const { project, prev, next } = Astro.props;
@@ -106,11 +107,11 @@ const { Content } = await render(project);
     {
       prev.id !== project.id && (
         <nav class="project__pager drawn-rule" aria-label="More projects">
-          <a class="project__pager-link" href={url(`projects/${prev.id}/`)}>
+          <a class="project__pager-link" href={projectUrl(prev.id)}>
             <span class="project__pager-label"><Arrow direction="left" /> Previous</span>
             <span class="project__pager-title">{prev.data.title}</span>
           </a>
-          <a class="project__pager-link project__pager-link--next" href={url(`projects/${next.id}/`)}>
+          <a class="project__pager-link project__pager-link--next" href={projectUrl(next.id)}>
             <span class="project__pager-label">Next <Arrow /></span>
             <span class="project__pager-title">{next.data.title}</span>
           </a>

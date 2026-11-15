@@ -1,0 +1,91 @@
+/* Entrate al caricamento e comparsa allo scroll */
+
+/* ---------- ENTRATE ----------
+   Al caricamento (e dentro la transizione tra pagine) il titolo arriva per primo
+   e fa più strada; sottotitolo e dettagli seguono più vicini e con meno movimento.
+   Con "riduci movimento" --motion vale 0: resta solo la dissolvenza. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--rise, 14px) * var(--motion, 1)));
+  }
+}
+
+.page-header__title,
+.page-header__sub,
+.project__back,
+.project__header > *,
+.project__hero {
+  animation: rise 0.7s var(--ease-out) both;
+}
+
+.page-header__sub {
+  --rise: 10px;
+
+  animation-delay: 90ms;
+}
+
+.project__back {
+  --rise: 0px;
+}
+
+.project__meta {
+  --rise: 8px;
+
+  animation-delay: 70ms;
+}
+
+.project__summary {
+  --rise: 8px;
+
+  animation-delay: 120ms;
+}
+
+.project__hero {
+  --rise: 20px;
+
+  animation-duration: 0.9s;
+  animation-delay: 180ms;
+}
+
+/* ---------- COMPARSA ALLO SCROLL ----------
+   Solo CSS (animazione legata allo scroll): niente JS, e dove non è supportata
+   il contenuto è semplicemente già lì. Si completa appena se ne vedono ~160px,
+   quindi non "insegue" lo scroll né resta a metà. Usa `translate`,
+   così non tocca il `transform` dell'hover delle card. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 24px;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .intro__title,
+    .intro__body,
+    .featured__head,
+    .card-grid > *,
+    .about-bio,
+    .about-contact,
+    .carousel__head,
+    .project__body,
+    .project__gallery > *,
+    .project__pager {
+      animation: reveal both var(--ease-out);
+      animation-timeline: view();
+      animation-range: entry 0px entry 160px;
+    }
+
+    /* Leggero sfalsamento: chi sta a destra arriva un attimo dopo, con passi non uguali. */
+    .intro__body,
+    .card-grid > :nth-child(3n + 2),
+    .project__gallery > :nth-child(2n) {
+      animation-range: entry 40px entry 210px;
+    }
+
+    .card-grid > :nth-child(3n) {
+      animation-range: entry 70px entry 250px;
+    }
+  }
+}

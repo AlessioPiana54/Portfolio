@@ -1,10 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
+import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import { getProjects } from '../../data/projects';
+import comingSoonSky from '../../assets/img/coming-soon-sky.png';
 import '../../styles/projects.css';
 
-const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const projects = await getProjects();
+
+// Sfondo della card "More on the way": ottimizzato a parte e passato al CSS come variabile,
+// come le copertine in ProjectCard.astro.
+const soonSky = await getImage({ src: comingSoonSky, width: 1600, format: 'webp' });
 ---
 
 <BaseLayout
@@ -28,7 +34,7 @@ const projects = (await getCollection('projects')).sort((a, b) => a.data.order -
           </li>
         ))
       }
-      <li class="card card--soon" aria-label="New projects coming soon">
+      <li class="card card--soon" aria-label="New projects coming soon" style={`--soon-sky:url("${soonSky.src}")`}>
         <div class="card__body">
           <h2 class="card__title">More on the way</h2>
           <p class="card__meta">In progress</p>

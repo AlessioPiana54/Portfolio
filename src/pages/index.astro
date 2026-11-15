@@ -1,23 +1,25 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Arrow from '../components/Arrow.astro';
 import Doodle from '../components/Doodle.astro';
+import { getFeaturedProjects } from '../data/projects';
 import { url } from '../utils/url';
 import '../styles/home.css';
 
-const featured = (await getCollection('projects', (p) => p.data.featured))
-  .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 3);
+const featured = await getFeaturedProjects();
 
 const cloudPath =
   'M20,110 Q10,70 55,65 Q60,25 110,32 Q135,5 175,25 Q220,10 245,45 Q300,35 300,80 Q330,85 320,110 Q330,130 300,132 L40,132 Q5,130 20,110 Z';
 
+// Velocità di parallasse (vedi scripts/parallax.ts): più è alta, più l'elemento sembra vicino.
+// Le nuvole scorrono in orizzontale, le colline in verticale.
+const cloudSpeeds = ['0.25', '-0.18', '0.1'];
+
 const hills = [
-  'M0,200 C 200,120 400,260 620,180 C 860,100 1080,220 1440,140 L1440,320 L0,320 Z',
-  'M0,240 C 220,180 380,280 640,210 C 900,150 1120,260 1440,190 L1440,320 L0,320 Z',
-  'M0,270 C 260,220 420,300 700,250 C 960,205 1180,290 1440,240 L1440,320 L0,320 Z',
+  { speed: '0.15', d: 'M0,200 C 200,120 400,260 620,180 C 860,100 1080,220 1440,140 L1440,320 L0,320 Z' },
+  { speed: '0.28', d: 'M0,240 C 220,180 380,280 640,210 C 900,150 1120,260 1440,190 L1440,320 L0,320 Z' },
+  { speed: '0.42', d: 'M0,270 C 260,220 420,300 700,250 C 960,205 1180,290 1440,240 L1440,320 L0,320 Z' },
 ];
 
 // Raggi del sole: 12 tratti attorno al disco.
@@ -43,8 +45,8 @@ const rays = Array.from({ length: 12 }, (_, i) => i * 30);
     </div>
 
     {
-      [1, 2, 3].map((n) => (
-        <div class={`hero__cloud hero__cloud--${n}`} data-parallax-x={['0.25', '-0.18', '0.1'][n - 1]} aria-hidden="true">
+      cloudSpeeds.map((speed, i) => (
+        <div class={`hero__cloud hero__cloud--${i + 1}`} data-parallax-x={speed} aria-hidden="true">
           <svg viewBox="0 0 400 140">
             <path d={cloudPath} />
           </svg>
@@ -53,8 +55,8 @@ const rays = Array.from({ length: 12 }, (_, i) => i * 30);
     }
 
     {
-      hills.map((d, i) => (
-        <div class={`hero__hill hero__hill--${i + 1}`} data-parallax={['0.15', '0.28', '0.42'][i]} aria-hidden="true">
+      hills.map(({ speed, d }, i) => (
+        <div class={`hero__hill hero__hill--${i + 1}`} data-parallax={speed} aria-hidden="true">
           <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
             <path d={d} />
           </svg>

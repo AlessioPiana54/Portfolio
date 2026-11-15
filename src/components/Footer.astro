@@ -1,7 +1,7 @@
 ---
-import { getCollection } from 'astro:content';
 import { nav, site, visibleSocials } from '../data/site';
-import { url } from '../utils/url';
+import { getProjects } from '../data/projects';
+import { url, projectUrl } from '../utils/url';
 import Arrow from './Arrow.astro';
 
 interface Props {
@@ -10,40 +10,59 @@ interface Props {
 }
 const { showCta = true } = Astro.props;
 
-const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const projects = await getProjects();
 const year = new Date().getFullYear();
 
-// Piccoli astri sospesi sopra l'onda. Tempi diversi per ognuno, così non si muovono a tempo.
-const orbs = [
-  { x: '6%', size: '0.9rem', dur: '7.2s', delay: '0s', glow: '4.6s' },
-  { x: '23%', size: '0.6rem', dur: '6.4s', delay: '-1.4s', glow: '3.8s' },
-  { x: '41%', size: '1.1rem', dur: '8s', delay: '-0.6s', glow: '5.2s' },
-  { x: '58%', size: '0.7rem', dur: '6.8s', delay: '-2.1s', glow: '4.1s' },
-  { x: '74%', size: '1rem', dur: '7.6s', delay: '-0.3s', glow: '4.9s' },
-  { x: '91%', size: '0.65rem', dur: '6.2s', delay: '-1.8s', glow: '3.6s' },
+// Tre stelline sospese sopra le onde. Tempi diversi per ognuna, così non brillano a tempo.
+const stars = [
+  { x: '14%', size: '11px', dur: '9s', delay: '-2s', glow: '2.8s' },
+  { x: '52%', size: '15px', dur: '11.5s', delay: '-6s', glow: '3.6s' },
+  { x: '83%', size: '10px', dur: '10s', delay: '-3.5s', glow: '2.4s' },
+];
+
+// Tre onde: dietro più alta, fitta e trasparente; davanti più bassa, larga e piena.
+// `visible` = periodi (176 unità ciascuno) visibili a schermo. L'SVG ne contiene il doppio,
+// perché lo strato è largo 200% e scorre di metà.
+interface Wave {
+  name: string;
+  base: number; // altezza del ventre dell'onda (su 40)
+  amp: number; // altezza della cresta
+  visible: number; // periodi visibili a schermo
+}
+const wavePath = ({ base, amp, visible }: Wave) =>
+  `M0 ${base}c30 0 58-${amp} 88-${amp}s58 ${amp} 88 ${amp}` +
+  ` 58-${amp} 88-${amp} 58 ${amp} 88 ${amp}`.repeat(visible * 2 - 1) +
+  'V40H0z';
+const waves: Wave[] = [
+  { name: 'back', base: 20, amp: 10, visible: 3 },
+  { name: 'mid', base: 26, amp: 8, visible: 2 },
+  { name: 'front', base: 32, amp: 6, visible: 2 },
 ];
 ---
 
 <div class="footer-wave" aria-hidden="true">
-  <!-- Ogni onda è un div con dentro il suo SVG e scorre con translateX: così Safari/iOS la
-       sposta sulla GPU invece di ridisegnare l'SVG a ogni fotogramma. La forma si ripete
-       ogni 176 unità: il div ne contiene due periodi e ne scorre uno. -->
-  <svg class="footer-wave__defs" width="0" height="0">
-    <defs>
-      <path id="footerWave" d="M0 44c30 0 58-18 88-18s58 18 88 18 58-18 88-18 58 18 88 18v44H0z"></path>
-    </defs>
-  </svg>
-  <div class="footer-wave__layer footer-wave__layer--front">
-    <svg viewBox="0 24 352 28" preserveAspectRatio="none"><use href="#footerWave" y="7"></use></svg>
-  </div>
+  <!-- Ogni onda è un div largo il doppio del contenitore che scorre del -50% con translate:
+       così Safari/iOS la sposta sulla GPU invece di ridisegnare l'SVG. Metà div è
+       esattamente un periodo dell'onda, quindi il loop non ha giunture. -->
+  {
+    waves.map((w) => (
+      <div class={`footer-wave__layer footer-wave__layer--${w.name}`}>
+        <svg viewBox={`0 0 ${352 * w.visible} 40`} preserveAspectRatio="none">
+          <path d={wavePath(w)} />
+        </svg>
+      </div>
+    ))
+  }
 
   {
-    orbs.map((o) => (
+    stars.map((s) => (
       <span
-        class="footer-wave__orb"
-        style={`--x:${o.x};--size:${o.size};--dur:${o.dur};--delay:${o.delay};--glow-dur:${o.glow}`}
+        class="footer-wave__star"
+        style={`--x:${s.x};--size:${s.size};--dur:${s.dur};--delay:${s.delay};--glow-dur:${s.glow}`}
       >
-        <span class="footer-wave__glint" />
+        <svg viewBox="0 0 24 24">
+          <path d="M12 0c.6 6.2 5.8 11.4 12 12-6.2.6-11.4 5.8-12 12-.6-6.2-5.8-11.4-12-12C6.2 11.4 11.4 6.2 12 0z" />
+        </svg>
       </span>
     ))
   }
@@ -56,7 +75,7 @@ const orbs = [
     showCta && (
       <div class="footer__top">
         <div class="footer__headline">
-          <div class="footer__orb" aria-hidden="true" />
+          <div class="orb footer__orb" aria-hidden="true" />
           <h2>Want to see hobbies and side projects?</h2>
         </div>
         <a class="button" href={url('about/')}>
@@ -68,7 +87,7 @@ const orbs = [
 
   <div class="footer__grid">
     <div class="footer__col">
-      <h3>Navigate</h3>
+      <h2>Navigate</h2>
       <ul>
         {
           nav.map((item) => (
@@ -80,12 +99,12 @@ const orbs = [
       </ul>
     </div>
     <div class="footer__col">
-      <h3>Projects</h3>
+      <h2>Projects</h2>
       <ul>
         {
           projects.map((p) => (
             <li>
-              <a href={url(`projects/${p.id}/`)}>{p.data.title}</a>
+              <a href={projectUrl(p.id)} translate="no">{p.data.title}</a>
             </li>
           ))
         }
@@ -94,7 +113,7 @@ const orbs = [
     {
       visibleSocials.length > 0 && (
         <div class="footer__col">
-          <h3>Elsewhere</h3>
+          <h2>Elsewhere</h2>
           <ul>
             {visibleSocials.map((s) => (
               <li>
@@ -108,9 +127,9 @@ const orbs = [
       )
     }
     <div class="footer__col">
-      <h3>Contact</h3>
+      <h2>Contact</h2>
       <ul>
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={`mailto:${site.email}`} translate="no">{site.email}</a></li>
         {
           site.cv && (
             <li>
@@ -125,7 +144,7 @@ const orbs = [
   </div>
 
   <div class="footer__bottom">
-    <span>&copy; {year} {site.name}</span>
+    <span>&copy; {year} <span translate="no">{site.name}</span></span>
     <a href={url('privacy/')}>Privacy</a>
     <p class="moon-phase" id="moonPhase" hidden>
       <svg viewBox="0 0 24 24" aria-hidden="true">

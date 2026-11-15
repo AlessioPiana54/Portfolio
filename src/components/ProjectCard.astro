@@ -1,22 +1,19 @@
 ---
-import { getImage } from 'astro:assets';
-import type { CollectionEntry } from 'astro:content';
-import { url } from '../utils/url';
+import { getCoverUrl, type Project } from '../data/projects';
+import { projectUrl } from '../utils/url';
 
 interface Props {
-  project: CollectionEntry<'projects'>;
+  project: Project;
   headingLevel?: 'h2' | 'h3';
 }
 const { project, headingLevel: Heading = 'h3' } = Astro.props;
-const { title, category, year, cover, coverSize, coverPosition } = project.data;
+const { title, category, year, coverSize, coverPosition } = project.data;
 
-// L'immagine è usata come sfondo (per mantenere l'inquadratura scelta a mano),
-// quindi la ottimizziamo a parte e la passiamo al CSS come variabile.
-const optimized = await getImage({ src: cover, width: 1200, format: 'webp' });
-const style = `--cover:url("${optimized.src}");--cover-size:${coverSize};--cover-position:${coverPosition}`;
+// La copertina è uno sfondo CSS (vedi getCoverUrl): la passiamo come variabile.
+const style = `--cover:url("${await getCoverUrl(project)}");--cover-size:${coverSize};--cover-position:${coverPosition}`;
 ---
 
-<a class="card" href={url(`projects/${project.id}/`)} style={style}>
+<a class="card" href={projectUrl(project.id)} style={style}>
   <div class="card__art" aria-hidden="true"></div>
   <div class="card__moon" aria-hidden="true"></div>
   <div class="card__body">

@@ -1,9 +1,11 @@
 // Parallax della scena hero: colline, nuvole e astro si muovono a velocità diverse.
 // Gli elementi dichiarano la velocità con data-parallax (verticale) o data-parallax-x (orizzontale).
+import { pauseWhenOffscreen, prefersReducedMotion } from './lib/motion';
+
 export function initParallax() {
   const hero = document.getElementById('hero');
   if (!hero) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (prefersReducedMotion().matches) return;
 
   const vertical = [...hero.querySelectorAll<HTMLElement>('[data-parallax]')];
   const horizontal = [...hero.querySelectorAll<HTMLElement>('[data-parallax-x]')];
@@ -15,9 +17,7 @@ export function initParallax() {
   window.addEventListener('resize', () => (height = hero.offsetHeight), { passive: true });
 
   // Hero fuori schermo: nuvole, raggi e indicatore di scroll si fermano (vedi home.css).
-  new IntersectionObserver(([entry]) => {
-    hero.classList.toggle('is-offscreen', !entry.isIntersecting);
-  }).observe(hero);
+  pauseWhenOffscreen(hero);
 
   function render() {
     ticking = false;

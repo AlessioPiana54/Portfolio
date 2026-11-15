@@ -79,36 +79,51 @@ const placeholderPhases = [0.08, 0.17, 0.25, 0.33, 0.42, 0.5];
   <section class="carousel drawn-rule" aria-labelledby="hobbiesTitle" data-carousel>
     <div class="carousel__head">
       <h2 class="carousel__title" id="hobbiesTitle">Hobbies &amp; side projects</h2>
-      <div class="carousel__controls">
-        <button class="carousel__btn" type="button" data-dir="-1" aria-label="Previous">
-          <Arrow direction="left" />
-        </button>
-        <button class="carousel__btn" type="button" data-dir="1" aria-label="Next">
-          <Arrow />
-        </button>
+      <button class="carousel__btn carousel__toggle" type="button" aria-pressed="false" data-marquee-toggle>
+        <svg class="carousel__icon-pause" viewBox="0 0 16 16" aria-hidden="true">
+          <rect x="4" y="3" width="2.6" height="10" rx="1"></rect>
+          <rect x="9.4" y="3" width="2.6" height="10" rx="1"></rect>
+        </svg>
+        <svg class="carousel__icon-play" viewBox="0 0 16 16" aria-hidden="true">
+          <path d="M5 3.2v9.6a.8.8 0 0 0 1.2.7l7.4-4.8a.8.8 0 0 0 0-1.4L6.2 2.5A.8.8 0 0 0 5 3.2z"></path>
+        </svg>
+        <span class="visually-hidden">Pause gallery</span>
+      </button>
+    </div>
+    <!-- Nastro continuo: la lista è ripetuta due volte e il nastro scorre di metà, così
+         quando finisce la prima copia la seconda è identicamente al suo posto. La copia è
+         nascosta agli screen reader. -->
+    <div class="carousel__viewport" data-inview role="region" aria-label="Hobbies gallery">
+      <div class="carousel__belt" style={`--count: ${hobbies.length || placeholderPhases.length}`}>
+        {
+          [false, true].map((isCopy) => (
+            <ul
+              class="carousel__track"
+              aria-hidden={isCopy || hobbies.length === 0 ? 'true' : undefined}
+              aria-label={isCopy ? undefined : 'Hobbies gallery'}
+            >
+              {hobbies.length > 0
+                ? hobbies.map((h, i) => (
+                    <li class="carousel__item" style={`--i: ${i}`}>
+                      <Image class="carousel__img" src={h.image} alt={isCopy ? '' : h.alt} widths={[400, 800]} sizes="320px" />
+                      <p class="carousel__caption">{h.title}</p>
+                    </li>
+                  ))
+                : placeholderPhases.map((phase, i) => (
+                    <li class="carousel__item" style={`--i: ${i}`}>
+                      <div class="carousel__img carousel__img--placeholder">
+                        <svg viewBox="0 0 24 24">
+                          <circle class="carousel__moon-dark" cx="12" cy="12" r="10" />
+                          <path class="carousel__moon-lit" d={litPath(phase)} />
+                        </svg>
+                      </div>
+                    </li>
+                  ))}
+            </ul>
+          ))
+        }
       </div>
     </div>
-    <ul class="carousel__track" data-inview tabindex="0" aria-label="Hobbies gallery, scroll horizontally or use the arrow keys">
-      {
-        hobbies.length > 0
-          ? hobbies.map((h, i) => (
-              <li class="carousel__item" style={`--i: ${i}`}>
-                <Image class="carousel__img" src={h.image} alt={h.alt} widths={[400, 800]} sizes="320px" />
-                <p class="carousel__caption">{h.title}</p>
-              </li>
-            ))
-          : placeholderPhases.map((phase, i) => (
-              <li class="carousel__item" aria-hidden="true" style={`--i: ${i}`}>
-                <div class="carousel__img carousel__img--placeholder">
-                  <svg viewBox="0 0 24 24">
-                    <circle class="carousel__moon-dark" cx="12" cy="12" r="10" />
-                    <path class="carousel__moon-lit" d={litPath(phase)} />
-                  </svg>
-                </div>
-              </li>
-            ))
-      }
-    </ul>
     {hobbies.length === 0 && <p class="carousel__note">Photos coming soon.</p>}
   </section>
 </BaseLayout>

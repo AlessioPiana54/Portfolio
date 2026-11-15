@@ -1,0 +1,91 @@
+/* Card dei progetti (components/ProjectCard.astro) */
+
+/* ---------- CARD PROGETTO ---------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.3rem;
+}
+
+@media (width <= 900px) {
+  .card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (width <= 560px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--card-top), var(--card-bottom));
+  border: 1px solid var(--line);
+  color: var(--heading);
+  text-decoration: none;
+  isolation: isolate;
+  transition:
+    transform 0.25s var(--ease-out),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+a.card:hover {
+  border-color: color-mix(in srgb, var(--accent-core) 55%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 40px -18px var(--glow);
+  }
+
+  a.card:hover .card__art {
+    transform: scale(1.04);
+  }
+}
+
+.card__art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--cover) var(--cover-position, center) / var(--cover-size, cover) no-repeat;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.card__moon {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff, var(--accent) 60%, transparent 80%);
+  opacity: 0.85;
+}
+
+.card__body {
+  padding: 3.5rem 1.3rem 1.3rem;
+  background: linear-gradient(to top, var(--card-scrim) 35%, transparent);
+}
+
+.card__title {
+  font-size: 1.3rem;
+  margin-bottom: 0.35rem;
+}
+
+.card__meta {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}

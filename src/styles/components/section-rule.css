@@ -1,0 +1,34 @@
+/* Linee di sezione */
+
+/* ---------- LINEE DI SEZIONE che si tracciano da sinistra ----------
+   Al posto di border-top: un filo che si allunga mentre la sezione entra (solo CSS).
+   Senza supporto per le animazioni legate allo scroll la linea è semplicemente intera. */
+.drawn-rule {
+  position: relative;
+  view-timeline-name: --rule;
+}
+
+.drawn-rule::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: var(--line);
+  transform-origin: left;
+}
+
+@keyframes rule-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drawn-rule::before {
+      animation: rule-draw both var(--ease-out);
+      animation-timeline: --rule;
+      animation-range: entry 0px entry 260px;
+    }
+  }
+}

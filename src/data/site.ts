@@ -1,5 +1,5 @@
 // Dati condivisi del sito: modifica qui nome, email e link social.
-// I link con `href` vuoto non vengono mostrati, così non pubblichi link morti.
+// Un link con `href` vuoto non viene mostrato: utile per prepararne uno senza pubblicarlo.
 
 export const site = {
   name: 'Alessio Pianaroli',
@@ -13,9 +13,7 @@ export const site = {
 
 export const socials: { label: string; href: string }[] = [
   { label: 'GitHub', href: 'https://github.com/AlessioPiana54' },
-  { label: 'LinkedIn', href: '' },
-  { label: 'Instagram', href: '' },
-  { label: 'Behance', href: '' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alessio-pianaroli/' },
 ];
 
 export const visibleSocials = socials.filter((s) => s.href);

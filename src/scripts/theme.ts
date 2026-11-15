@@ -2,11 +2,10 @@
 // Lo stato iniziale è già applicato dallo script inline nel <head> per evitare flash;
 // qui si gestisce il cambio con una rivelazione circolare che parte dal pulsante.
 
-type Theme = 'light' | 'dark';
+import { THEME_COLORS, THEME_STORAGE_KEY, type Theme } from '../data/theme';
+import { prefersReducedMotion } from './lib/motion';
 
-const THEME_COLORS: Record<Theme, string> = { dark: '#1b1b3a', light: '#fbf3e6' };
-
-function currentTheme(): Theme {
+export function currentTheme(): Theme {
   return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
 }
 
@@ -14,7 +13,7 @@ function applyTheme(theme: Theme) {
   document.documentElement.dataset.theme = theme;
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[theme]);
   try {
-    localStorage.setItem('theme', theme);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   } catch {
     // Storage bloccato (navigazione privata): il tema vale solo per questa pagina.
   }
@@ -31,7 +30,7 @@ export function initThemeToggle() {
 
   button.addEventListener('click', () => {
     const next: Theme = currentTheme() === 'light' ? 'dark' : 'light';
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = prefersReducedMotion().matches;
 
     if (!document.startViewTransition || reduceMotion) {
       applyTheme(next);

@@ -9,7 +9,9 @@ const current = Astro.url.pathname;
 ---
 
 <header>
-  <nav class="nav" id="siteNav" aria-label="Main navigation">
+  {/* translate="no": se il browser traduce la pagina, il menu resta in inglese (Home, Projects,
+      About si capiscono comunque) e non va a capo con le traduzioni più lunghe. */}
+  <nav class="nav" id="siteNav" aria-label="Main navigation" translate="no">
     <a class="nav__mark" href={url()}>
       <Image class="nav__logo" src={logo} alt="" width={56} height={56} loading="eager" />
       <span class="nav__name">{site.name}</span>
@@ -38,11 +40,6 @@ const current = Astro.url.pathname;
 </header>
 
 <script>
-  // Sfondo alla nav quando la pagina scorre.
-  const navEl = document.getElementById('siteNav');
-  if (navEl) {
-    const update = () => navEl.classList.toggle('is-scrolled', window.scrollY > 24);
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-  }
+  import { initNav } from '../scripts/nav';
+  initNav();
 </script>

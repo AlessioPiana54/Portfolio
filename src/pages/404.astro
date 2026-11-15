@@ -6,7 +6,7 @@ import { url } from '../utils/url';
 
 <BaseLayout title="Page not found" showFooterCta={false}>
   <section class="lost">
-    <div class="lost__orb" aria-hidden="true"></div>
+    <div class="orb lost__orb" aria-hidden="true"></div>
     <h1 class="lost__title">This page has set.</h1>
     <p class="lost__text">
       Like the moon at dawn, whatever was here is gone &mdash; or it never rose in the first place.
@@ -26,11 +26,10 @@ import { url } from '../utils/url';
   }
 
   .lost__orb {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, #fff, var(--accent-core) 55%, transparent 78%);
-    box-shadow: 0 0 40px 14px var(--glow);
+    --orb-size: 72px;
+    --orb-blur: 40px;
+    --orb-spread: 14px;
+
     margin-bottom: 1rem;
   }
 
