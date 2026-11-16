@@ -1,4 +1,16 @@
+<p align="center">
+  <img src="src/assets/img/sun-moon-mark.png" alt="The portfolio logo: a yin-yang of night and day, with a moon and a sun" width="120">
+</p>
+
 # Portfolio
+
+![Astro](https://img.shields.io/badge/Astro-7.4-BC52EE?style=for-the-badge&logo=Astro&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?style=for-the-badge&logo=TypeScript&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-22-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-Actions-222222?style=for-the-badge&logo=githubpages&logoColor=white)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 Personal portfolio of Alessio Pianaroli, built with [Astro](https://astro.build) and published on
 GitHub Pages at **https://alessiopiana54.github.io/Portfolio/**.
