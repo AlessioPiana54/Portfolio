@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../utils/url';
+---
+
+<BaseLayout
+  title="Cookie Policy"
+  description="Cookie policy for this portfolio: no cookies are used, only a theme preference kept in your browser."
+>
+  <section class="page-header">
+    <h1 class="page-header__title">Cookie Policy</h1>
+  </section>
+
+  <section class="cookies prose">
+    <p>
+      This site doesn't use cookies, neither its own nor from third parties, so there is no cookie banner
+      and no consent to give.
+    </p>
+    <p>
+      The only thing saved on your device is your theme choice (day or night). It is kept in your browser's
+      local storage under the key <code>theme</code>, it is needed only to remember the option you picked,
+      it stays until you clear the site's data, and it is never sent to any server.
+    </p>
+    <p>
+      The site embeds no advertising, social widgets or other third-party content that could set cookies.
+      Links to external sites are governed by those sites' own policies.
+    </p>
+    <p>
+      You can delete the saved theme at any time from your browser's site settings; the site works the same
+      without it. For anything else about your data, see the <a href={url('privacy/')}>Privacy page</a>.
+    </p>
+    <p class="cookies__updated">Last updated: November 17, 2026</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .cookies {
+    padding: 0 var(--gutter);
+  }
+
+  .cookies a {
+    color: var(--accent-text);
+  }
+
+  .cookies__updated {
+    opacity: 0.7;
+    font-size: 0.9em;
+  }
+</style>

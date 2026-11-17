@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
+import { url } from '../utils/url';
 ---
 
 <BaseLayout
   title="Privacy"
-  description="Privacy information for this static portfolio: no cookies, no tracking, only a cookie-free visit counter."
+  description="Privacy information for this static portfolio: no analytics, no tracking, no personal data collected through the site itself."
 >
   <section class="page-header">
     <h1 class="page-header__title">Privacy</h1>
@@ -13,18 +14,11 @@ import { site } from '../data/site';
 
   <section class="privacy prose">
     <p>
-      This site is static: it doesn't use cookies or tracking tools, and it doesn't collect personal data
-      through forms.
+      This site is static: it has no analytics or tracking tools, and it doesn't collect personal data
+      through forms or accounts.
     </p>
     <p>
-      To count visits, the site uses <a href="https://www.goatcounter.com" target="_blank" rel="noopener">GoatCounter</a>,
-      a privacy-friendly analytics service that sets no cookies and doesn't build profiles of visitors. It
-      records only anonymous, aggregate data such as the page viewed, the referrer, and your browser,
-      screen size and country. See <a href="https://www.goatcounter.com/help#gdpr" target="_blank" rel="noopener">GoatCounter's GDPR notes</a> for details.
-    </p>
-    <p>
-      The only thing stored on your device is your theme choice (day or night), saved in your browser's
-      local storage so the site remembers it. It never leaves your browser.
+      Nothing is stored on your device except your theme choice. See the <a href={url('cookies/')}>Cookie Policy</a> for details.
     </p>
     <p>
       GitHub Pages, the hosting service for this site, may log visitors' IP addresses as part of its
@@ -43,7 +37,7 @@ import { site } from '../data/site';
       the address above. You also have the right to lodge a complaint with the Italian Data Protection
       Authority (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">Garante per la protezione dei dati personali</a>).
     </p>
-    <p class="privacy__updated">Last updated: November 16, 2026</p>
+    <p class="privacy__updated">Last updated: November 17, 2026</p>
   </section>
 </BaseLayout>
 
